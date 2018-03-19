@@ -1,0 +1,16 @@
+.wrapper{
+  max-width: 1080px;
+  margin: 0 auto;
+
+  .app-body{
+    display: flex;
+
+      aside{
+        width: 20vh;
+      }
+
+      main{
+        width: 80vh;
+      }
+  }
+}
