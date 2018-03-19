@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AsyncLocalStorage } from 'angular-async-local-storage';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private localStorage: AsyncLocalStorage) { }
 
   ngOnInit() {
+  }
+
+  login() {
+    this.localStorage.setItem('user', true).subscribe(() => {});
   }
 
 }
