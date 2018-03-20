@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './_root/app.component';
-import { AsyncLocalStorageModule } from 'angular-async-local-storage';
+import { NgForageModule } from 'ngforage';
 
 @NgModule({
   declarations: [
@@ -13,9 +13,8 @@ import { AsyncLocalStorageModule } from 'angular-async-local-storage';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AsyncLocalStorageModule
+    NgForageModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncLocalStorage } from 'angular-async-local-storage';
+import { NgForage } from 'ngforage';
 
 @Component({
   selector: 'app-menu',
@@ -8,13 +8,13 @@ import { AsyncLocalStorage } from 'angular-async-local-storage';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private localStorage: AsyncLocalStorage) { }
+  constructor(private storage: NgForage) { }
 
   ngOnInit() {
   }
 
-  logout() {
-    this.localStorage.removeItem('user').subscribe(() => {});
+  async logout() {
+    await this.storage.removeItem('user');
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncLocalStorage } from 'angular-async-local-storage';
+import { NgForage } from 'ngforage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +9,17 @@ import { AsyncLocalStorage } from 'angular-async-local-storage';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private localStorage: AsyncLocalStorage) { }
+  constructor(
+    private storage: NgForage,
+    private router: Router
+  ) {}
 
   ngOnInit() {
   }
 
-  login() {
-    this.localStorage.setItem('user', true).subscribe(() => {});
+  async login() {
+    await this.storage.setItem('user', true);
+    this.router.navigate(['app']);
   }
 
 }
