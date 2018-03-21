@@ -1,5 +1,46 @@
-<p>
-  registration works!
-</p>
+<div class="wrapper">
+		<div class="form-panel">
+			<h2 class="title">Регистрация</h2>
+			<form action="#" method="post">
+				<div class="form-field">
+					<div class="input-wrap" #nicknameField>
+						<input type="text" name="Username" placeholder="Nickname" (focus)="onFocusField(nicknameField)" (blur)="onBlurField(nicknameField)"/>
+					</div>
+					<div class="form-field__icon">
+						<i class="fa fa-user" aria-hidden="true"></i>
+					</div>
+        </div>
+        <div class="form-field">
+          <div class="input-wrap" #emailField>
+              <input type="email" name="Username" placeholder="Email" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+          </div>
+          <div class="form-field__icon">
+              <i class="fa fa-user" aria-hidden="true"></i>
+          </div>
+        </div>
+				<div class="form-field">
+					<div class="input-wrap" #passwordField>
+						<input type="password" name="Password" placeholder="Password" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+					</div>
+					<div class="form-field__icon">
+						<i class="fa fa-unlock-alt" aria-hidden="true"></i>
+					</div>
+        </div>
+        <div class="form-field">
+          <div class="input-wrap" #confirmPasswordField>
+              <input type="password" name="Password" placeholder="Confirm Password" (focus)="onFocusField(confirmPasswordField)" (blur)="onBlurField(confirmPasswordField)"/>
+          </div>
+          <div class="form-field__icon">
+              <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+          </div>
+        </div>
+				<div class="submit-panel">
+					<input class="submit-panel__button" type="submit" value="Создать учетную запись" (click)="reg($event)">
+				</div>
 
-<button routerLink="/auth/login">Login</button>
+				<div class="login-panel">
+					У Вас уже есть учетная запись?<a class="login-panel__link"  routerLink="/auth/login">Авторизация</a>
+				</div>
+			</form>
+		</div>
+	</div>

@@ -9,7 +9,18 @@ export class RegistrationComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onFocusField(element: HTMLDivElement): void {
+    element.classList.add('focus');
+  }
+
+  onBlurField(element: HTMLDivElement): void {
+    element.classList.remove('focus');
+  }
+
+  reg(event: MouseEvent) {
+    event.preventDefault();
   }
 
 }
