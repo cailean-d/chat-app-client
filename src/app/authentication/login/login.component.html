@@ -1,6 +1,60 @@
-<p>
-  login works!
-</p>
-
-<button routerLink="/auth/registration">Registration</button>
-<button (click)="login()">Enter</button>
+<div class="wrapper">
+  <div class="form-panel">
+    <h2 class="title">Авторизация</h2>
+    <form action="#" method="post">
+      <div class="form-field">
+        <div #emailField class="input-wrap">
+          <input type="email" name="Username" placeholder="Email" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+        </div>
+        <div class="form-field__icon">
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="form-field">
+        <div #passwordField class="input-wrap">
+          <input type="password" name="Password" placeholder="Password" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+        </div>
+        <div class="form-field__icon">
+          <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="submit-panel">
+        <input class="submit-panel__button" type="submit" value="Войти" (click)="login($event)">
+      </div>
+      <div class="social-sign-up">
+        <div class="description">
+          Или войдите с помощью :
+        </div>
+        <ul class="social-nav">
+          <li>
+            <a class="twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google-plus">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+          <li>
+            <a class="vk">
+              <i class="fa fa-vk"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="reg-panel">
+        У Вас нет учетной записи?
+        <a class="reg-panel__link" routerLink="/auth/registration">Регистрация</a>
+      </div>
+      <div class="restore-panel">
+        Забыли пароль?<a class="restore-panel__link" href="#">Восстановить</a>
+      </div>
+    </form>
+  </div>
+</div>

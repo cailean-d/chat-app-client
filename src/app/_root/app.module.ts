@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './_root/app.component';
 import { NgForageModule } from 'ngforage';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { NgForageModule } from 'ngforage';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgForageModule
+    NgForageModule,
+    AngularFontAwesomeModule
   ],
   bootstrap: [AppComponent]
 })

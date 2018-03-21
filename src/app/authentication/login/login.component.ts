@@ -14,12 +14,20 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  async login() {
+  async login(event: Event): Promise <void> {
+    event.preventDefault();
     await this.storage.setItem('user', true);
     this.router.navigate(['app']);
+  }
+
+  onFocusField(element: HTMLDivElement): void {
+    element.classList.add('focus');
+  }
+
+  onBlurField(element: HTMLDivElement): void {
+    element.classList.remove('focus');
   }
 
 }
