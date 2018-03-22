@@ -9,5 +9,15 @@
     "registration" : "Регистрация",
     "forgot_password" : "Забыли пароль",
     "restore_password" : "Восстановить"
+  },
+  "reg_page" : {
+    "title" : "Регистрация",
+    "nickname" : "Имя",
+    "email" : "Почта",
+    "password" : "Пароль",
+    "confirm_password" : "Повторите пароль",
+    "create" : "Создать учетную запись",
+    "got_account" : "У Вас уже есть учетная запись",
+    "authorization" : "Авторизация"
   }
 }
