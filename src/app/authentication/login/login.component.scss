@@ -176,6 +176,10 @@
       margin: 0 10px;
     }
 
+    a, a *{
+      cursor: pointer;
+    }
+
     a {
       display: inline-block;
       width: 48px;

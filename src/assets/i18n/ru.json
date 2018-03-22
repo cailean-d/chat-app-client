@@ -1,0 +1,13 @@
+{
+  "login_page" : {
+    "title" : "Авторизация",
+    "email" : "Почта",
+    "password": "Пароль",
+    "enter" : "Войти",
+    "social" : "Или войдите с помощью",
+    "no_account" : "У Вас нет учетной записи",
+    "registration" : "Регистрация",
+    "forgot_password" : "Забыли пароль",
+    "restore_password" : "Восстановить"
+  }
+}

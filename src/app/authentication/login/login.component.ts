@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,14 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private storage: NgForage,
-    private router: Router
-  ) {}
+    private router: Router,
+    private translate: TranslateService
+  ) {
+    translate.setDefaultLang('en');
+    let browserLang = translate.getBrowserLang();
+    // translate.use(browserLang.match(/en|ru/) ? browserLang : 'en');
+    translate.use('en');
+  }
 
   ngOnInit() {}
 

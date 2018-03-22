@@ -1,0 +1,13 @@
+{
+  "login_page" : {
+    "title" : "Authentication",
+    "email" : "Email",
+    "password": "Password",
+    "enter" : "Sign in",
+    "social" : "Or sign in with",
+    "no_account" : "Do not you have an account",
+    "registration" : "Registration",
+    "forgot_password" : "Forgot password",
+    "restore_password" : "Restore"
+  }
+}
