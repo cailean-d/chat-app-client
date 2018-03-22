@@ -182,9 +182,18 @@ template {
   outline: none;
   box-sizing: border-box;
   user-select: none;
+  cursor: default;
 }
 
 body{
   margin: 0;
   padding: 0;
+}
+
+a, button{
+  cursor: pointer;
+}
+
+textarea, input{
+  cursor: text;
 }

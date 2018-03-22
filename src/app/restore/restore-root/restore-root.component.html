@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <div class="form-panel">
+      <h2 class="title">Восстановление доступа</h2>
+      <form action="#" method="post">
+        <div class="form-field">
+          <div #emailField class="input-wrap">
+            <input type="email" name="Username" placeholder="Email" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+          </div>
+          <div class="form-field__icon">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="submit-panel">
+          <input class="submit-panel__button" type="submit" value="Отправить" (click)="restore($event)">
+        </div>
+        <div class="back-panel">
+          <a class="back-panel__link" routerLink="">Назад</a>
+        </div>
+      </form>
+    </div>
+  </div>

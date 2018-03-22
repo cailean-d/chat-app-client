@@ -1,0 +1,129 @@
+.wrapper {
+  height: 100vh;
+  width: 100vw;
+  background:#fff;
+  background-size: cover;
+  background: url(/assets/images/background.jpg) no-repeat 0px 0px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  overflow-y: auto;
+
+  .form-panel {
+    background: rgba(4, 4, 4, 0.56);
+    box-shadow: 0px 35px 44px -22px #1f181b;
+    padding: 40px 35px;
+    width: 35%;
+    user-select: none;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 4px;
+
+    h2 {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 2em;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+
+.form-field{
+  position:relative;
+
+  &__icon i {
+    color: #ffffff;
+    font-size: 16px;
+  }
+
+  &__icon {
+    display: inline-block;
+    position: absolute;
+    right: 12px;
+    bottom: 15px;
+  }
+
+  input[type="text"],input[type="email"] {
+    outline: none;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 15px 40px 15px 10px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #DCCBCF;
+    background: transparent;
+  }
+
+}
+
+.input-wrap{
+    margin-bottom: 30px;
+
+  &:after{
+    content: '';
+    position: absolute;
+    background: #af2aff;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 0%;
+    transition: width 0.5s;
+  }
+
+}
+
+.focus:after{
+    width: 100%;
+}
+
+.submit-panel{
+    margin-top: 55px;
+
+    &__button{
+        border-radius: 3px;
+        background: #fff;
+        color: #000;
+        outline: none;
+        display: block;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        padding: 15px 38px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s all;
+        text-align: center;
+
+        &:hover{
+          background: #af2aff;
+          color:#ffffff;
+          transition: 0.3s all;
+          animation: glow 1s ease-out infinite alternate;
+        }
+    }
+
+}
+
+.back-panel{
+    font-size: 13px;
+    color: #eee;
+    margin-top: 3em;
+    text-align: center;
+    text-transform: none;
+
+    &__link{
+      color: #eee;
+      outline:none;
+      text-decoration:none;
+      margin-left: 0.5rem;
+
+      &:hover{
+        color: #9228b3 !important;
+      }
+  }
+}

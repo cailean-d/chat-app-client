@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: 'app/error-page/error-page.module#ErrorPageModule'
   },
   {
+    path: 'restore',
+    loadChildren: 'app/restore/restore.module#RestoreModule'
+  },
+  {
     path: '**',
     redirectTo: '404'
   }
