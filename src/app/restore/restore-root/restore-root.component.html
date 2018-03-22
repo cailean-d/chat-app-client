@@ -1,20 +1,20 @@
 <div class="wrapper">
     <div class="form-panel">
-      <h2 class="title">Восстановление доступа</h2>
+      <h2 class="title">{{ 'restore_page.title' | translate }}</h2>
       <form action="#" method="post">
         <div class="form-field">
           <div #emailField class="input-wrap">
-            <input type="email" name="Username" placeholder="Email" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+            <input type="email" name="Username" placeholder="{{ 'restore_page.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
           </div>
           <div class="form-field__icon">
             <i class="fa fa-user" aria-hidden="true"></i>
           </div>
         </div>
         <div class="submit-panel">
-          <input class="submit-panel__button" type="submit" value="Отправить" (click)="restore($event)">
+          <input class="submit-panel__button" type="submit" value="{{ 'restore_page.send' | translate }}" (click)="restore($event)">
         </div>
         <div class="back-panel">
-          <a class="back-panel__link" routerLink="">Назад</a>
+          <a class="back-panel__link" routerLink="">{{ 'restore_page.back' | translate }}</a>
         </div>
       </form>
     </div>

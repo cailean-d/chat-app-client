@@ -19,5 +19,11 @@
     "create" : "Create an account",
     "got_account" : "Have you got an account",
     "authorization" : "Authorization"
+  },
+  "restore_page" : {
+    "title" : "Restore an account",
+    "email" : "Email",
+    "send" : "Send",
+    "back" : "Go back"
   }
 }

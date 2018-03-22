@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restore-root',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RestoreRootComponent implements OnInit {
 
-  constructor() { }
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
+    let browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|ru/) ? translate.getBrowserLang() : 'en');
+  }
 
   ngOnInit() {}
 
