@@ -1,0 +1,227 @@
+a{
+  text-decoration:none;
+}
+
+body, p,h1,h2,h3,h4,h5,h6{
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  text-align: center;
+}
+
+.wrapper{
+  width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	outline: none;
+  user-select: none;
+  background: url(/assets/images/404-background.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: fixed;
+  overflow-y: auto;
+
+  .main-panel {
+    width: 53%;
+    margin: 3em auto;
+    box-shadow: -5px 20px 30px 8px rgba(0,0,0,0.45);
+    background: rgba(87, 175, 150, 0.29);
+    border-radius: 3px;
+
+    @media(max-width: 1440px){
+      width: 55%;
+    }
+
+    @media(max-width: 1280px){
+      width: 59%;
+    }
+
+    @media(max-width: 1080px){
+      width: 67%;
+      margin: 2.5em auto;
+    }
+
+    @media(max-width: 991px){
+      width: 70%;
+    }
+
+    @media(max-width: 900px){
+      width: 76%;
+    }
+
+    @media(max-width: 768px){
+      margin: 5em auto;
+      width: 80%;
+    }
+
+    @media(max-width: 736px){
+      margin: 2em auto;
+      width: 84%;
+    }
+
+    @media(max-width: 568px){
+      width: 91%;
+    }
+
+    @media(max-width: 414px){
+      margin: 4em auto;
+    }
+
+    @media(max-width: 384px){
+      width: 93%;
+      margin: 2.5em auto;
+    }
+
+    @media(max-width: 320px){
+      margin: 1.5em auto;
+    }
+
+    .inner-panel {
+      padding: 3em 0;
+
+      @media(max-width: 800px){
+        padding: 2.5em 0;
+      }
+
+      h2 {
+        font-size: 14em;
+        color: #fff;
+        line-height: 1;
+        letter-spacing: 2px;
+        font-weight: 300;
+        text-shadow: 0 2px 2px rgba(0,0,0,0.6);
+
+        @media(max-width: 1366px){
+          font-size: 13em;
+        }
+
+        @media(max-width: 1024px){
+          font-size: 12em;
+        }
+
+        @media(max-width: 991px){
+          font-size: 11em;
+        }
+
+        @media(max-width: 736px){
+          font-size: 9em;
+        }
+
+        @media(max-width: 568px){
+          font-size: 8.5em;
+        }
+
+        @media(max-width: 480px){
+          font-size: 7.5em;
+        }
+
+        @media(max-width: 414px){
+          font-size: 7em;
+        }
+
+        @media(max-width: 320px){
+          font-size: 6em;
+        }
+      }
+
+      h3 {
+        font-size: 3em;
+        color: #fff;
+        letter-spacing: 3px;
+        text-shadow: 0 2px 2px rgba(0,0,0,0.6);
+
+        @media(max-width: 1366px){
+          font-size: 2.8em;
+        }
+
+        @media(max-width: 1024px){
+          font-size: 2.6em;
+        }
+
+        @media(max-width: 736px){
+          font-size: 2.3em;
+        }
+
+        @media(max-width: 568px){
+          font-size: 2.1em;
+        }
+
+        @media(max-width: 480px){
+          font-size: 1.8em;
+        }
+
+        @media(max-width: 320px){
+          font-size: 1.5em;
+        }
+
+      }
+
+      p {
+        font-size: .9em;
+        color: #fff;
+        text-transform: capitalize;
+        letter-spacing: 5px;
+        margin: 1em 0 4em;
+        font-weight: 300;
+
+        @media(max-width: 736px){
+          font-size: .8em;
+        }
+
+        @media(max-width: 480px){
+          letter-spacing: 3px;
+        }
+
+        @media(max-width: 414px){
+          letter-spacing: 2px;
+        }
+
+        @media(max-width: 320px){
+          letter-spacing: 1px;
+          line-height: 2;
+          margin: 1em 0 2.5em;
+        }
+      }
+
+      a {
+        font-size: 1em;
+        text-transform: uppercase;
+        color: #fff;
+        padding: .7em 1.8em;
+        letter-spacing: 2px;
+        display: inline-block;
+        background: #E91E63;
+        transition: 0.5s all;
+        border-radius: 3px;
+
+        @media(max-width: 736px){
+          font-size: .9em;
+        }
+
+        @media(max-width: 320px){
+          font-size: .8em;
+          letter-spacing: 1px;
+          padding: .8em 1.8em;
+        }
+
+        i.fa.fa-angle-double-left {
+          padding-right: .5em;
+        }
+
+        &:hover {
+          background: #af2aff;
+        }
+      }
+
+      .back-button, h2, h3, p{
+        text-align: center;
+      }
+    }
+  }
+}
