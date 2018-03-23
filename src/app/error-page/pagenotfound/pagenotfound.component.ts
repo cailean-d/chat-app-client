@@ -14,7 +14,6 @@ export class PagenotfoundComponent implements OnInit {
     translate.use(browserLang.match(/en|ru/) ? browserLang : 'en');
   }
 
-
   ngOnInit() {
   }
 
