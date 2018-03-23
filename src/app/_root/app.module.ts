@@ -8,6 +8,7 @@ import { NgForageModule } from 'ngforage';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { I18nService } from './service/i18n.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -30,6 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
   })
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [I18nService]
 })
 export class AppModule { }

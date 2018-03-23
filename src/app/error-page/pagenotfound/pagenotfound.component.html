@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div class="main-panel">
+  <div class="main-panel" *ngIf="isDataLoaded">
     <div class="inner-panel">
       <h2>404</h2>
       <h3>{{ 'error_page.sorry' | translate }}</h3>

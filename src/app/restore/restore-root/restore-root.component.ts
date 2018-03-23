@@ -1,5 +1,5 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restore-root',
@@ -8,13 +8,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class RestoreRootComponent implements OnInit {
 
-  constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|ru/) ? browserLang : 'en');
-  }
+  isDataLoaded: boolean;
 
-  ngOnInit() {}
+  constructor(private i18n: I18nService) { }
+
+  async ngOnInit() {
+    await this.i18n.useLanguage();
+    this.isDataLoaded = true;
+  }
 
   restore(event: Event) {
     event.preventDefault();

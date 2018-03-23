@@ -1,7 +1,7 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +10,18 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginComponent implements OnInit {
 
+  isDataLoaded: boolean;
+
   constructor(
     private storage: NgForage,
     private router: Router,
-    private translate: TranslateService
-  ) {
-    translate.setDefaultLang('en');
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|ru/) ? translate.getBrowserLang() : 'en');
-  }
+    private i18n: I18nService
+  ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.i18n.useLanguage();
+    this.isDataLoaded = true;
+  }
 
   async login(event: Event): Promise <void> {
     event.preventDefault();
