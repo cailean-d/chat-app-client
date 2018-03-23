@@ -126,7 +126,7 @@
     text-align: center;
     text-transform: none;
 
-    &__link, &__link, &__link{
+    &__link{
       color: #af2aff;
       outline:none;
       text-decoration:none;
@@ -207,6 +207,7 @@
 
       .fa{
         transition: transform 1s;
+        transform: translate3d(0,0,0);
       }
     }
   }
