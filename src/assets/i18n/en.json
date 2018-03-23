@@ -25,5 +25,10 @@
     "email" : "Email",
     "send" : "Send",
     "back" : "Go back"
+  },
+  "error_page" : {
+    "sorry" : "Sorry",
+    "not_found": "The Page You're Looking for Was Not Found",
+    "back" : "Go back"
   }
 }

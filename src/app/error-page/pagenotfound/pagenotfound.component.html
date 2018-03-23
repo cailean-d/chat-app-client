@@ -2,13 +2,11 @@
   <div class="main-panel">
     <div class="inner-panel">
       <h2>404</h2>
-      <h3>SORRY</h3>
-      <!-- <p>The Page You're Looking for Was Not Found.</p>
-        -->
-      <p>Страница, которую Вы искали, не найдена.</p>
+      <h3>{{ 'error_page.sorry' | translate }}</h3>
+      <p>{{ 'error_page.not_found' | translate }}.</p>
       <div class="back-button">
           <a routerLink="">
-            <i class="fa fa-angle-double-left" aria-hidden="true"></i>Назад
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i>{{ 'error_page.back' | translate }}
           </a>
       </div>
     </div>

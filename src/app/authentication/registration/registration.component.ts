@@ -10,7 +10,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('en');
-    let browserLang = translate.getBrowserLang();
+    const browserLang = translate.getBrowserLang();
     translate.use(browserLang.match(/en|ru/) ? translate.getBrowserLang() : 'en');
   }
 
