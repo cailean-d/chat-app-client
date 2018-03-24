@@ -1,34 +1,37 @@
 {
   "login_page" : {
-    "title" : "Authentication",
-    "email" : "Email",
-    "password": "Password",
     "enter" : "Sign in",
     "social" : "Or sign in with",
     "no_account" : "Do not you have an account",
-    "registration" : "Registration",
     "forgot_password" : "Forgot password",
     "restore_password" : "Restore"
   },
   "reg_page" : {
-    "title" : "Registration",
-    "nickname" : "Nickname",
-    "email" : "Email",
-    "password" : "Password",
-    "confirm_password" : "Confirm Password",
     "create" : "Create an account",
-    "got_account" : "Have you got an account",
-    "authorization" : "Authorization"
+    "got_account" : "Have you got an account"
   },
   "restore_page" : {
-    "title" : "Restore an account",
-    "email" : "Email",
-    "send" : "Send",
-    "back" : "Go back"
+    "send" : "Send"
   },
   "error_page" : {
     "sorry" : "Sorry",
-    "not_found": "The Page You're Looking for Was Not Found",
+    "not_found": "The Page You're Looking for Was Not Found"
+  },
+  "form" : {
+    "input" : {
+      "nickname" : "Nickname",
+      "email" : "Email",
+      "password": "Password",
+      "confirm_password" : "Confirm password"
+    },
+    "title" : {
+      "registration" : "Registration",
+      "authorization" : "Authorization",
+      "restore_access" : "Restore an account"
+    }
+  },
+  "button" : {
     "back" : "Go back"
   }
 }
+

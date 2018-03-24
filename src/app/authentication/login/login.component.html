@@ -1,10 +1,10 @@
 <div class="wrapper">
   <div class="form-panel" *ngIf="isDataLoaded">
-    <h2 class="title">{{ 'login_page.title' | translate }}</h2>
+    <h2 class="title">{{ 'form.title.authorization' | translate }}</h2>
     <form action="#" method="post">
       <div class="form-field">
         <div #emailField class="input-wrap">
-          <input type="email" name="Username" placeholder="{{ 'login_page.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+          <input type="email" name="Username" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
         </div>
         <div class="form-field__icon">
           <i class="fa fa-user" aria-hidden="true"></i>
@@ -12,7 +12,7 @@
       </div>
       <div class="form-field">
         <div #passwordField class="input-wrap">
-          <input type="password" name="Password" placeholder="{{ 'login_page.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+          <input type="password" name="Password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
         </div>
         <div class="form-field__icon">
           <i class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -51,7 +51,7 @@
       <div class="reg-panel">
         {{ 'login_page.no_account' | translate }}?
         <a class="reg-panel__link" routerLink="/auth/registration">
-          {{ 'login_page.registration' | translate }}
+          {{ 'form.title.registration' | translate }}
         </a>
       </div>
       <div class="restore-panel">

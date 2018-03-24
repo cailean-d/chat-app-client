@@ -1,34 +1,36 @@
 {
   "login_page" : {
-    "title" : "Авторизация",
-    "email" : "Почта",
-    "password": "Пароль",
     "enter" : "Войти",
     "social" : "Или войдите с помощью",
     "no_account" : "У Вас нет учетной записи",
-    "registration" : "Регистрация",
     "forgot_password" : "Забыли пароль",
     "restore_password" : "Восстановить"
   },
   "reg_page" : {
-    "title" : "Регистрация",
-    "nickname" : "Имя",
-    "email" : "Почта",
-    "password" : "Пароль",
-    "confirm_password" : "Повторите пароль",
     "create" : "Создать учетную запись",
-    "got_account" : "У Вас уже есть учетная запись",
-    "authorization" : "Авторизация"
+    "got_account" : "У Вас уже есть учетная запись"
   },
   "restore_page" : {
-    "title" : "Восстановление доступа",
-    "email" : "Почта",
-    "send" : "Отправить",
-    "back" : "Назад"
+    "send" : "Отправить"
   },
   "error_page" : {
     "sorry" : "Извините",
-    "not_found": "Страница, которую Вы искали, не найдена",
+    "not_found": "Страница, которую Вы искали, не найдена"
+  },
+  "form" : {
+    "input" : {
+      "nickname" : "Имя",
+      "email" : "Почта",
+      "password": "Пароль",
+      "confirm_password" : "Повторите пароль"
+    },
+    "title" : {
+      "registration" : "Регистрация",
+      "authorization" : "Авторизация",
+      "restore_access" : "Восстановление доступа"
+    }
+  },
+  "button" : {
     "back" : "Назад"
   }
 }
