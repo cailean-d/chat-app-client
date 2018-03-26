@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-$fa-font-path: "/assets/fonts"; 
+$fa-font-path: "/assets/fonts";
 @import '~font-awesome/scss/font-awesome';
 
 html {
@@ -186,6 +186,12 @@ template {
   box-sizing: border-box;
   user-select: none;
   cursor: default;
+}
+
+ul, ol{
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 body{

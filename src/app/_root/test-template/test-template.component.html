@@ -1,0 +1,75 @@
+<div class="container">
+
+    <div class="side-field">
+      <div class="search">
+        <div class="search-field">
+            <input type="text" placeholder="Search" />
+            <i class="fa fa-search"></i>
+        </div>
+      </div>
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let friend of friends">
+          <img src="{{friend.img}}" alt="avatar" draggable="false"/>
+          <div class="about">
+            <div class="name">{{friend.name}}</div>
+            <div class="status">
+              <span *ngIf="friend.online == 'online'; else left" >
+                  <i class="fa fa-circle online"></i> online
+              </span>
+              <ng-template #left>
+                  <i class="fa fa-circle offline"></i> offline since Oct 28
+              </ng-template>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="chat">
+      <div class="chat-header">
+        <div class="left">
+            <img src="{{currentChat.image}}" draggable="false"/>
+            <div class="chat-about">
+              <div class="chat-with">{{currentChat.name}}</div>
+              <div class="chat-num-messages">already {{currentChat.messages}} messages</div>
+            </div>
+        </div>
+        <div class="right">
+            <i class="fa fa-star"></i>
+        </div>
+      </div>
+
+      <ul class="chat-history" #chat (scroll)="onScrollChat($event)">
+        <li *ngFor="let msg of messages" class="msg-block">
+          <div [ngClass]="(msg.id == '1')?'my-message':'other-message'">
+            <div class="message-data">
+              <div class="row">
+                  <img src="{{msg.image}}" alt="avatar" draggable="false" title="{{msg.name}}"/>
+                  <span class="message-data-time" >{{msg.time}}</span>
+              </div>
+            </div>
+            <div class="msg">
+              <div class="message">
+                {{msg.message}}
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="chat-message">
+        <div class="add">
+            <i class="fa fa-file-o"></i>
+        </div>
+        <div class="message-input">
+            <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea (keydown)="onTextMessage($event)"></textarea>
+        </div>
+        <div class="send">
+            <button (click)="sendMessage(messageArea)">Send</button>
+        </div>
+        <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>В конец</div>
+      </div> <!-- end chat-message -->
+
+    </div> <!-- end chat -->
+
+  </div> <!-- end container -->

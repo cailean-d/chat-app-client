@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   async login(event: Event): Promise <void> {
     event.preventDefault();
     await this.storage.setItem('user', true);
-    this.router.navigate(['app']);
+    this.router.navigate(['template']);
   }
 
   onFocusField(element: HTMLDivElement): void {
