@@ -164,7 +164,8 @@
     height: 15%;
     display: flex;
     justify-content: space-between;
-    background: #717480;
+    background: #eaecef;
+    background: linear-gradient(to bottom, rgba(251,251,251,1) 0%,rgba(224,225,229,1) 100%);
     // box-shadow: 0 -1px 17px 0px #000;
 
     .left, .right{
@@ -188,10 +189,10 @@
         .chat-with {
           font-weight: bold;
           font-size: 16px;
-          color: #ffffff;
+          color: #797979;
         }
         .chat-num-messages {
-          color: #d0d2d6;
+          color: #a2a2a2;
         }
       }
     }
@@ -203,10 +204,10 @@
       }
 
       .add-user, .phone, .video{
-        color: #D8DADF;
+        color: #808080;
         font-size: 19px;
         padding: 17px;
-        border: 2px solid #D8DADF;
+        border: 2px solid #808080;
         border-radius: 50%;
         margin-left: 10px;
         height: 10px;
@@ -216,8 +217,8 @@
         align-items: center;
 
         &:hover{
-          color: #ffffff;
-          border-color: #ffffff;
+          color: #000;
+          border-color: #000;
         }
       }
 

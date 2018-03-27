@@ -62,10 +62,10 @@
 
       <div class="chat-header">
         <div class="left">
-            <img src="{{currentChat.image}}" draggable="false"/>
+            <img src="{{currentChat.image}}" draggable="false" [title]="currentChat.name"/>
             <div class="chat-about">
               <div class="chat-with">{{currentChat.name}}</div>
-              <div class="chat-num-messages">already {{currentChat.messages}} messages</div>
+              <!-- <div class="chat-num-messages">already {{messages.length}} messages</div> -->
             </div>
         </div>
         <div class="right">
