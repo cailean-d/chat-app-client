@@ -80,6 +80,10 @@
           background: rgba(255, 255, 255, 0.1)
         }
 
+        &:hover .favorite{
+          display: block !important;
+        }
+
         .image{
           position: relative;
 
@@ -108,11 +112,34 @@
         .about {
           margin-left: 10px;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
+          align-items: center;
+          flex-grow: 1;
 
           .name{
             color: #fff;
+            flex-grow: 1;
+            width: 50px;
+            overflow:hidden;
+            display:inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
+          }
+
+          .favorite{
+            color: #ddd;
+            margin-right: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+
+            *{
+              cursor: pointer;
+            }
+
+            &:hover{
+              color: #eaf18b;
+            }
           }
 
         }
