@@ -68,15 +68,41 @@
         padding: 10px 10px;
         display: flex;
 
+        .online {
+          color: #86BB71;
+        }
+
+        .offline {
+          color: #E38968;
+        }
+
         &:hover {
           background: rgba(255, 255, 255, 0.1)
         }
 
-        img {
-          border-radius: 50%;
-          vertical-align: middle;
-          height: 50px;
-          width: 50px;
+        .image{
+          position: relative;
+
+          img {
+            border-radius: 50%;
+            vertical-align: middle;
+            height: 50px;
+            width: 50px;
+          }
+
+          .status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-radius: 50%;
+            padding: 7px;
+            background: #444753;
+            height: 10px;
+            width: 10px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+          }
         }
 
         .about {
@@ -89,9 +115,6 @@
             color: #fff;
           }
 
-          .status {
-            color: #92959E;
-          }
         }
       }
     }
@@ -376,19 +399,10 @@
   color: #75b1e8;
 }
 
-.online, .offline, .me {
-  margin-right: 3px;
-  font-size: 10px;
-}
-
-.online {
-  color: #86BB71;
-}
-
-.offline {
-  color: #E38968;
-}
-
+// .online, .offline, .me {
+//   margin-right: 3px;
+//   font-size: 10px;
+// }
 
 
 
