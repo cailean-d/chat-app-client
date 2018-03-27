@@ -83,7 +83,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
   messages = [
     {
       id: '2',
-      name: 'Olia',
+      name: 'Ginger Johnston',
       image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
       message: 'Hi Vincent, how are you? How is the project coming along?',
       time: '10:10 AM, Today'
@@ -97,7 +97,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     },
     {
       id: '2',
-      name: 'Olia',
+      name: 'Ginger Johnston',
       image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
       message: 'Hi Vincent, how are you? How is the project coming along?',
       time: '10:12 AM, Today'
@@ -111,7 +111,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     },
     {
       id: '2',
-      name: 'Olia',
+      name: 'Ginger Johnston',
       image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
       message: ' Hi Vincent, how are you? How is the project coming along?',
       time: '10:12 AM, Today'
@@ -120,7 +120,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
 
   currentChat = {
     id: '4',
-    name: 'Olia',
+    name: 'Ginger Johnston',
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
     messages: this.messages.length
   };
