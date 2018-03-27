@@ -1,5 +1,23 @@
 <div class="container">
-
+    <nav class="menu">
+      <ul class="items">
+        <li class="item">
+          <i class="fa fa-home"></i>
+        </li>
+        <li class="item">
+          <i class="fa fa-user"></i>
+        </li>
+        <li class="item item-active">
+          <i class="fa fa-commenting"></i>
+        </li>
+        <li class="item">
+          <i class="fa fa-cog"></i>
+        </li>
+        <li class="item">
+          <i class="fa fa-sign-out"></i>
+        </li>
+      </ul>
+    </nav>
     <div class="side-field">
       <div class="search">
         <div class="search-field">
@@ -59,13 +77,15 @@
 
       <div class="chat-message">
         <div class="add">
-            <i class="fa fa-file-o"></i>
+            <i class="fa fa-paperclip"></i>
         </div>
         <div class="message-input">
             <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea (keydown)="onTextMessage($event)"></textarea>
         </div>
         <div class="send">
-            <button (click)="sendMessage(messageArea)">Send</button>
+            <button (click)="sendMessage(messageArea)">
+                <i class="fa fa-paper-plane"></i>
+            </button>
         </div>
         <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>В конец</div>
       </div> <!-- end chat-message -->
