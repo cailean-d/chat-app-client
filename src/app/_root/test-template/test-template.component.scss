@@ -414,11 +414,15 @@
   min-width: 70px;
   background: rgba(0,0,0,0.28);
   box-shadow: 0 10px 20px rgba(0,0,0,0.19);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .items {
     list-style:none;
-    margin: auto;
+    margin: 0;
     padding: 0;
+    width: inherit;
 
     *{
       cursor: pointer;
@@ -426,7 +430,7 @@
 
     .item {
       height: 70px;
-      border-bottom: 1px solid #636363;
+      border-bottom: 1px solid #4a4a4a;
       display:flex;
       justify-content: center;
       align-items: center;
@@ -442,6 +446,26 @@
     .item-active {
       background-color:rgba(0,0,0,0.3);
       color: #FFF;
+    }
+  }
+
+  .misc{
+    width: inherit;
+    margin-bottom: 10px;
+
+    *{
+      cursor: pointer;
+    }
+
+    .notification, .language{
+      text-align: center;
+      color: #94909c;
+      font-size: 20px;
+      padding: 10px;
+
+      &:hover{
+        color: #ffffff;
+      }
     }
   }
 }
