@@ -149,6 +149,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
         time: '10:12 AM, Today'
       });
       message.value = null;
+      this.playSound('./assets/sounds/send_message.ogg');
     }
   }
 
@@ -176,5 +177,11 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
       scroll.classList.remove('scroll-bottom-show');
     }
 
+  }
+
+  playSound(src: string, volume?: number) {
+    const sound: HTMLAudioElement = new Audio(src);
+    sound.volume = volume || 0.5;
+    sound.play();
   }
 }
