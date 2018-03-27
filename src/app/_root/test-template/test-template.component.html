@@ -100,13 +100,23 @@
       </ul>
 
       <div class="chat-message">
-        <div class="add">
-            <i class="fa fa-paperclip"></i>
-        </div>
+
         <div class="message-input">
-            <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea (keydown)="onTextMessage($event)"></textarea>
+          <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea (keydown)="onTextMessage($event)" rows="1">
+          </textarea>
+          <div class="input-items">
+            <div class="item keyboard" title="Экранная клавиатура">
+                <i class="fa fa-keyboard-o"></i>
+            </div>
+            <div class="item smiles" title="Добавить смайл">
+                <i class="fa fa-smile-o"></i>
+            </div>
+            <div class="item add" title="Прикрепить файл">
+                <i class="fa fa-paperclip"></i>
+            </div>
+          </div>
         </div>
-        <div class="send">
+        <div class="send" title="Отправить сообщение">
             <button (click)="sendMessage(messageArea)">
                 <i class="fa fa-paper-plane"></i>
             </button>
