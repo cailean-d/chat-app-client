@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 
@@ -80,6 +80,8 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     },
   ];
 
+  filteredFriends = this.friends;
+
   messages = [
     {
       id: '2',
@@ -139,7 +141,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     this.chat.nativeElement.scrollTop = height;
   }
 
-  sendMessage(message: HTMLTextAreaElement) {
+  sendMessage(message: HTMLTextAreaElement): void {
     if (message.value.trim() !== '') {
       this.messages.push({
         id: '1',
@@ -153,7 +155,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onTextMessage(event: KeyboardEvent) {
+  onTextMessage(event: KeyboardEvent): void {
     if (event.keyCode === 13 && !event.shiftKey) {
       event.preventDefault();
       this.sendMessage(<HTMLTextAreaElement>event.target);
@@ -164,7 +166,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     return text.replace(/\r?\n/g, '<br />');
   }
 
-  onScrollChat(event: WheelEvent) {
+  onScrollChat(event: WheelEvent): void {
 
     const messages: HTMLElement = <HTMLElement> event.target;
     const height = messages.scrollTop + messages.clientHeight;
@@ -179,9 +181,16 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
 
   }
 
-  playSound(src: string, volume?: number) {
+  playSound(src: string, volume?: number): void {
     const sound: HTMLAudioElement = new Audio(src);
     sound.volume = volume || 0.5;
     sound.play();
+  }
+
+  filterFriends(event: Event): void {
+    const search = <HTMLInputElement> event.target;
+    this.filteredFriends = this.friends.filter((item) => {
+      return item.name.match(new RegExp(search.value, 'i'));
+    });
   }
 }

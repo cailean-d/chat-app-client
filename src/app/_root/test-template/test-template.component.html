@@ -31,30 +31,42 @@
     <div class="side-field">
       <div class="search">
         <div class="search-field">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" (input)="filterFriends($event)"/>
             <i class="fa fa-search"></i>
         </div>
       </div>
       <ul class="friend-list">
-        <li class="friend" *ngFor="let friend of friends">
-          <div class="image">
-            <img src="{{friend.img}}" alt="avatar" draggable="false"/>
-            <div class="status">
-              <span *ngIf="friend.online == 'online'; else left" >
-                  <i class="fa fa-circle online"></i>
-              </span>
-              <ng-template #left>
-                  <i class="fa fa-circle offline"></i>
-              </ng-template>
+        <div *ngIf="filteredFriends.length > 0; else noFriends">
+          <li class="friend" *ngFor="let friend of filteredFriends">
+            <div class="image">
+              <img src="{{friend.img}}" alt="avatar" draggable="false"/>
+              <div class="status">
+                <span *ngIf="friend.online == 'online'; else left" >
+                    <i class="fa fa-circle online"></i>
+                </span>
+                <ng-template #left>
+                    <i class="fa fa-circle offline"></i>
+                </ng-template>
+              </div>
             </div>
-          </div>
-          <div class="about">
-            <div class="name">{{friend.name}}</div>
-            <div class="favorite" title="Добавить в избранное">
-                <i class="fa fa-star"></i>
+            <div class="about">
+              <div class="name">{{friend.name}}</div>
+              <div class="favorite" title="Добавить в избранное">
+                  <i class="fa fa-star"></i>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+        </div>
+        <ng-template #noFriends>
+            <li class="notification" *ngIf="friends.length === 0; else noMatch">
+              У Вас нет друзей
+            </li>
+            <ng-template #noMatch>
+              <li class="notification">
+                Друзей не найдено
+              </li>
+            </ng-template>
+        </ng-template>
       </ul>
     </div>
 

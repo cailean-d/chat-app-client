@@ -64,9 +64,17 @@
     }
 
     .friend-list{
-      overflow-y: auto;
+      overflow-y: scroll;
       margin: 0 -15px 10px 0;
       flex-grow: 1;
+
+      .notification{
+        margin: 15px;
+        padding: 10px;
+        color: #ddd;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+      }
 
       .friend{
         padding: 10px 10px;
