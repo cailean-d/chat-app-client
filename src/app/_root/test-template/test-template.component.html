@@ -37,7 +37,7 @@
       </div>
       <ul class="friend-list" #friendList>
         <div *ngIf="filteredFriends.length > 0; else noFriends">
-          <li class="friend" *ngFor="let friend of filteredFriends">
+          <li class="friend" *ngFor="let friend of filteredFriends; let i = index">
             <div class="image">
               <img src="{{friend.img}}" alt="avatar" draggable="false"/>
               <div class="status">
@@ -52,7 +52,7 @@
             <div class="about">
               <div class="name">{{friend.name}}</div>
               <div class="favorite" title="Добавить в избранное">
-                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star" (click)="addToFavorite(filteredFriends[i])"></i>
               </div>
             </div>
           </li>

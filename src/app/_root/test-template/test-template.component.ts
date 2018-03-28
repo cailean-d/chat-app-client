@@ -139,18 +139,19 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg'
   };
 
+  favorite = [];
+
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
 
+    SimpleBar.removeObserver();
 
     const scrollbar = new SimpleBar(this.friendList.nativeElement, this.scrollbarOpt);
     const scrollbar2 = new SimpleBar(this.chat.nativeElement, this.scrollbarOpt);
 
     this.messageList = <HTMLElement> scrollbar2.getScrollElement();
-    this.messageList.onscroll = (e =>  this.slideToBottom(e as WheelEvent));
-
-    this.scrollToBottom();
+    this.messageList.addEventListener('scroll', (e =>  this.slideToBottom(e as WheelEvent)));
 
   }
 
@@ -174,7 +175,6 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
       });
       message.value = null;
       this.playSound('./assets/sounds/send_message.ogg');
-      this.scrollToBottom();
     }
   }
 
@@ -215,5 +215,10 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     this.filteredFriends = this.friends.filter((item) => {
       return item.name.match(new RegExp(search.value, 'i'));
     });
+  }
+
+  addToFavorite(q: any): void {
+    this.favorite.push(q);
+    console.log(this.favorite);
   }
 }
