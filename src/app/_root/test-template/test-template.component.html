@@ -35,7 +35,7 @@
             <i class="fa fa-search"></i>
         </div>
       </div>
-      <ul class="friend-list">
+      <ul class="friend-list" #friendList>
         <div *ngIf="filteredFriends.length > 0; else noFriends">
           <li class="friend" *ngFor="let friend of filteredFriends">
             <div class="image">
@@ -93,22 +93,24 @@
         </div>
       </div>
 
-      <ul class="chat-history" #chat (scroll)="onScrollChat($event)">
-        <li *ngFor="let msg of messages" class="msg-block">
-          <div [ngClass]="(msg.id == '1')?'my-message':'other-message'">
-            <div class="message-data">
-              <div class="row">
-                  <img src="{{msg.image}}" alt="avatar" draggable="false" title="{{msg.name}}"/>
-                  <span class="message-data-time" >{{msg.time}}</span>
+      <ul class="chat-history" #chat (scroll)="slideToBottom($event)">
+        <div class="message-list">
+          <li *ngFor="let msg of messages" class="msg-block">
+            <div [ngClass]="(msg.id == '1')?'my-message':'other-message'">
+              <div class="message-data">
+                <div class="row">
+                    <img src="{{msg.image}}" alt="avatar" draggable="false" title="{{msg.name}}"/>
+                    <span class="message-data-time" >{{msg.time}}</span>
+                </div>
+              </div>
+              <div class="msg">
+                <div class="message">
+                  {{msg.message}}
+                </div>
               </div>
             </div>
-            <div class="msg">
-              <div class="message">
-                {{msg.message}}
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        </div>
       </ul>
 
       <div class="chat-message">

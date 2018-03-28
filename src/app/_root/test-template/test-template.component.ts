@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as SimpleBar from 'simplebar';
 
 
 @Component({
@@ -11,6 +12,18 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
+  @ViewChild('friendList') friendList: ElementRef;
+
+  messageList: HTMLElement;
+
+  scrollbarOpt = {
+    classNames: {
+      content: 'custom-content',
+      scrollContent: 'custom-scroll-content',
+      scrollbar: 'custom-scrollbar',
+      track: 'custom-track'
+    }
+  };
 
   friends = [
     {
@@ -129,7 +142,16 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+
+
+    const scrollbar = new SimpleBar(this.friendList.nativeElement, this.scrollbarOpt);
+    const scrollbar2 = new SimpleBar(this.chat.nativeElement, this.scrollbarOpt);
+
+    this.messageList = <HTMLElement> scrollbar2.getScrollElement();
+    this.messageList.onscroll = (e =>  this.slideToBottom(e as WheelEvent));
+
     this.scrollToBottom();
+
   }
 
   ngAfterViewChecked() {
@@ -137,8 +159,8 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   scrollToBottom(): void {
-    const height = this.chat.nativeElement.scrollHeight + this.chat.nativeElement.clientHeight;
-    this.chat.nativeElement.scrollTop = height;
+    const height = this.messageList.scrollHeight + this.messageList.clientHeight;
+    this.messageList.scrollTop = height;
   }
 
   sendMessage(message: HTMLTextAreaElement): void {
@@ -152,6 +174,7 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
       });
       message.value = null;
       this.playSound('./assets/sounds/send_message.ogg');
+      this.scrollToBottom();
     }
   }
 
@@ -166,14 +189,14 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
     return text.replace(/\r?\n/g, '<br />');
   }
 
-  onScrollChat(event: WheelEvent): void {
+  slideToBottom(event: WheelEvent): void {
 
     const messages: HTMLElement = <HTMLElement> event.target;
     const height = messages.scrollTop + messages.clientHeight;
 
     const scroll = <HTMLElement>this.scrollBottom.nativeElement;
 
-    if (height + messages.clientHeight < messages.scrollHeight) {
+    if (height < messages.scrollHeight - messages.clientHeight) {
       scroll.classList.add('scroll-bottom-show');
     } else {
       scroll.classList.remove('scroll-bottom-show');

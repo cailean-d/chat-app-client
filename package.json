@@ -23,11 +23,13 @@
     "@angular/router": "^5.2.0",
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
+    "@types/simplebar": "^2.4.1",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "localforage": "^1.6.0",
     "ngforage": "^1.0.0-rc.0",
     "rxjs": "^5.5.6",
+    "simplebar": "^2.6.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
