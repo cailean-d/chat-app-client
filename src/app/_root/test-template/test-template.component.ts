@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as SimpleBar from 'simplebar';
 
@@ -8,7 +8,8 @@ import * as SimpleBar from 'simplebar';
   templateUrl: './test-template.component.html',
   styleUrls: ['./test-template.component.scss']
 })
-export class TestTemplateComponent implements OnInit, AfterViewChecked {
+
+export class TestTemplateComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
@@ -152,11 +153,12 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
 
     this.messageList = <HTMLElement> scrollbar2.getScrollElement();
     this.messageList.addEventListener('scroll', (e =>  this.slideToBottom(e as WheelEvent)));
+    this.messageList.addEventListener('DOMNodeInserted', () => { this.scrollToBottom(); });
 
   }
 
-  ngAfterViewChecked() {
-    // this.scrollToBottom();
+  ngAfterViewInit() {
+    this.scrollToBottom();
   }
 
   scrollToBottom(): void {
@@ -219,6 +221,5 @@ export class TestTemplateComponent implements OnInit, AfterViewChecked {
 
   addToFavorite(q: any): void {
     this.favorite.push(q);
-    console.log(this.favorite);
   }
 }
