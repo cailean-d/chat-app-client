@@ -6,6 +6,7 @@ import { FriendsRootComponent } from './friends-root/friends-root.component';
 import { FriendsService } from './services/friends.service';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
+import { FriendsFavoriteComponent } from './friends-favorite/friends-favorite.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { FriendsOnlineComponent } from './friends-online/friends-online.componen
   providers: [
     FriendsService
   ],
-  declarations: [FriendsRootComponent, AllFriendsComponent, FriendsOnlineComponent]
+  declarations: [FriendsRootComponent, AllFriendsComponent, FriendsOnlineComponent, FriendsFavoriteComponent]
 })
 export class FriendsModule { }

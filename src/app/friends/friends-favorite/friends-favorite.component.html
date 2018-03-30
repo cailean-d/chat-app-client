@@ -13,15 +13,15 @@
     </div>
     <div class="about">
       <div class="name">{{friend.name}}</div>
-      <div class="favorite" *ngIf="friend.favorite === false"  title="Добавить в избранное">
-          <i class="fa fa-star" (click)="friends[i].setFavorite()"></i>
+      <div class="favorite" *ngIf="friend.favorite === true"  title="Удалить из избранного">
+          <i class="fa fa-star" (click)="friends[i].removeFavorite()"></i>
       </div>
     </div>
   </li>
 </div>
 <ng-template #noFriends>
     <li class="notification" *ngIf="friendsAll.length === 0; else noMatch">
-      Вы еще не добавили ни одного друга
+      Вы еще не добавили никого в избранное
     </li>
     <ng-template #noMatch>
       <li class="notification">

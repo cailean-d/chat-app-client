@@ -14,14 +14,14 @@
     <div class="about">
       <div class="name">{{friend.name}}</div>
       <div class="favorite" *ngIf="friend.favorite === true"  title="Добавить в избранное">
-          <i class="fa fa-star" (click)="friends[i].toggleFavorite()"></i>
+          <i class="fa fa-star" (click)="friends[i].setFavorite()"></i>
       </div>
     </div>
   </li>
 </div>
 <ng-template #noFriends>
     <li class="notification" *ngIf="friendsAll.length === 0; else noMatch">
-      У Вас нет друзей
+      Друзей онлайн нет
     </li>
     <ng-template #noMatch>
       <li class="notification">
