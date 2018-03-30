@@ -5,6 +5,7 @@ import { FriendsRoutingModule } from './friends-routing.module';
 import { FriendsRootComponent } from './friends-root/friends-root.component';
 import { FriendsService } from './services/friends.service';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
+import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { AllFriendsComponent } from './all-friends/all-friends.component';
   providers: [
     FriendsService
   ],
-  declarations: [FriendsRootComponent, AllFriendsComponent]
+  declarations: [FriendsRootComponent, AllFriendsComponent, FriendsOnlineComponent]
 })
 export class FriendsModule { }

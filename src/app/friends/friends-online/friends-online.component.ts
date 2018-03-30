@@ -3,19 +3,19 @@ import { FriendsService } from '../services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 
 @Component({
-  selector: 'app-all-friends',
-  templateUrl: './all-friends.component.html',
-  styleUrls: ['./all-friends.component.scss']
+  selector: 'app-friends-online',
+  templateUrl: './friends-online.component.html',
+  styleUrls: ['./friends-online.component.scss']
 })
-export class AllFriendsComponent implements OnInit {
+export class FriendsOnlineComponent implements OnInit {
 
   constructor(
     private friendsService: FriendsService,
     private friendsRoot: FriendsRootComponent
   ) { }
 
-  friendsAll = this.friendsService.friends;
-  friends = this.friendsService.friends;
+  friends = this.friendsService.friendsOnline;
+  friendsAll = this.friendsService.friendsOnline;
   searchField: ElementRef = this.friendsRoot.search;
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class AllFriendsComponent implements OnInit {
 
   getFilteredFriends (): void {
     const filter: string = this.searchField.nativeElement.value;
-    this.friends = this.friendsService.getFilteredFriends(filter);
+    this.friends = this.friendsService.getFilteredOnlineFriends(filter);
   }
 
   clearSearchField () {

@@ -5,6 +5,9 @@ import { Friend } from '../classes/friend';
 export class FriendsService {
 
   friends: Friend[];
+  friendsOnline: Friend[];
+  friendsFavorite: Friend[];
+  friendsInvite: Friend[];
 
   constructor() {
     this.friends = [
@@ -81,6 +84,9 @@ export class FriendsService {
         false
       ),
     ];
+
+    this.friendsOnline = this.getOnlineFriends();
+    this.friendsFavorite = this.getFavoriteFriends();
   }
 
   getFavoriteFriends (): Friend[] {
@@ -101,4 +107,15 @@ export class FriendsService {
     });
   }
 
+  getFilteredOnlineFriends(filter: string): Friend[] {
+    return this.friendsOnline.filter((item) => {
+      return item.name.match(new RegExp(filter, 'i'));
+    });
+  }
+
+  getFilteredFavoriteFriends(filter: string): Friend[] {
+    return this.friendsFavorite.filter((item) => {
+      return item.name.match(new RegExp(filter, 'i'));
+    });
+  }
 }
