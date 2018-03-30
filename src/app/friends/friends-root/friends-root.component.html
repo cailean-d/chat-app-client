@@ -1,29 +1,30 @@
 <div class="side-field">
     <div class="search">
       <div class="search-field">
-          <input type="text" placeholder="Поиск" (input)="filterFriends($event)"/>
+          <input type="text" placeholder="Поиск" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }" #search/>
           <i class="fa fa-search"></i>
       </div>
     </div>
     <div class="friend-menu">
       <div class="row">
-        <div class="button button-active" title="Все друзья" (click)="getAllFriends($event)">
+        <div class="button button-active" title="Все друзья" routerLinkActive="button-active" routerLink="" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-user"></i>
         </div>
-        <div class="button" title="Друзья онлайн" (click)="friendsOnline($event)">
+        <div class="button" title="Друзья онлайн" routerLink="" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-user-secret"></i>
         </div>
-        <div class="button" title="Избранные контакты" (click)="getFavoriteFriends($event)">
+        <div class="button" title="Избранные контакты" routerLink="" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-star"></i>
         </div>
-        <div class="button" title="Заявки в друзья">
+        <div class="button" title="Заявки в друзья" routerLink="" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-user-plus"></i>
         </div>
       </div>
     </div>
     <div class="divider"></div>
     <ul class="friend-list" #friendList>
-      <div *ngIf="filteredFriends.length > 0; else noFriends">
+      <router-outlet></router-outlet>
+      <!-- <div *ngIf="filteredFriends.length > 0; else noFriends">
         <li class="friend" *ngFor="let friend of filteredFriends; let i = index">
           <div class="image">
             <img src="{{friend.image}}" alt="avatar" draggable="false"/>
@@ -43,8 +44,8 @@
             </div>
           </div>
         </li>
-      </div>
-      <ng-template #noFriends>
+      </div> -->
+      <!-- <ng-template #noFriends>
           <li class="notification" *ngIf="friendsTemp.length === 0; else noMatch">
             У Вас нет друзей
           </li>
@@ -53,6 +54,6 @@
               Друзей не найдено
             </li>
           </ng-template>
-      </ng-template>
+      </ng-template> -->
     </ul>
   </div>

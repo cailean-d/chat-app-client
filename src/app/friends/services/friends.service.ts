@@ -95,4 +95,10 @@ export class FriendsService {
     });
   }
 
+  getFilteredFriends(filter: string): Friend[] {
+    return this.friends.filter((item) => {
+      return item.name.match(new RegExp(filter, 'i'));
+    });
+  }
+
 }
