@@ -1,16 +1,24 @@
-.wrapper{
-  max-width: 1080px;
-  margin: 0 auto;
+.container{
+  width: 100vw;
+  height: 100vh;
+  // overflow: hidden;
+  background: url(/assets/images/background.jpg) no-repeat 0px 0px;
 
-  .app-body{
-    display: flex;
+  .wrapper{
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #767986;
 
-      aside{
-        width: 20vh;
-      }
+    .app-body{
+      display: flex;
 
-      main{
-        width: 80vh;
-      }
+      // aside{
+      //   width: 20vh;
+      // }
+
+      // main{
+      //   width: 80vh;
+      // }
+    }
   }
 }

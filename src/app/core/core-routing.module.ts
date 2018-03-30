@@ -6,7 +6,12 @@ const routes: Routes = [{
   path: '',
   component: RootComponent,
   children: [
-    { path: '',
+    {
+      path: '',
+      redirectTo: 'home'
+    },
+    {
+      path: 'home',
       loadChildren: 'app/own-profile/own-profile.module#OwnProfileModule'
     },
     {

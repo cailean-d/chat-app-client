@@ -1,8 +1,30 @@
-<nav>
-  <button routerLink="/app">Home</button>
-  <button routerLink="/app/friends">Friends</button>
-  <button routerLink="/app/messages">Messages</button>
-  <button routerLink="/app/settings">Settings</button>
-  <button routerLink="/auth/login" (click)="logout()">Exit</button>
+<nav class="menu">
+  <ul class="items">
+    <li class="item" routerLink="/app/home" routerLinkActive="item-active">
+      <i class="fa fa-home"></i>
+    </li>
+    <li class="item" routerLink="/app/friends" routerLinkActive="item-active">
+      <i class="fa fa-user"></i>
+    </li>
+    <li class="item" routerLink="/app/friends/search" routerLinkActive="item-active">
+      <i class="fa fa-users"></i>
+    </li>
+    <li class="item" routerLink="/app/messages" routerLinkActive="item-active">
+      <i class="fa fa-commenting"></i>
+    </li>
+    <li class="item" routerLink="/app/settings" routerLinkActive="item-active">
+      <i class="fa fa-cog"></i>
+    </li>
+    <li class="item" routerLink="/auth/login" (click)="logout()">
+      <i class="fa fa-sign-out"></i>
+    </li>
+  </ul>
+  <div class="misc">
+    <div class="notification" title="Уведомления">
+        <i class="fa fa-bell"></i>
+    </div>
+    <div class="language" title="Сменить язык">
+        <i class="fa fa-language"></i>
+    </div>
+  </div>
 </nav>
-
