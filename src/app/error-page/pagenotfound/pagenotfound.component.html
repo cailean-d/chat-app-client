@@ -5,8 +5,9 @@
       <h3>{{ 'error_page.sorry' | translate }}</h3>
       <p>{{ 'error_page.not_found' | translate }}.</p>
       <div class="back-button">
-          <a routerLink="">
-            <i class="fa fa-angle-double-left" aria-hidden="true"></i>{{ 'button.back' | translate }}
+          <a (click)="goBack()">
+            <i class="fa fa-angle-double-left" aria-hidden="true">
+            </i>{{ 'button.back' | translate }}
           </a>
       </div>
     </div>

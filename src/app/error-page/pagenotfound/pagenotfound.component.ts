@@ -17,4 +17,8 @@ export class PagenotfoundComponent implements OnInit {
     this.isDataLoaded = true;
   }
 
+  goBack() {
+    history.back();
+  }
+
 }
