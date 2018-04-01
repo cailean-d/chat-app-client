@@ -21,7 +21,7 @@
             <i class="fa fa-plus"></i>
         </div>
         <div class="item refuse" title="Проигнорировать приглашение">
-            <i class="fa fa-times"></i>
+            <i class="fa fa-times" (click)="friendsService.invites[i].refuseFriendship()"></i>
         </div>
       </div>
     </div>

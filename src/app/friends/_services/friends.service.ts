@@ -152,25 +152,29 @@ export class FriendsService extends EventEmitter {
         'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
         'Vincent Porter',
         'online',
-        false
+        false,
+        1
       ),
       new Friend(
         'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
         'Aiden Chavez',
         'online',
-        false
+        false,
+        2
       ),
       new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
         'Vincent Porter',
         'online',
-        false
+        false,
+        3
       ),
       new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
         'Aiden Chavez',
         'online',
-        false
+        false,
+        4
       ),
     ];
 
@@ -181,6 +185,7 @@ export class FriendsService extends EventEmitter {
 
     this.updateOnSearchChanged();
     this.updateListsOnChangeFriend();
+    this.updateInvitesOnRefuse();
 
   }
 
@@ -210,6 +215,20 @@ export class FriendsService extends EventEmitter {
     for (let i = 0; i < this.friends.length; i++) {
       const friend = this.friends[i];
       friend.on('change', () => {
+        this.updateLists();
+      });
+    }
+  }
+
+  private updateInvitesOnRefuse(): void {
+
+    let len = this.invitesTemp.length;
+
+    for (let i = 0; i < len; i++) {
+      const user = this.invitesTemp[i];
+      user.on('refuse_friendship', () => {
+        len = this.invitesTemp.length;
+        this.deleteUserFromInvites(user.id);
         this.updateLists();
       });
     }
@@ -269,5 +288,11 @@ export class FriendsService extends EventEmitter {
       return 1;
     }
     return 0;
+  }
+
+  private deleteUserFromInvites(id: number): void {
+    this.invitesTemp = this.invitesTemp.filter((el) => {
+      return el.id !== id;
+  });
   }
 }

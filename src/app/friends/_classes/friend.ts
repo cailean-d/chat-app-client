@@ -1,17 +1,27 @@
 import { EventEmitter } from 'eventemitter3';
 
 export class Friend extends EventEmitter {
+  private _id: number;
   private _image: string;
   private _name: string;
   private _online: string;
   private _favorite: boolean;
 
-  constructor (image, name, online, favorite) {
+  constructor (image, name, online, favorite, id?) {
     super();
     this.image = image;
     this.name = name;
     this.online = online;
     this.favorite = favorite;
+    this.id = id;
+  }
+
+  get id(): number {
+    return this._id;
+  }
+
+  set id(id: number) {
+    this._id = id;
   }
 
   get image(): string {
@@ -60,5 +70,9 @@ export class Friend extends EventEmitter {
 
   toggleFavorite () {
     this.favorite = !this.favorite;
+  }
+
+  refuseFriendship(): void {
+    this.emit('refuse_friendship');
   }
 }
