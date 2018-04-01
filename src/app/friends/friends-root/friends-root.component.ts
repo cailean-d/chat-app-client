@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
-import { FriendsService } from '../services/friends.service';
 
 @Component({
   selector: 'app-friends-root',
@@ -14,7 +13,7 @@ export class FriendsRootComponent implements OnInit {
 
   friendListScroll: HTMLElement;
 
-  constructor(private friendsService: FriendsService) { }
+  constructor() { }
 
   private scrollbarOpt = {
     classNames: {

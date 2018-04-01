@@ -1,6 +1,6 @@
-import { FriendList } from '../classes/friendList';
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FriendsService } from '../services/friends.service';
+import { FriendList } from '../_classes/friendList';
+import { Component, OnInit } from '@angular/core';
+import { FriendsService } from '../_services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Friend } from '../classes/friend';
+import { Friend } from '../_classes/friend';
 import { EventEmitter } from 'eventemitter3';
 
 @Injectable()
@@ -7,8 +7,11 @@ export class FriendsService extends EventEmitter {
 
   private _search: string;
 
-  public friendsTemp: Friend[];
+  private friendsTemp: Friend[];
+  private invitesTemp: Friend[];
+
   public friends: Friend[];
+  public invites: Friend[];
   public friendsOnline: Friend[];
   public friendsFavorite: Friend[];
   public friendsInvite: Friend[];
@@ -144,7 +147,23 @@ export class FriendsService extends EventEmitter {
       ),
     ];
 
+    this.invitesTemp = [
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Vincent Porter',
+        'online',
+        false
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Aiden Chavez',
+        'online',
+        false
+      ),
+    ];
+
     this.friends = this.getFriends();
+    this.invites = this.getInvites();
     this.friendsOnline = this.getOnlineFriends();
     this.friendsFavorite = this.getFavoriteFriends();
 
@@ -170,9 +189,9 @@ export class FriendsService extends EventEmitter {
 
   private updateLists(): void {
     this.friends = this.getFilteredFriends();
+    this.invites = this.getFilteredInvites();
     this.friendsOnline = this.getFilteredOnlineFriends();
     this.friendsFavorite = this.getFilteredFavoriteFriends();
-    this.emit('update');
   }
 
   private updateListsOnChangeFriend(): void {
@@ -186,6 +205,10 @@ export class FriendsService extends EventEmitter {
 
   private getFriends(): Friend[] {
     return this.friendsTemp.sort(this.sortFriends);
+  }
+
+  private getInvites(): Friend[] {
+    return this.invitesTemp.sort(this.sortFriends);
   }
 
   private getFavoriteFriends(): Friend[] {
@@ -202,6 +225,12 @@ export class FriendsService extends EventEmitter {
 
   private getFilteredFriends(): Friend[] {
     return this.friendsTemp.filter((item) => {
+      return item.name.match(new RegExp(this.search, 'i'));
+    });
+  }
+
+  private getFilteredInvites(): Friend[] {
+    return this.invitesTemp.filter((item) => {
       return item.name.match(new RegExp(this.search, 'i'));
     });
   }
