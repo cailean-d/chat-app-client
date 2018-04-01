@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "@types/simplebar": "^2.4.1",
     "core-js": "^2.4.1",
+    "eventemitter3": "^3.0.1",
     "font-awesome": "^4.7.0",
     "localforage": "^1.6.0",
     "ngforage": "^1.0.0-rc.0",

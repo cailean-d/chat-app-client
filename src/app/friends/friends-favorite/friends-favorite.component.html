@@ -20,7 +20,7 @@
   </li>
 </div>
 <ng-template #noFriends>
-    <li class="notification" *ngIf="friendsAll.length === 0; else noMatch">
+    <li class="notification" *ngIf="searchInput.value == ''; else noMatch">
       Вы еще не добавили никого в избранное
     </li>
     <ng-template #noMatch>

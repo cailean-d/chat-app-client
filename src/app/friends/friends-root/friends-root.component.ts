@@ -12,9 +12,11 @@ export class FriendsRootComponent implements OnInit {
   @ViewChild('friendList') friendList: ElementRef;
   @ViewChild('search') search: ElementRef;
 
+  friendListScroll: HTMLElement;
+
   constructor(private friendsService: FriendsService) { }
 
-  scrollbarOpt = {
+  private scrollbarOpt = {
     classNames: {
       content: 'custom-content',
       scrollContent: 'custom-scroll-content',
@@ -26,6 +28,7 @@ export class FriendsRootComponent implements OnInit {
   ngOnInit() {
     SimpleBar.removeObserver();
     const scrollbar = new SimpleBar(this.friendList.nativeElement, this.scrollbarOpt);
+    this.friendListScroll = <HTMLElement> scrollbar.getScrollElement();
   }
 
 }

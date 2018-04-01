@@ -1,22 +1,22 @@
 <div class="side-field">
     <div class="search">
       <div class="search-field">
-          <input type="text" placeholder="Поиск" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }" #search/>
+          <input type="text" placeholder="Поиск" #search/>
           <i class="fa fa-search"></i>
       </div>
     </div>
     <div class="friend-menu">
       <div class="row">
-        <div class="button button-active" title="Все друзья" routerLinkActive="button-active" routerLink="all" [routerLinkActiveOptions]="{ exact: true }">
+        <div class="button" title="Все друзья" routerLink="all" routerLinkActive="button-active" >
             <i class="fa fa-user"></i>
         </div>
-        <div class="button" title="Друзья онлайн" routerLink="online" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
+        <div class="button" title="Друзья онлайн" routerLink="online" routerLinkActive="button-active">
             <i class="fa fa-user-secret"></i>
         </div>
-        <div class="button" title="Избранные контакты" routerLink="favorite" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
+        <div class="button" title="Избранные контакты" routerLink="favorite" routerLinkActive="button-active">
             <i class="fa fa-star"></i>
         </div>
-        <div class="button" title="Заявки в друзья" routerLink="invites" routerLinkActive="button-active" [routerLinkActiveOptions]="{ exact: true }">
+        <div class="button" title="Заявки в друзья" routerLink="invites" routerLinkActive="button-active">
             <i class="fa fa-user-plus"></i>
         </div>
       </div>

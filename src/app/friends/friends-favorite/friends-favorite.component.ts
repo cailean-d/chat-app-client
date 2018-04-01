@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FriendsService } from '../services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
+import { Friend } from '../classes/friend';
 
 @Component({
   selector: 'app-friends-favorite',
@@ -14,24 +15,35 @@ export class FriendsFavoriteComponent implements OnInit {
     private friendsRoot: FriendsRootComponent
   ) { }
 
-  friends = this.friendsService.friendsFavorite;
-  friendsAll = this.friendsService.friendsFavorite;
-  searchField: ElementRef = this.friendsRoot.search;
+  friends: Friend[] = this.friendsService.friendsFavorite;
+  searchInput: HTMLInputElement = this.friendsRoot.search.nativeElement;
 
   ngOnInit() {
     this.clearSearchField();
-    this.searchField.nativeElement.addEventListener('input', () => {
-      this.getFilteredFriends();
+    this.searchInput.addEventListener('input', () => {
+      this.updateSearch();
+    });
+    this.friendsService.on('update', () => {
+      this.updateList();
     });
   }
 
-  getFilteredFriends (): void {
-    const filter: string = this.searchField.nativeElement.value;
-    this.friends = this.friendsService.getFilteredFavoriteFriends(filter);
+  clearSearchField() {
+    this.friendsService.search = '';
+    this.searchInput.value = '';
+    this.scrollToTop();
   }
 
-  clearSearchField () {
-    this.searchField.nativeElement.value = '';
+  scrollToTop(): void {
+    this.friendsRoot.friendListScroll.scrollTop = 0;
+  }
+
+  updateSearch(): void {
+    this.friendsService.search = this.searchInput.value;
+  }
+
+  updateList(): void {
+    this.friends = this.friendsService.friendsFavorite;
   }
 
 }
