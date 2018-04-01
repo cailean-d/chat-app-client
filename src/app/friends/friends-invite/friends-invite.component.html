@@ -13,8 +13,16 @@
     </div>
     <div class="about">
       <div class="name">{{friend.name}}</div>
-      <div class="favorite" *ngIf="friend.favorite === false"  title="Добавить в избранное">
-          <i class="fa fa-star" (click)="friendsService.invites[i].setFavorite()"></i>
+      <div class="right">
+        <div class="item favorite" *ngIf="friend.favorite === false"  title="Добавить в избранное">
+            <i class="fa fa-star" (click)="friendsService.invites[i].setFavorite()"></i>
+        </div>
+        <div class="item add" title="Добавить в друзья">
+            <i class="fa fa-plus"></i>
+        </div>
+        <div class="item refuse" title="Проигнорировать приглашение">
+            <i class="fa fa-times"></i>
+        </div>
       </div>
     </div>
   </li>
