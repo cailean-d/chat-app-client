@@ -1,5 +1,5 @@
-<div *ngIf="friends.length > 0; else noFriends">
-  <li class="friend" *ngFor="let friend of friends; let i = index">
+<div *ngIf="friendsService.friendsFavorite.length > 0; else noFriends">
+  <li class="friend" *ngFor="let friend of friendsService.friendsFavorite; let i = index">
     <div class="image">
       <img src="{{friend.image}}" alt="avatar" draggable="false"/>
       <div class="status">
@@ -14,7 +14,7 @@
     <div class="about">
       <div class="name">{{friend.name}}</div>
       <div class="favorite" *ngIf="friend.favorite === true"  title="Удалить из избранного">
-          <i class="fa fa-star" (click)="friends[i].removeFavorite()"></i>
+          <i class="fa fa-star" (click)="friendsService.friendsFavorite[i].removeFavorite()"></i>
       </div>
     </div>
   </li>
