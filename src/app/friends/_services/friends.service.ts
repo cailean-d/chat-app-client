@@ -160,6 +160,18 @@ export class FriendsService extends EventEmitter {
         'online',
         false
       ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Vincent Porter',
+        'online',
+        false
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Aiden Chavez',
+        'online',
+        false
+      ),
     ];
 
     this.friends = this.getFriends();

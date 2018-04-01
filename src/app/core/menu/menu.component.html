@@ -3,11 +3,16 @@
     <li class="item" routerLink="/app/home" routerLinkActive="item-active">
       <i class="fa fa-home"></i>
     </li>
-    <li class="item" routerLink="/app/friends" routerLinkActive="item-active">
-      <i class="fa fa-user"></i>
-    </li>
     <li class="item" routerLink="/app/friends/search" routerLinkActive="item-active">
       <i class="fa fa-users"></i>
+    </li>
+    <li class="item" routerLink="/app/friends" routerLinkActive="item-active">
+      <i class="fa fa-user"></i>
+      <div class="counter">
+        <span *ngIf="friendService.invites.length > 0">
+            {{friendService.invites.length}}
+        </span>
+      </div>
     </li>
     <li class="item" routerLink="/app/messages" routerLinkActive="item-active">
       <i class="fa fa-commenting"></i>

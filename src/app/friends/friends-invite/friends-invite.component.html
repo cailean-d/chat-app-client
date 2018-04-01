@@ -21,11 +21,11 @@
 </div>
 <ng-template #noFriends>
     <li class="notification" *ngIf="searchInput.value == ''; else noMatch">
-      Нет новых приглашений
+      Нет новых заявок
     </li>
     <ng-template #noMatch>
       <li class="notification">
-        Приглашений не найдено
+        Заявок не найдено
       </li>
     </ng-template>
 </ng-template>

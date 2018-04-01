@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
+import { FriendsService } from '../../friends/_services/friends.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,10 +9,12 @@ import { NgForage } from 'ngforage';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private storage: NgForage) { }
+  constructor(
+    protected storage: NgForage,
+    protected friendService: FriendsService
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   async logout() {
     await this.storage.removeItem('user');
