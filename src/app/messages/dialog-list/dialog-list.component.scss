@@ -1,0 +1,49 @@
+.side-field {
+  min-width: 260px;
+  width: 20vw;
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #444753;
+
+  .search {
+    padding: 15px;
+
+    .search-field{
+      position: relative;
+
+      input {
+        height: 100%;
+        width: 100%;
+        border-radius: 3px;
+        border: none;
+        padding: 10px 10px 10px 35px;
+        color: white;
+        background: rgba(104, 106, 113, 0.34);
+        font-size: 14px;
+
+        &:focus{
+          background: #31333c;
+        }
+
+        &::-webkit-input-placeholder {
+          color: rgb(197, 197, 197);
+        }
+      }
+
+      .fa-search {
+        position: absolute;
+        left: 10px;
+        top: -1px;
+        line-height: 38px;
+        color: rgb(197, 197, 197);
+      }
+    }
+  }
+
+  .user-list{
+    margin: 0 0 10px 0;
+    flex-grow: 1;
+  }
+}
