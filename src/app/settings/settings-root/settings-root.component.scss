@@ -1,0 +1,29 @@
+.side-field {
+  min-width: 260px;
+  width: 20vw;
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #444753;
+
+  .list{
+    margin: 0 0 10px 0;
+    flex-grow: 1;
+    padding: 10px 0;
+
+    li{
+      color: #dfdce4;
+      // text-align: center;
+      padding: 15px 25px;
+      cursor: pointer;
+
+      &:hover{
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+
