@@ -7,8 +7,8 @@ export class FriendsService extends EventEmitter {
 
   private _search: string;
 
-  private friendsTemp: Friend[];
-  private invitesTemp: Friend[];
+  public friendsTemp: Friend[];
+  public invitesTemp: Friend[];
 
   public friends: Friend[];
   public invites: Friend[];
@@ -19,135 +19,6 @@ export class FriendsService extends EventEmitter {
   constructor() {
     super();
     this.friendsTemp = [
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Vincent Porter',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Aiden Chavez',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
-        'Vincent Porter',
-        'left 30 mins ago',
-        true
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Mike Thomas',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Erica Hughes',
-        'left 17 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Ginger Johnston',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
-        'Tracy Carpenter',
-        'left 11 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Peyton Mckinney',
-        'online',
-        true
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Erica Hughes',
-        'left 17 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Ginger Johnston',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
-        'Tracy Carpenter',
-        'left 11 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Peyton Mckinney',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Peyton Mckinney',
-        'online',
-        true
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Erica Hughes',
-        'left 17 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Ginger Johnston',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Peyton Mckinney',
-        'online',
-        true
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Erica Hughes',
-        'left 17 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Ginger Johnston',
-        'online',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Peyton Mckinney',
-        'online',
-        true
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        'Erica Hughes',
-        'left 17 mins ago',
-        false
-      ),
-      new Friend(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
-        'Ginger Johnston',
-        'online',
-        false
-      ),
-    ];
-
-    this.invitesTemp = [
       new Friend(
         'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
         'Vincent Porter',
@@ -165,16 +36,166 @@ export class FriendsService extends EventEmitter {
       new Friend(
         'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
         'Vincent Porter',
-        'online',
-        false,
+        'left 30 mins ago',
+        true,
         3
       ),
       new Friend(
         'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-        'Aiden Chavez',
+        'Mike Thomas',
         'online',
         false,
         4
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        5
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Ginger Johnston',
+        'online',
+        false,
+        6
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
+        'Tracy Carpenter',
+        'left 11 mins ago',
+        false,
+        7
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        true,
+        8
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        9
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Ginger Johnston',
+        'online',
+        false,
+        10
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
+        'Tracy Carpenter',
+        'left 11 mins ago',
+        false,
+        11
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        false,
+        12
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        true,
+        13
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        14
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Ginger Johnston',
+        'online',
+        false,
+        15
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        true,
+        16
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        17
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Ginger Johnston',
+        'online',
+        false,
+        18
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        true,
+        19
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        20
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+        'Ginger Johnston',
+        'online',
+        false,
+        21
+      ),
+    ];
+
+    this.invitesTemp = [
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
+        'Tracy Carpenter',
+        'left 11 mins ago',
+        false,
+        11
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        false,
+        12
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
+        'Peyton Mckinney',
+        'online',
+        true,
+        13
+      ),
+      new Friend(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+        'Erica Hughes',
+        'left 17 mins ago',
+        false,
+        14
       ),
     ];
 

@@ -3,13 +3,13 @@
     <li class="item" routerLink="/app/home" routerLinkActive="item-active">
       <i class="fa fa-home"></i>
     </li>
-    <li class="item" routerLink="/app/friends/search" routerLinkActive="item-active">
-      <i class="fa fa-users"></i>
+    <li class="item" routerLink="/app/search" routerLinkActive="item-active">
+      <i class="fa fa-search"></i>
     </li>
     <li class="item" routerLink="/app/friends" routerLinkActive="item-active">
       <i class="fa fa-user"></i>
-      <div class="counter">
-        <span *ngIf="friendService.invites.length > 0">
+      <div class="counter" *ngIf="friendService.invites.length > 0">
+        <span>
             {{friendService.invites.length}}
         </span>
       </div>

@@ -7,7 +7,7 @@ export class Friend extends EventEmitter {
   private _online: string;
   private _favorite: boolean;
 
-  constructor (image, name, online, favorite, id?) {
+  constructor (image, name, online, favorite, id) {
     super();
     this.image = image;
     this.name = name;
