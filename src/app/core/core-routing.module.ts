@@ -25,6 +25,10 @@ const routes: Routes = [{
     {
       path: 'settings',
       loadChildren: 'app/settings/settings.module#SettingsModule'
+    },
+    {
+      path: 'search',
+      loadChildren: 'app/search/search.module#SearchModule'
     }
   ]
 }];
