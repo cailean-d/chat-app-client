@@ -18,5 +18,8 @@
         "**/src/tsconfig.app.json" : true,
         "**/src/tsconfig.spec.json" : true,
         "**/src/environments" : true,
+        "**/src/typings.d.ts" : true,
+        "**/src/main.ts" : true,
+        "**/src/test.ts" : true
     }
 }

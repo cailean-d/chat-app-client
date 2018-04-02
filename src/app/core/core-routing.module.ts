@@ -8,7 +8,7 @@ const routes: Routes = [{
   children: [
     {
       path: '',
-      redirectTo: 'home'
+      redirectTo: 'friends'
     },
     {
       path: 'home',
