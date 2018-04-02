@@ -1,6 +1,6 @@
 .menu {
   height: 100vh;
-  width: 70px;
+  // width: 70px;
   min-width: 70px;
   background: rgb(49, 51, 60);
   box-shadow: 0 10px 20px rgba(0,0,0,0.19);
@@ -8,34 +8,41 @@
   flex-direction: column;
   justify-content: space-between;
 
-  .online {
-    color: #8ac176;
-  }
-
-  .offline {
-    color: #E38968;
-  }
-
   .avatar{
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    cursor: default !important;
 
-    *{
-      cursor: default !important;
+    .online {
+      color: #8ac176;
+    }
+
+    .offline {
+      color: #E38968;
     }
 
     .image{
       position: relative;
       display: inline-block;
 
-      img {
+      &:hover img{
+        transform: scale(1.2);
+      }
+
+      .img-outer{
         border-radius: 50%;
-        vertical-align: middle;
         height: 50px;
         width: 50px;
+        overflow: hidden;
+
+        img {
+          vertical-align: middle;
+          height: inherit;
+          width: inherit;
+          transition: transform .2s ease-in-out;
+        }
       }
+
 
       .status {
         position: absolute;
@@ -64,7 +71,7 @@
     }
 
     .item {
-      height: 70px;
+      // height: 70px;
       // border-bottom: 1px solid #4a4a4a;
       display:flex;
       justify-content: center;
@@ -73,6 +80,7 @@
       font-size: 25px;
       position: relative;
       border: 4px solid transparent;
+      padding: 1rem;
 
       .counter{
         position: absolute;
@@ -111,10 +119,10 @@
       cursor: pointer;
     }
 
-    .notification, .language{
+    .notification, .language, .logout{
       text-align: center;
       color: #94909c;
-      font-size: 20px;
+      font-size: 18px;
       padding: 10px;
 
       &:hover{

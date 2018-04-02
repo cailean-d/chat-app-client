@@ -1,8 +1,10 @@
 <nav class="menu">
   <ul class="items">
     <li class="avatar">
-      <div class="image">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" draggable="false"/>
+      <div class="image" title="Профиль">
+        <div class="img-outer">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" draggable="false"/>
+        </div>
         <div class="status">
           <span>
               <i class="fa fa-circle online"></i>
@@ -10,10 +12,10 @@
         </div>
       </div>
     </li>
-    <li class="item" routerLink="/app/search" routerLinkActive="item-active">
+    <li class="item" routerLink="/app/search" routerLinkActive="item-active" title="Поиск пользователей">
       <i class="fa fa-search"></i>
     </li>
-    <li class="item" routerLink="/app/friends" routerLinkActive="item-active">
+    <li class="item" routerLink="/app/friends" routerLinkActive="item-active" title="Друзья">
       <i class="fa fa-user"></i>
       <div class="counter" *ngIf="friendService.invites.length > 0">
         <span>
@@ -21,14 +23,14 @@
         </span>
       </div>
     </li>
-    <li class="item" routerLink="/app/messages" routerLinkActive="item-active">
+    <li class="item" routerLink="/app/favorite" routerLinkActive="item-active" title="Избранное">
+      <i class="fa fa-star"></i>
+    </li>
+    <li class="item" routerLink="/app/messages" routerLinkActive="item-active" title="Чаты">
       <i class="fa fa-commenting"></i>
     </li>
-    <li class="item" routerLink="/app/settings" routerLinkActive="item-active">
+    <li class="item" routerLink="/app/settings" routerLinkActive="item-active" title="Настройки">
       <i class="fa fa-cog"></i>
-    </li>
-    <li class="item" routerLink="/auth/login" (click)="logout()">
-      <i class="fa fa-sign-out"></i>
     </li>
   </ul>
   <div class="misc">
@@ -37,6 +39,9 @@
     </div>
     <div class="language" title="Сменить язык">
         <i class="fa fa-language"></i>
+    </div>
+    <div class="logout" routerLink="/auth/login" (click)="logout()" title="Выйти">
+      <i class="fa fa-sign-out"></i>
     </div>
   </div>
 </nav>
