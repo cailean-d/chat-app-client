@@ -23,10 +23,10 @@ const routes: Routes = [
         path: 'online',
         component: FriendsOnlineComponent
       },
-      {
-        path: 'favorite',
-        component: FriendsFavoriteComponent
-      },
+      // {
+      //   path: 'favorite',
+      //   component: FriendsFavoriteComponent
+      // },
       {
         path: 'invite',
         component: FriendsInviteComponent

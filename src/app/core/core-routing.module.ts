@@ -29,6 +29,10 @@ const routes: Routes = [{
     {
       path: 'search',
       loadChildren: 'app/search/search.module#SearchModule'
+    },
+    {
+      path: 'favorite',
+      loadChildren: 'app/favorite/favorite.module#FavoriteModule'
     }
   ]
 }];
