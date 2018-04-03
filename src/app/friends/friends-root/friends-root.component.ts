@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
+import { scrollbarOpt } from '../../__classes/customScrollOptions';
 
 @Component({
   selector: 'app-friends-root',
@@ -26,7 +27,7 @@ export class FriendsRootComponent implements OnInit {
 
   ngOnInit() {
     SimpleBar.removeObserver();
-    const scrollbar = new SimpleBar(this.friendList.nativeElement, this.scrollbarOpt);
+    const scrollbar = new SimpleBar(this.friendList.nativeElement, scrollbarOpt);
     this.friendListScroll = <HTMLElement> scrollbar.getScrollElement();
   }
 
