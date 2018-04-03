@@ -59,4 +59,9 @@ export class SearchRootComponent implements OnInit {
       }
     });
   }
+
+  clearSearchInput(): void {
+    this.search.nativeElement.value = '';
+    this.searchValue = '';
+  }
 }

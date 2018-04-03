@@ -3,6 +3,7 @@
     <div class="search-field">
         <input type="text" placeholder="Поиск" #search/>
         <i class="fa fa-search"></i>
+        <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
     </div>
   </div>
   <ul class="user-list" #userList>
