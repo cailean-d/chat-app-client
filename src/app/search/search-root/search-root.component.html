@@ -1,62 +1,72 @@
-<div class="side-field">
-  <div class="search">
-    <div class="search-field">
-        <input type="text" placeholder="Поиск" #search/>
-        <i class="fa fa-search"></i>
-        <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
-    </div>
-  </div>
-  <ul class="user-list" #userList>
-    <div *ngIf="searchValue !== ''; else users" >
-      <div *ngIf="searchService.usersFiltered.length > 0; else notFound">
-        <li class="user" *ngFor="let user of searchService.usersFiltered; let i = index">
-          <div class="image">
-            <img src="{{user.image}}" alt="avatar" draggable="false"/>
-            <div class="status">
-              <span *ngIf="user.online === true; else left" >
-                  <i class="fa fa-circle online"></i>
-                  {{user.online}}
-              </span>
-              <ng-template #left>
-                  <i class="fa fa-circle offline"></i>
-              </ng-template>
-            </div>
-          </div>
-          <div class="about">
-            <div class="name">{{user.name}}</div>
-            <div class="favorite" title="Добавить в избранное">
-                <i class="fa fa-star"></i>
-            </div>
-          </div>
-        </li>
+<div class="container">
+  <div class="side-field">
+    <div class="search">
+      <div class="search-field">
+          <input type="text" placeholder="Поиск" #search/>
+          <i class="fa fa-search"></i>
+          <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
       </div>
-      <ng-template #notFound>
-        <li class="notification">
-          Пользователей не найдено
+    </div>
+    <ul class="user-list" #userList>
+      <div *ngIf="searchValue !== ''; else users" >
+        <div *ngIf="searchService.usersFiltered.length > 0; else notFound">
+          <li *ngFor="let user of searchService.usersFiltered; let i = index">
+            <div class="user" routerLink="user/{{user.id}}">
+              <div class="image">
+                <img src="{{user.image}}" alt="avatar" draggable="false"/>
+                <div class="status">
+                  <span *ngIf="user.online === true; else left" >
+                      <i class="fa fa-circle online"></i>
+                      {{user.online}}
+                  </span>
+                  <ng-template #left>
+                      <i class="fa fa-circle offline"></i>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="about">
+                <div class="name">{{user.name}}</div>
+                <div class="favorite" title="Добавить в избранное">
+                    <i class="fa fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
+        <ng-template #notFound>
+          <li class="notification">
+            Пользователей не найдено
+          </li>
+        </ng-template>
+      </div>
+      <ng-template #users>
+        <li *ngFor="let user of searchService.users; let i = index">
+          <div class="user" routerLink="user/{{user.id}}">
+            <div class="image">
+              <img src="{{user.image}}" alt="avatar" draggable="false"/>
+              <div class="status">
+                <span *ngIf="user.online === true; else left" >
+                    <i class="fa fa-circle online"></i>
+                    {{user.online}}
+                </span>
+                <ng-template #left>
+                    <i class="fa fa-circle offline"></i>
+                </ng-template>
+              </div>
+            </div>
+            <div class="about">
+              <div class="name">{{user.name}}</div>
+              <div class="favorite" title="Добавить в избранное">
+                  <i class="fa fa-star"></i>
+              </div>
+            </div>
+          </div>
         </li>
       </ng-template>
-    </div>
-    <ng-template #users>
-      <li class="user" *ngFor="let user of searchService.users; let i = index">
-        <div class="image">
-          <img src="{{user.image}}" alt="avatar" draggable="false"/>
-          <div class="status">
-            <span *ngIf="user.online === true; else left" >
-                <i class="fa fa-circle online"></i>
-                {{user.online}}
-            </span>
-            <ng-template #left>
-                <i class="fa fa-circle offline"></i>
-            </ng-template>
-          </div>
-        </div>
-        <div class="about">
-          <div class="name">{{user.name}}</div>
-          <div class="favorite" title="Добавить в избранное">
-              <i class="fa fa-star"></i>
-          </div>
-        </div>
-      </li>
-    </ng-template>
-  </ul>
+    </ul>
+  </div>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 </div>
+

@@ -12,6 +12,10 @@
     .app-body{
       display: flex;
 
+      .router{
+        flex-grow: 1;
+      }
+
       // aside{
       //   width: 20vh;
       // }
