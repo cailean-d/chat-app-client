@@ -12,10 +12,10 @@
         </div>
       </div>
     </li>
-    <li class="item" routerLink="/app/search" routerLinkActive="item-active" title="Поиск пользователей">
+    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="Поиск пользователей">
       <i class="fa fa-search"></i>
     </li>
-    <li class="item" routerLink="/app/friends" routerLinkActive="item-active" title="Друзья">
+    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="Друзья">
       <i class="fa fa-user"></i>
       <div class="counter" *ngIf="friendService.invites.length > 0">
         <span>
@@ -23,15 +23,16 @@
         </span>
       </div>
     </li>
-    <li class="item" routerLink="/app/favorite" routerLinkActive="item-active" title="Избранное">
+    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="Избранное">
       <i class="fa fa-star"></i>
     </li>
-    <li class="item" routerLink="/app/messages" routerLinkActive="item-active" title="Чаты">
+    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="Чаты">
       <i class="fa fa-commenting"></i>
     </li>
-    <li class="item" routerLink="/app/settings" routerLinkActive="item-active" title="Настройки">
+    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="Настройки">
       <i class="fa fa-cog"></i>
     </li>
+    <div class="active-block"></div>
   </ul>
   <div class="misc">
     <div class="notification" title="Уведомления">
