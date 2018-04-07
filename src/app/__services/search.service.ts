@@ -1,13 +1,7 @@
+import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
 import { usersArray } from '../__arrays/users';
-
-interface UserObject {
-  id: number;
-  name: string;
-  image: string;
-  online: boolean | string;
-}
 
 @Injectable()
 export class SearchService {
@@ -50,7 +44,7 @@ export class SearchService {
     if (!this.dataIsLoading) {
       if (this.index > 0) {
         this.dataIsLoading = true;
-        const result: Array<UserObject> = [];
+        const result: Array<UserInterface> = [];
         let counter = 0;
         for (let i = this.index; i >= 0; i--) {
           this.index = i - 1;
@@ -78,7 +72,7 @@ export class SearchService {
     if (!this.dataIsLoading) {
       if (this.usersLoaded < usersArray.length) {
         this.dataIsLoading = true;
-        const result: Array<UserObject> = [];
+        const result: Array<UserInterface> = [];
         const a = usersArray.length - this.usersLoaded - 1;
         const b = usersArray.length - (this.usersLoaded + this.loadQuantity) - 1;
         for (let i = a; i > b; i--) {
@@ -107,7 +101,7 @@ export class SearchService {
     }
   }
 
-  private convertResponseToObject(obj: Array<UserObject>): User[] {
+  private convertResponseToObject(obj: Array<UserInterface>): User[] {
     const arr: User[] = [];
     for (const i of obj) {
       arr.push(new User(i.id, i.image, i.name, i.online));

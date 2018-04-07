@@ -1,3 +1,150 @@
-<p>
-  user works!
-</p>
+<div class="container" *ngIf="user; else notfound" >
+  <div class="main">
+    <div class="user">
+      <div class="avatar">
+        <img src="{{user.image}}" alt="avatar" draggable="false"/>
+      </div>
+      <div class="name" title="{{user.name}}">
+        {{user.name}}
+      </div>
+      <div class="buttons">
+          <div class="button" title="Написать сообщение">
+              <div class="icon">
+                <i class="fa fa-comment"></i>
+              </div>
+              <!-- <div class="description">
+                  Написать сообщение
+              </div> -->
+          </div>
+          <div class="button" title="Добавить в избранное">
+            <div class="icon">
+              <i class="fa fa-star"></i>
+            </div>
+            <!-- <div class="description">
+              Добавить в избранное
+            </div> -->
+          </div>
+          <div class="button" title="Добавить пользователя">
+            <div class="icon">
+              <i class="fa fa-user-plus"></i>
+            </div>
+            <!-- <div class="description">
+              Добавить пользователя
+            </div> -->
+          </div>
+          <div class="button" title="Пожаловаться">
+            <div class="icon">
+              <i class="fa fa-exclamation-triangle"></i>
+            </div>
+            <!-- <div class="description">
+              Пожаловаться
+            </div> -->
+          </div>
+          <div class="button" title="Заблокировать">
+            <div class="icon">
+              <i class="fa fa-ban"></i>
+            </div>
+            <!-- <div class="description">
+              Заблокировать
+            </div> -->
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+     <div class="block">
+       <table>
+        <thead>
+          <tr>
+            <th colspan="2">Базовая информация</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ID</td>
+            <td>{{user.id}}</td>
+          </tr>
+          <tr>
+            <td>Пол</td>
+            <td>Мужской</td>
+          </tr>
+          <tr>
+            <td>День рождения</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Язык</td>
+            <td>Неизвестно</td>
+          </tr>
+        </tbody>
+       </table>
+     </div>
+     <div class="block">
+       <table>
+         <thead>
+          <tr>
+            <th colspan="2">Контактная информация</th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+            <td>Адрес</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Телефон</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Почта</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Сайт</td>
+            <td>Неизвестно</td>
+          </tr>
+         </tbody>
+       </table>
+     </div>
+     <div class="block">
+       <table>
+         <thead>
+          <tr>
+            <th colspan="2">Дополнительная информация</th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+            <td>Дата регистрации</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Страна</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Город</td>
+            <td>Неизвестно</td>
+          </tr>
+          <tr>
+            <td>Был(а) в сети</td>
+            <td>Неизвестно</td>
+          </tr>
+         </tbody>
+       </table>
+     </div>
+  </div>
+</div>
+<ng-template #notfound>
+  <div class="wrapper">
+      <div class="">
+          <div class="icon">
+              <i class="fa fa-user"></i>
+              <i class="fa fa-question"></i>
+          </div>
+          <div class="description">
+            Пользователь не найден
+          </div>
+      </div>
+  </div>
+</ng-template>
