@@ -16,7 +16,7 @@
                   Написать сообщение
               </div> -->
           </div>
-          <div class="button" title="Добавить в избранное">
+          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="user.toggleFavorite()" [attr.title]="user.isFavorite ? 'Удалить из избранного': 'Добавить в избранное'">
             <div class="icon">
               <i class="fa fa-star"></i>
             </div>
