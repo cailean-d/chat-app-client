@@ -21,9 +21,9 @@ export class SearchService {
 
   constructor() {
     this.usersLoaded = 0;
-    this.loadQuantity = 5;
+    this.loadQuantity = 20;
     this.usersFilteredLoaded = 0;
-    this.filteredLoadQuantity = 5;
+    this.filteredLoadQuantity = 20;
     this.index = usersArray.length - 1;
     this.users = [];
     this.usersFiltered = [];

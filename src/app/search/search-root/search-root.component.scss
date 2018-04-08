@@ -84,10 +84,6 @@
         background: rgba(255, 255, 255, 0.1)
       }
 
-      &:hover .favorite{
-        display: block !important;
-      }
-
       .image{
         position: relative;
 
@@ -128,27 +124,6 @@
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-right: 10px;
-        }
-
-        .favorite-active{
-          color: #eaf55b !important;
-        }
-
-        .favorite{
-          color: #ddd;
-          margin-right: 15px;
-          font-size: 14px;
-          cursor: pointer;
-          display: none;
-          transition: color 0.3s;
-
-          *{
-            cursor: pointer;
-          }
-
-          &:hover{
-            color: #eaf18b;
-          }
         }
       }
     }
