@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     protected storage: NgForage,
-    protected friendService: FriendsService
+    public friendService: FriendsService
   ) { }
 
   ngOnInit() {

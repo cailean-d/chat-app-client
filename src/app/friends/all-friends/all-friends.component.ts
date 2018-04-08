@@ -11,7 +11,7 @@ import { FriendsRootComponent } from '../friends-root/friends-root.component';
 export class AllFriendsComponent extends FriendList implements OnInit {
 
   constructor(
-    protected friendsService: FriendsService,
+    public friendsService: FriendsService,
     protected friendsRoot: FriendsRootComponent
   ) {
     super();
