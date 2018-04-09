@@ -4,6 +4,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { MainComponent } from './main/main.component';
 import { UserComponent } from './user/user.component';
 import { ProfileService } from '../__services/profile.service';
+import { FavoriteService } from '../__services/favorite.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { ProfileService } from '../__services/profile.service';
     UserComponent
   ],
   providers: [
-    ProfileService
+    ProfileService,
+    FavoriteService
   ]
 })
 export class ProfileModule { }

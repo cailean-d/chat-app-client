@@ -2,6 +2,7 @@ import { favoriteArray } from '../__arrays/favorite';
 import { Injectable } from '@angular/core';
 import { UserInterface } from '../__interfaces/user';
 import { User } from '../__classes/user';
+import { EventEmitter } from 'eventemitter3';
 
 
 @Injectable()
@@ -38,6 +39,23 @@ export class FavoriteService {
     const result: Array<UserInterface> = favoriteArray.sort(this.sortFriends);
     const users = this.convertResponseToObject(result);
     this.assignLoadedUsers(users);
+  }
+
+  public deleteUser(id: number): void {
+    for (const i in this.users) {
+      if (this.users.hasOwnProperty(i)) {
+        const element = this.users[i];
+        if (element.id === id) {
+          this.users.splice(+i, 1);
+          break;
+        }
+      }
+    }
+  }
+
+  public addToUser(user: User) {
+    this.users.push(user);
+    this.users.sort(this.sortFriends);
   }
 
   private assignLoadedUsers(users: User[]): void {

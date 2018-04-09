@@ -37,25 +37,32 @@
         </ng-template>
       </div>
       <ng-template #users>
-        <li *ngFor="let user of favoriteService.users; let i = index">
-          <div class="user" routerLink="user/{{user.id}}">
-            <div class="image">
-              <img src="{{user.image}}" alt="avatar" draggable="false"/>
-              <div class="status">
-                <span *ngIf="user.online === true; else left" >
-                    <i class="fa fa-circle online"></i>
-                    {{user.online}}
-                </span>
-                <ng-template #left>
-                    <i class="fa fa-circle offline"></i>
-                </ng-template>
+        <div *ngIf="favoriteService.users.length > 0; else noUsers" >
+          <li *ngFor="let user of favoriteService.users; let i = index">
+            <div class="user" routerLink="user/{{user.id}}">
+              <div class="image">
+                <img src="{{user.image}}" alt="avatar" draggable="false"/>
+                <div class="status">
+                  <span *ngIf="user.online === true; else left" >
+                      <i class="fa fa-circle online"></i>
+                      {{user.online}}
+                  </span>
+                  <ng-template #left>
+                      <i class="fa fa-circle offline"></i>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="about">
+                <div class="name">{{user.name}}</div>
               </div>
             </div>
-            <div class="about">
-              <div class="name">{{user.name}}</div>
-            </div>
-          </div>
-        </li>
+          </li>
+        </div>
+        <ng-template #noUsers>
+          <li class="notification">
+            Вы еще не добавили в избранное ни одного пользователя
+          </li>
+        </ng-template>
       </ng-template>
     </ul>
   </div>
