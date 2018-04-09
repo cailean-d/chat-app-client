@@ -45,8 +45,8 @@ export class MenuComponent implements OnInit {
   moveActiveBlockOnClick(): void {
     for (let i = 0; i < this.links.length; i++) {
       const element = this.links[i];
+      this.activateLinkIfHasClass(element);
       element.onclick = () => {
-        this.activateLinkIfHasClass(element);
         this.deleteActiveClass();
         element.classList.add('link-active');
         this.moveActiveBlock(element);
@@ -59,9 +59,11 @@ export class MenuComponent implements OnInit {
   }
 
   activateLinkIfHasClass(el: HTMLElement): void {
-    if (el.classList.contains('link-active')) {
-      this.moveActiveBlock(el);
-    }
+    setTimeout(() => {
+      if (el.classList.contains('link-active')) {
+        this.moveActiveBlock(el);
+      }
+    }, 0);
   }
 
 }
