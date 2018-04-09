@@ -2,7 +2,6 @@ import { favoriteArray } from '../__arrays/favorite';
 import { Injectable } from '@angular/core';
 import { UserInterface } from '../__interfaces/user';
 import { User } from '../__classes/user';
-import { EventEmitter } from 'eventemitter3';
 
 
 @Injectable()
