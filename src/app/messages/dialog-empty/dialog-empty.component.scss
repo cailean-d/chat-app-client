@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+
+.wrapper{
+  font-family: 'Comfortaa', cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #f2f7f7;
+
+  .icon{
+    color: #585858;
+    font-size: 250px;
+    text-align: center;
+  }
+
+  .description{
+    font-size: 20px;
+    color: #585858;
+  }
+
+}

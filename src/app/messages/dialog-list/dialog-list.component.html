@@ -1,11 +1,72 @@
-<div class="side-field">
-  <div class="search">
-    <div class="search-field">
-        <input type="text" placeholder="Поиск" #search/>
-        <i class="fa fa-search"></i>
+<div class="container">
+  <div class="side-field">
+    <div class="search">
+      <div class="search-field">
+          <input type="text" placeholder="Поиск" #search/>
+          <i class="fa fa-search"></i>
+          <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
+      </div>
     </div>
+    <ul class="user-list" #chatList>
+      <div *ngIf="searchValue !== ''; else users" >
+        <div *ngIf="chatService.chatsFiltered.length > 0; else notFound">
+          <li *ngFor="let chat of chatService.chatsFiltered; let i = index">
+            <div class="user" routerLink="{{chat.id}}">
+              <div class="image">
+                <img src="{{chat.image}}" alt="avatar" draggable="false"/>
+                <!-- <div class="status"> -->
+                  <!-- <span *ngIf="user.online === true; else left" >
+                      <i class="fa fa-circle online"></i>
+                      {{user.online}}
+                  </span> -->
+                  <!-- <ng-template #left>
+                      <i class="fa fa-circle offline"></i>
+                  </ng-template> -->
+                <!-- </div> -->
+              </div>
+              <div class="about">
+                <div class="name">{{chat.title}}</div>
+              </div>
+            </div>
+          </li>
+        </div>
+        <ng-template #notFound>
+          <li class="notification">
+            Пользователей не найдено
+          </li>
+        </ng-template>
+      </div>
+      <ng-template #users>
+        <div *ngIf="chatService.chats.length > 0; else noUsers" >
+          <li *ngFor="let chat of chatService.chats; let i = index">
+            <div class="user" routerLink="{{chat.id}}">
+              <div class="image">
+                <img src="{{chat.image}}" alt="avatar" draggable="false"/>
+                <!-- <div class="status">
+                  <span *ngIf="user.online === true; else left" >
+                      <i class="fa fa-circle online"></i>
+                      {{user.online}}
+                  </span>
+                  <ng-template #left>
+                      <i class="fa fa-circle offline"></i>
+                  </ng-template>
+                </div> -->
+              </div>
+              <div class="about">
+                <div class="name">{{chat.title}}</div>
+              </div>
+            </div>
+          </li>
+        </div>
+        <ng-template #noUsers>
+          <li class="notification">
+            У вас нет активных диалогов
+          </li>
+        </ng-template>
+      </ng-template>
+    </ul>
   </div>
-  <ul class="user-list">
+  <main>
     <router-outlet></router-outlet>
-  </ul>
+  </main>
 </div>

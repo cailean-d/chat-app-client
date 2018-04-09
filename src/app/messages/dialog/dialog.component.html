@@ -1,3 +1,68 @@
-<p>
-  dialog works!
-</p>
+<div class="chat">
+
+  <div class="chat-header">
+    <div class="left">
+        <img src="https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg" draggable="false" [title]=""/>
+        <div class="chat-about">
+          <div class="chat-with"></div>
+          <!-- <div class="chat-num-messages">already {{messages.length}} messages</div> -->
+        </div>
+    </div>
+    <div class="right">
+        <div class="video" title="Видеозвонок">
+            <i class="fa fa-video-camera"></i>
+        </div>
+        <div class="phone" title="Позвонить">
+            <i class="fa fa-phone"></i>
+        </div>
+        <div class="add-user" title="Добавить пользователя">
+            <i class="fa fa-user-plus"></i>
+        </div>
+    </div>
+  </div>
+
+  <ul class="chat-history" #chat>
+    <div class="message-list">
+      <!-- <li *ngFor="let msg of messages" class="msg-block">
+        <div [ngClass]="(msg.id == '1')?'my-message':'other-message'">
+          <div class="message-data">
+            <div class="row">
+                <img src="{{msg.image}}" alt="avatar" draggable="false" title="{{msg.name}}"/>
+                <span class="message-data-time" >{{msg.time}}</span>
+            </div>
+          </div>
+          <div class="msg">
+            <div class="message">
+              {{msg.message}}
+            </div>
+          </div>
+        </div>
+      </li> -->
+    </div>
+  </ul>
+
+  <div class="chat-message">
+
+    <div class="message-input">
+      <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea rows="1"></textarea>
+      <div class="input-items">
+        <div class="item keyboard" title="Экранная клавиатура">
+            <i class="fa fa-keyboard-o"></i>
+        </div>
+        <div class="item smiles" title="Добавить смайл">
+            <i class="fa fa-smile-o"></i>
+        </div>
+        <div class="item add" title="Прикрепить файл">
+            <i class="fa fa-paperclip"></i>
+        </div>
+      </div>
+    </div>
+    <div class="send" title="Отправить сообщение">
+        <button >
+            <i class="fa fa-paper-plane"></i>
+        </button>
+    </div>
+    <div class="scroll-bottom"  #scrollBottom>В конец</div>
+  </div> <!-- end chat-message -->
+
+</div> <!-- end chat -->

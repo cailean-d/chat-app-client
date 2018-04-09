@@ -3,4 +3,5 @@ export interface ChatInterface {
   title: string;
   image: string;
   members: number[];
+  lastMessage: string;
 }

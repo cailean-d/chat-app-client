@@ -2,15 +2,22 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DialogListComponent } from './dialog-list/dialog-list.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DialogListComponent
-  },
-  {
-    path: ':id',
-    component: DialogComponent
+    component: DialogListComponent,
+    children: [
+      {
+        path: '',
+        component: DialogEmptyComponent
+      },
+      {
+        path: ':id',
+        component: DialogComponent
+      }
+    ]
   }
 ];
 
