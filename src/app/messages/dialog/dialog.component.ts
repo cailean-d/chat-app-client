@@ -110,6 +110,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
     if (message.value.trim() !== '') {
       let msgWithBreaks = this.addBreaksToMessage(message.value);
       msgWithBreaks = this.parseImage(msgWithBreaks);
+      msgWithBreaks = this.parseLink(msgWithBreaks);
       this.messages.push({
         id: '1',
         name: 'Vincent',
@@ -142,6 +143,17 @@ export class DialogComponent implements OnInit, AfterViewInit {
     } else {
       return text;
     }
+  }
+
+  parseLink(text: string): string {
+    const linkRegExp = /(https?:\/\/(www\.)?)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    return text.replace(linkRegExp, (str, offset, s) => {
+      if (str.match(/^http/)) {
+        return `<a href="${str}" target="_blank">${str}</a>`;
+      } else {
+        return `<a href="http://${str}" target="_blank">${str}</a>`;
+      }
+    });
   }
 
 }
