@@ -108,7 +108,8 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   sendMessage(message: HTMLTextAreaElement): void {
     if (message.value.trim() !== '') {
-      const msgWithBreaks = this.addBreaksToMessage(message.value);
+      let msgWithBreaks = this.addBreaksToMessage(message.value);
+      msgWithBreaks = this.parseImage(msgWithBreaks);
       this.messages.push({
         id: '1',
         name: 'Vincent',
@@ -130,6 +131,17 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   addBreaksToMessage(text: string): string {
     return text.replace(/\r?\n/g, '<br />');
+  }
+
+  parseImage(text: string): string {
+    const imageRegExp = /^https?:\/\/[\w.\/\-=%_?&$]*(jpg|png|jpeg|gif)[\w.\/\-=%_?&$]*/;
+    let res: any;
+    if (res = text.match(imageRegExp)) {
+      return text.replace(imageRegExp, `<img src="${res[0]}" alt="" style="max-width: 400px;
+      width: 100%;" draggable="false">`);
+    } else {
+      return text;
+    }
   }
 
 }
