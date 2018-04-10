@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit  } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 
@@ -58,7 +59,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
     name: 'test'
   };
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.setCustomScrollbar();
@@ -107,11 +108,12 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   sendMessage(message: HTMLTextAreaElement): void {
     if (message.value.trim() !== '') {
+      const msgWithBreaks = this.addBreaksToMessage(message.value);
       this.messages.push({
         id: '1',
         name: 'Vincent',
         image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        message: this.addBreaksToMessage(message.value),
+        message: <string>this.sanitizer.bypassSecurityTrustHtml(msgWithBreaks),
         time: '10:12 AM, Today'
       });
       message.value = null;
