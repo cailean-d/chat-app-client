@@ -77,8 +77,10 @@ export class DialogComponent implements OnInit, AfterViewInit {
   }
 
   scrollToBottom(): void {
-    const height = this.messageList.scrollHeight + this.messageList.clientHeight;
-    this.messageList.scrollTop = height;
+    setTimeout(() => {
+      const height = this.messageList.scrollHeight + this.messageList.clientHeight;
+      this.messageList.scrollTop = height;
+    }, 0);
   }
 
   showScrollBottomPanelOnScroll(): void {
