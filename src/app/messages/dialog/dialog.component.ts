@@ -135,7 +135,10 @@ export class DialogComponent implements OnInit, AfterViewInit {
   }
 
   parseImage(text: string): string {
-    const imageRegExp = /^https?:\/\/[\w.\/\-=%_?&$]*(jpg|png|jpeg|gif)[\w.\/\-=%_?&$]*/;
+    const imageRegExp = new RegExp(''
+      + '^https?:\\/\\/[\\w.\\/\\-=%_?&$]*'
+      + '(jpg|png|jpeg|gif)[\\w.\\/\\-=%_?&$]*$'
+    );
     let res: any;
     if (res = text.match(imageRegExp)) {
       return text.replace(imageRegExp, `<img src="${res[0]}" alt="" style="max-width: 400px;
@@ -146,12 +149,24 @@ export class DialogComponent implements OnInit, AfterViewInit {
   }
 
   parseLink(text: string): string {
-    const linkRegExp = /(https?:\/\/(www\.)?)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-    return text.replace(linkRegExp, (str, offset, s) => {
-      if (str.match(/^http/)) {
-        return `<a href="${str}" target="_blank">${str}</a>`;
+    const linkRegExp = new RegExp(''
+      + '(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}'
+      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))|((www\\.)?'
+      + '[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.'
+      + '(com|ru|info|biz|edu|gov|info|net|org)'
+      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))',
+    'g');
+    return text.replace(linkRegExp, (str) => {
+      const x: number = text.indexOf(str);
+      if (text[x - 1] !== '"') {
+        if (str.match(/^http/)) {
+
+          return `<a href="${str}" target="_blank">${str}</a>`;
+        } else {
+          return `<a href="http://${str}" target="_blank">${str}</a>`;
+        }
       } else {
-        return `<a href="http://${str}" target="_blank">${str}</a>`;
+        return str;
       }
     });
   }
