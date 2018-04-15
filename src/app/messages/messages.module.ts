@@ -6,6 +6,7 @@ import { DialogListComponent } from './dialog-list/dialog-list.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { ChatsService } from '../__services/chats.service';
 import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
+import { ProfileService } from '../__services/profile.service';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
   ],
   declarations: [DialogListComponent, DialogComponent, DialogEmptyComponent],
   providers: [
-    ChatsService
+    ChatsService,
+    ProfileService
   ]
 })
 export class MessagesModule { }

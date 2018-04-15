@@ -1,6 +1,8 @@
+import { ProfileService } from './profile.service';
 import { Injectable } from '@angular/core';
 import { chatArray } from '../__arrays/chats';
 import { ChatInterface } from '../__interfaces/chat';
+import { User } from '../__classes/user';
 
 @Injectable()
 export class ChatsService {
@@ -20,7 +22,7 @@ export class ChatsService {
     this.loadFilteredChats();
   }
 
-  constructor() {
+  constructor(private user: ProfileService) {
     this.chats = [];
     this.chatsFiltered = [];
     this.loadChats();
@@ -39,8 +41,36 @@ export class ChatsService {
 
   private assignLoadedUsers(chats: ChatInterface[]): void {
     for (const i of chats) {
-      this.chats.push(i);
+      this.chats.push(this.getChatInfo(i));
     }
+  }
+
+  private getChatInfo(chat: ChatInterface) {
+
+      if (!chat.title || !chat.image) {
+
+        const members: number[] = chat.members;
+
+        const firstUser: number = members.find((el: any) => {
+            if (el !== 99) {
+              return el;
+            }
+        });
+
+        const user: User = this.user.getUser(firstUser);
+
+        if (!chat.title) {
+          chat.title = user.name;
+        }
+
+        if (!chat.image) {
+          chat.image = user.image;
+        }
+
+      }
+
+      return chat;
+
   }
 
   private clearFilter(): void {

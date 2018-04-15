@@ -18,7 +18,7 @@ export class ProfileService {
     }
   }
 
-  convertResponseToObject(user: UserInterface): User {
+  private convertResponseToObject(user: UserInterface): User {
     return new User(user.id, user.image, user.name, user.online);
   }
 
