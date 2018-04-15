@@ -112,18 +112,26 @@
       .about {
         margin-left: 10px;
         display: flex;
-        align-items: center;
-        flex-grow: 1;
+        flex-direction: column;
+        justify-content: center;
 
-        .name{
+        .last-message{
+          color: #cecece !important;
+        }
+
+        .name, .last-message{
           color: #fff;
           flex-grow: 1;
-          width: 50px;
-          overflow:hidden;
-          display:inline-block;
+          width: 150px;
+          overflow: hidden;
+          display: block;
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-right: 10px;
+
+          span{
+            vertical-align: middle;
+          }
         }
       }
     }

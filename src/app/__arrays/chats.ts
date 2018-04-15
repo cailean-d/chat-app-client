@@ -6,7 +6,7 @@ export const chatArray = [
     members: [
       1
     ],
-    lastMessage: 'a'
+    lastMessage: 'Vestibulum eget purus nec velit sagittis '
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const chatArray = [
     members: [
       3
     ],
-    lastMessage: 'b'
+    lastMessage: 'Donec at risus quis diam'
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const chatArray = [
     members: [
       5, 7
     ],
-    lastMessage: 'c'
+    lastMessage: 'Nam ut felis at ex congue fau'
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const chatArray = [
     members: [
       8, 3, 5
     ],
-    lastMessage: 'd'
+    lastMessage: 'In finibus lorem quis purus vestibulum'
   },
   {
     id: 5,
@@ -42,69 +42,6 @@ export const chatArray = [
     members: [
       15, 9
     ],
-    lastMessage: 'e'
-  },
-  {
-    id: 6,
-    title: 'Ron Mendoza',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      8
-    ],
-    lastMessage: 'f'
-  },
-  {
-    id: 7,
-    title: 'Johnnie Kennedy',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      4
-    ],
-    lastMessage: 'g'
-  },
-  {
-    id: 8,
-    title: 'Charlene	Price',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      25, 20
-    ],
-    lastMessage: 'h'
-  },
-  {
-    id: 9,
-    title: 'Debra Cook',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      13, 11
-    ],
-    lastMessage: 'i'
-  },
-  {
-    id: 10,
-    title: 'Pamela	Terry',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      11
-    ],
-    lastMessage: 'j'
-  },
-  {
-    id: 11,
-    title: 'Roy Daniel',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      3, 21
-    ],
-    lastMessage: 'k'
-  },
-  {
-    id: 12,
-    title: 'Eva Butler',
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    members: [
-      29, 3, 5
-    ],
-    lastMessage: 'l'
+    lastMessage: 'Mauris quis mi ut erat'
   },
 ];
