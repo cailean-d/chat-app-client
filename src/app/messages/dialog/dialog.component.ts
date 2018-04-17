@@ -30,7 +30,6 @@ export class DialogComponent implements OnInit, AfterViewInit {
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
     this.getChatData();
-
   }
 
   ngAfterViewInit() {

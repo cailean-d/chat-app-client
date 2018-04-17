@@ -2,7 +2,16 @@
 
   <div class="chat-header">
     <div class="left">
-        <img src="{{chatService.image}}" draggable="false" [title]="chatService.title"/>
+        <div *ngIf="chatService.image; else userList" >
+          <img src="{{chatService.image}}" draggable="false" [title]="chatService.title"/>
+        </div>
+        <ng-template #userList>
+          <div class="user" *ngFor="let user of chatService.users; let i=index">
+            <div *ngIf="i<2">
+              <img src="{{user.image}}" draggable="false" [title]="user.name"/>
+            </div>
+          </div>
+        </ng-template>
         <div class="chat-about">
           <div class="chat-with">{{chatService.title}}</div>
           <!-- <div class="chat-num-messages">already {{messages.length}} messages</div> -->
