@@ -52,9 +52,7 @@ export class ChatsService {
         const members: number[] = chat.members;
 
         const firstUser: number = members.find((el: any) => {
-            if (el !== 99) {
-              return el;
-            }
+          return el !== 99;
         });
 
         const user: User = this.user.getUser(firstUser);

@@ -1,3 +1,4 @@
+import { ChatService } from '../__services/chat.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +17,8 @@ import { ProfileService } from '../__services/profile.service';
   declarations: [DialogListComponent, DialogComponent, DialogEmptyComponent],
   providers: [
     ChatsService,
-    ProfileService
+    ProfileService,
+    ChatService
   ]
 })
 export class MessagesModule { }

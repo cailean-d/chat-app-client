@@ -179,4 +179,10 @@ export const usersArray = [
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_07.jpg',
     online: false
   },
+  {
+    id: 99,
+    name: 'John Doe',
+    image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg',
+    online: false
+  },
 ];

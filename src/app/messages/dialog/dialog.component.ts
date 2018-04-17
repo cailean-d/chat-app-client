@@ -2,6 +2,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
+import { ChatService } from '../../__services/chat.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dialog',
@@ -15,84 +17,54 @@ export class DialogComponent implements OnInit, AfterViewInit {
   @ViewChild('friendList') friendList: ElementRef;
 
   messageList: HTMLElement;
-  messages = [
-    {
-      id: '2',
-      name: 'Ginger Johnston',
-      image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-      message: 'Hi Vincent, how are you? How is the project coming along?',
-      time: '10:10 AM, Today'
-    },
-    {
-      id: '1',
-      name: 'Vincent',
-      image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-      message: 'Are we meeting today? Project has been already finished and I have results to show you.',
-      time: '10:12 AM, Today'
-    },
-    {
-      id: '2',
-      name: 'Ginger Johnston',
-      image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-      message: 'Hi Vincent, how are you? How is the project coming along?',
-      time: '10:12 AM, Today'
-    },
-    {
-      id: '1',
-      name: 'Vincent',
-      image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-      message: 'Are we meeting today? Project has been already finished and I have results to show you.',
-      time: '10:12 AM, Today'
-    },
-    {
-      id: '2',
-      name: 'Ginger Johnston',
-      image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg',
-      message: ' Hi Vincent, how are you? How is the project coming along?',
-      time: '10:12 AM, Today'
-    },
-  ];
 
-
-  currentChat = {
-    image: 'https://www.lpzoo.org/sites/default/files/styles/slider/public/circle_redpanda.jpg',
-    name: 'test'
-  };
-
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(
+    private sanitizer: DomSanitizer,
+    protected chatService: ChatService,
+    private activeRoute: ActivatedRoute
+  ) {
+  }
 
   ngOnInit() {
     this.setCustomScrollbar();
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
+    this.getChatData();
+
   }
 
   ngAfterViewInit() {
     this.scrollToBottom();
   }
 
-  setCustomScrollbar(): void {
+  private getChatData(): void {
+    this.activeRoute.params.subscribe((params) => {
+      this.chatService.getChatData(params.id);
+    });
+  }
+
+  private setCustomScrollbar(): void {
     SimpleBar.removeObserver();
     const scrollbar = new SimpleBar(this.chat.nativeElement, scrollbarOpt);
     this.messageList = <HTMLElement> scrollbar.getScrollElement();
   }
 
-  scrollToBottom(): void {
+  private scrollToBottom(): void {
     setTimeout(() => {
       const height = this.messageList.scrollHeight + this.messageList.clientHeight;
       this.messageList.scrollTop = height;
     }, 0);
   }
 
-  showScrollBottomPanelOnScroll(): void {
+  private showScrollBottomPanelOnScroll(): void {
     this.messageList.addEventListener('scroll', (e =>  this.showSlideToBottom()));
   }
 
-  scrollToBottomOnMessageSent(): void {
+  private scrollToBottomOnMessageSent(): void {
     this.messageList.addEventListener('DOMNodeInserted', () => { this.scrollToBottom(); });
   }
 
-  showSlideToBottom(): void {
+  private showSlideToBottom(): void {
 
     const height = this.messageList.scrollTop + this.messageList.clientHeight;
 
@@ -106,69 +78,31 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   }
 
-  sendMessage(message: HTMLTextAreaElement): void {
+  private sendMessage(message: HTMLTextAreaElement): void {
+
     if (message.value.trim() !== '') {
-      let msgWithBreaks = this.addBreaksToMessage(message.value);
-      msgWithBreaks = this.parseImage(msgWithBreaks);
-      msgWithBreaks = this.parseLink(msgWithBreaks);
-      this.messages.push({
-        id: '1',
-        name: 'Vincent',
-        image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
-        message: <string>this.sanitizer.bypassSecurityTrustHtml(msgWithBreaks),
-        time: '10:12 AM, Today'
+
+      this.chatService.addMessage({
+        sender_id: 99,
+        message: message.value,
+        timestamp: Date.now()
       });
+
       message.value = null;
-      new Audio('./assets/sounds/send_message.ogg').play();
+      this.playAudioOnMessageSent();
     }
+
   }
 
-  sendMessageOnEnterPress(event: KeyboardEvent): void {
+  private sendMessageOnEnterPress(event: KeyboardEvent): void {
     if (event.keyCode === 13 && !event.shiftKey) {
       event.preventDefault();
       this.sendMessage(<HTMLTextAreaElement>event.target);
     }
   }
 
-  addBreaksToMessage(text: string): string {
-    return text.replace(/\r?\n/g, '<br />');
-  }
-
-  parseImage(text: string): string {
-    const imageRegExp = new RegExp(''
-      + '^https?:\\/\\/[\\w.\\/\\-=%_?&$]*'
-      + '(jpg|png|jpeg|gif)[\\w.\\/\\-=%_?&$]*$'
-    );
-    let res: any;
-    if (res = text.match(imageRegExp)) {
-      return text.replace(imageRegExp, `<img src="${res[0]}" alt="" style="max-width: 400px;
-      width: 100%;" draggable="false">`);
-    } else {
-      return text;
-    }
-  }
-
-  parseLink(text: string): string {
-    const linkRegExp = new RegExp(''
-      + '(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}'
-      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))|((www\\.)?'
-      + '[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.'
-      + '(com|ru|info|biz|edu|gov|info|net|org)'
-      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))',
-    'g');
-    return text.replace(linkRegExp, (str) => {
-      const x: number = text.indexOf(str);
-      if (text[x - 1] !== '"') {
-        if (str.match(/^http/)) {
-
-          return `<a href="${str}" target="_blank">${str}</a>`;
-        } else {
-          return `<a href="http://${str}" target="_blank">${str}</a>`;
-        }
-      } else {
-        return str;
-      }
-    });
+  private playAudioOnMessageSent(): void {
+    new Audio('./assets/sounds/send_message.ogg').play();
   }
 
 }
