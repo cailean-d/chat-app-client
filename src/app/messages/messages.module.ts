@@ -8,13 +8,19 @@ import { DialogComponent } from './dialog/dialog.component';
 import { ChatsService } from '../__services/chats.service';
 import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
 import { ProfileService } from '../__services/profile.service';
+import { DatePipe } from '../__pipes/date.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     MessagesRoutingModule
   ],
-  declarations: [DialogListComponent, DialogComponent, DialogEmptyComponent],
+  declarations: [
+    DialogListComponent,
+    DialogComponent,
+    DialogEmptyComponent,
+    DatePipe
+  ],
   providers: [
     ChatsService,
     ProfileService,

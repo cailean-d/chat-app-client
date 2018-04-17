@@ -28,7 +28,7 @@
           <div class="message-data">
             <div class="row">
                 <img src="{{msg.sender_image}}" alt="avatar" draggable="false" title="{{msg.sender_name}}"/>
-                <span class="message-data-time" >{{msg.timestamp}}</span>
+                <span class="message-data-time" >{{msg.timestamp | date }}</span>
             </div>
           </div>
           <div class="msg">
