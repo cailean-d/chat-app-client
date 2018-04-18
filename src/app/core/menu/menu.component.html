@@ -38,8 +38,16 @@
     <div class="notification" title="Уведомления">
         <i class="fa fa-bell"></i>
     </div>
-    <div class="language" title="Сменить язык">
+    <div class="language" title="Сменить язык" [ngClass]="{'lang-show': showLanguage}" (click)="toggleLanguageVisibility()">
         <i class="fa fa-language"></i>
+        <div class="language-list">
+          <div class="lang" (click)="changeLangToRus()">
+            <img src="/assets/images/flags/ru.png" alt="">
+          </div>
+          <div class="lang" (click)="changeLangToEn()">
+            <img src="/assets/images/flags/en.png" alt="">
+          </div>
+        </div>
     </div>
     <div class="logout" routerLink="/auth/login" (click)="logout()" title="Выйти">
       <i class="fa fa-sign-out"></i>

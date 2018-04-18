@@ -143,6 +143,49 @@
       color: #94909c;
       font-size: 18px;
       padding: 10px;
+      position: relative;
+
+      .language-list{
+        position: absolute;
+        background: #212227;
+        top: 0;
+        left: 90%;
+        z-index: 99;
+        display: none;
+        height: 40px;
+        border-radius: 3px;
+
+        .lang{
+          width: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-left: 5px;
+          padding-right: 5px;
+
+          &:first-child:before{
+            content: '';
+            position: absolute;
+            right: 100%;
+            bottom: 11px;
+            border: 10px solid transparent;
+            border-right: 10px solid #212227;
+          }
+
+          &:first-child:hover:before{
+            border-right-color: #151517;
+          }
+
+          &:hover{
+            background: #151517;
+          }
+
+        }
+
+        img{
+          display: inline;
+        }
+      }
 
       &:hover{
         color: #ffffff;
@@ -151,3 +194,7 @@
   }
 }
 
+
+.lang-show .language-list {
+  display: flex !important;
+}

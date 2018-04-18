@@ -26,6 +26,7 @@ export class I18nService {
   }
 
   async useLanguage(): Promise <void> {
+
     const language: string = await this.storage.getItem<string>('lang');
 
     if (language) {

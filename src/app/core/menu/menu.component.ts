@@ -1,3 +1,4 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { FriendsService } from '../../friends/_services/friends.service';
@@ -11,10 +12,12 @@ export class MenuComponent implements OnInit {
 
   links: NodeListOf<HTMLElement>;
   activeBlock: HTMLElement;
+  showLanguage: boolean;
 
   constructor(
     protected storage: NgForage,
-    public friendService: FriendsService
+    public friendService: FriendsService,
+    private i18n: I18nService
   ) { }
 
   ngOnInit() {
@@ -23,26 +26,26 @@ export class MenuComponent implements OnInit {
     this.moveActiveBlockOnClick();
   }
 
-  async logout() {
+  private async logout() {
     await this.storage.removeItem('user');
   }
 
-  deleteActiveClass(): void {
+  private deleteActiveClass(): void {
     for (let i = 0; i < this.links.length; i++) {
       const element = this.links[i];
       element.classList.remove('link-active');
     }
   }
 
-  getLinks(): void {
+  private getLinks(): void {
     this.links = <NodeListOf<HTMLElement>> document.querySelectorAll('.link');
   }
 
-  getActiveBlock(): void {
+  private getActiveBlock(): void {
     this.activeBlock = <HTMLElement> document.querySelector('.active-block');
   }
 
-  moveActiveBlockOnClick(): void {
+  private moveActiveBlockOnClick(): void {
     for (let i = 0; i < this.links.length; i++) {
       const element = this.links[i];
       this.activateLinkIfHasClass(element);
@@ -54,16 +57,30 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  moveActiveBlock(el: HTMLElement): void {
+  private moveActiveBlock(el: HTMLElement): void {
     this.activeBlock.style.top = el.offsetTop + 'px';
   }
 
-  activateLinkIfHasClass(el: HTMLElement): void {
+  private activateLinkIfHasClass(el: HTMLElement): void {
     setTimeout(() => {
       if (el.classList.contains('link-active')) {
         this.moveActiveBlock(el);
       }
     }, 0);
+  }
+
+  private toggleLanguageVisibility(): void {
+    this.showLanguage = !this.showLanguage;
+  }
+
+  private async changeLangToRus(): Promise<void> {
+    await this.i18n.switchLanguage('ru');
+    this.showLanguage = false;
+  }
+
+  private async changeLangToEn(): Promise<void> {
+    await this.i18n.switchLanguage('en');
+    this.showLanguage = false;
   }
 
 }
