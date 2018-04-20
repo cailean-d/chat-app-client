@@ -8,7 +8,7 @@
         {{user.name}}
       </div>
       <div class="buttons">
-          <div class="button" title="Написать сообщение">
+          <div class="button" title="{{ 'hint.send_message' | translate }}">
               <div class="icon">
                 <i class="fa fa-comment"></i>
               </div>
@@ -16,7 +16,7 @@
                   Написать сообщение
               </div> -->
           </div>
-          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="user.isFavorite ? 'Удалить из избранного': 'Добавить в избранное'">
+          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="user.isFavorite ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
             <div class="icon">
               <i class="fa fa-star"></i>
             </div>
@@ -24,7 +24,7 @@
               Добавить в избранное
             </div> -->
           </div>
-          <div class="button" title="Добавить пользователя">
+          <div class="button" title="{{ 'hint.add_friend' | translate }}">
             <div class="icon">
               <i class="fa fa-user-plus"></i>
             </div>
@@ -32,7 +32,7 @@
               Добавить пользователя
             </div> -->
           </div>
-          <div class="button" title="Пожаловаться">
+          <div class="button" title="{{ 'hint.complain_user' | translate }}">
             <div class="icon">
               <i class="fa fa-exclamation-triangle"></i>
             </div>
@@ -40,7 +40,7 @@
               Пожаловаться
             </div> -->
           </div>
-          <div class="button" title="Заблокировать">
+          <div class="button" title="{{ 'hint.block_user' | translate }}">
             <div class="icon">
               <i class="fa fa-ban"></i>
             </div>
@@ -56,24 +56,24 @@
        <table>
         <thead>
           <tr>
-            <th colspan="2">Базовая информация</th>
+            <th colspan="2">{{ 'title.basic_info' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>ID</td>
+            <td>{{ 'profile.id' | translate }}</td>
             <td>{{user.id}}</td>
           </tr>
           <tr>
-            <td>Пол</td>
+            <td>{{ 'profile.gender' | translate }}</td>
             <td>Мужской</td>
           </tr>
           <tr>
-            <td>День рождения</td>
+            <td>{{ 'profile.birthday' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Язык</td>
+            <td>{{ 'profile.lang' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
         </tbody>
@@ -83,24 +83,24 @@
        <table>
          <thead>
           <tr>
-            <th colspan="2">Контактная информация</th>
+            <th colspan="2">{{ 'title.contact_info' | translate }}</th>
           </tr>
          </thead>
          <tbody>
           <tr>
-            <td>Адрес</td>
+            <td>{{ 'profile.address' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Телефон</td>
+            <td>{{ 'profile.phone' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Почта</td>
+            <td>{{ 'profile.email' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Сайт</td>
+            <td>{{ 'profile.web_site' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
          </tbody>
@@ -110,24 +110,24 @@
        <table>
          <thead>
           <tr>
-            <th colspan="2">Дополнительная информация</th>
+            <th colspan="2">{{ 'title.add_info' | translate }}</th>
           </tr>
          </thead>
          <tbody>
           <tr>
-            <td>Дата регистрации</td>
+            <td>{{ 'profile.registration' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Страна</td>
+            <td>{{ 'profile.country' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Город</td>
+            <td>{{ 'profile.city' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
           <tr>
-            <td>Был(а) в сети</td>
+            <td>{{ 'profile.was_online' | translate }}</td>
             <td>Неизвестно</td>
           </tr>
          </tbody>

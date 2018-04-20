@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
@@ -17,7 +18,7 @@ export class MenuComponent implements OnInit {
   constructor(
     protected storage: NgForage,
     public friendService: FriendsService,
-    private i18n: I18nService
+    private i18n: I18nService,
   ) { }
 
   ngOnInit() {

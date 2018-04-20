@@ -9,7 +9,7 @@ export class I18nService {
   langs: string[];
 
   constructor(
-    private translate: TranslateService,
+    public translate: TranslateService,
     private storage: NgForage,
   ) {
     this.translate.addLangs(['ru', 'en']);

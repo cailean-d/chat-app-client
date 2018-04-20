@@ -1,5 +1,7 @@
 import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registration',
@@ -10,23 +12,41 @@ export class RegistrationComponent implements OnInit {
 
   isDataLoaded: boolean;
 
-  constructor(private i18n: I18nService) { }
+  constructor(
+    private i18n: I18nService,
+    private title: Title
+  ) { }
 
   async ngOnInit() {
     await this.i18n.useLanguage();
     this.isDataLoaded = true;
+    this.setTitle();
+    this.updateTitleOnLangChange();
   }
 
-  onFocusField(element: HTMLDivElement): void {
+  private onFocusField(element: HTMLDivElement): void {
     element.classList.add('focus');
   }
 
-  onBlurField(element: HTMLDivElement): void {
+  private onBlurField(element: HTMLDivElement): void {
     element.classList.remove('focus');
   }
 
-  reg(event: MouseEvent) {
+  private reg(event: MouseEvent) {
     event.preventDefault();
+  }
+
+  private setTitle(): void {
+    this.i18n.translate.get('form.title.registration').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
   }
 
 }

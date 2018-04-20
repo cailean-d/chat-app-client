@@ -1,7 +1,10 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { FavoriteService } from '../../__services/favorite.service';
+import { Title } from '@angular/platform-browser';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-favorite-root',
@@ -15,7 +18,11 @@ export class FavoriteRootComponent implements OnInit {
 
   private _searchValue: string;
 
-  constructor(protected favoriteService: FavoriteService) { }
+  constructor(
+    protected favoriteService: FavoriteService,
+    private i18n: I18nService,
+    private title: Title
+  ) { }
 
   get searchValue(): string {
     return this._searchValue;
@@ -30,6 +37,8 @@ export class FavoriteRootComponent implements OnInit {
     this.searchValue = '';
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
+    this.setTitle();
+    this.updateTitleOnLangChange();
   }
 
   changeSearchValueOnInput(): void {
@@ -46,6 +55,19 @@ export class FavoriteRootComponent implements OnInit {
   clearSearchInput(): void {
     this.search.nativeElement.value = '';
     this.searchValue = '';
+  }
+
+  private setTitle(): void {
+    this.i18n.translate.get('hint.favorite').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
   }
 
 }

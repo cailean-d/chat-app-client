@@ -1,3 +1,4 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
@@ -21,7 +22,8 @@ export class DialogComponent implements OnInit, AfterViewInit {
   constructor(
     private sanitizer: DomSanitizer,
     protected chatService: ChatService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private i18n: I18nService
   ) {
   }
 

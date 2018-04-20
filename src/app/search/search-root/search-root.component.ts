@@ -1,3 +1,6 @@
+import { LangChangeEvent } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SearchService } from '../../__services/search.service';
 import * as SimpleBar from 'simplebar';
@@ -16,7 +19,11 @@ export class SearchRootComponent implements OnInit {
   private _searchValue: string;
   private userListScroll: HTMLElement;
 
-  constructor(protected searchService: SearchService) { }
+  constructor(
+    protected searchService: SearchService,
+    private title: Title,
+    private i18n: I18nService
+  ) { }
 
   get searchValue(): string {
     return this._searchValue;
@@ -32,21 +39,23 @@ export class SearchRootComponent implements OnInit {
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
     this.loadUsersOnScrollDown();
+    this.setTitle();
+    this.updateTitleOnLangChange();
   }
 
-  changeSearchValueOnInput(): void {
+  private changeSearchValueOnInput(): void {
     this.search.nativeElement.addEventListener('input', () => {
       this.searchValue = this.search.nativeElement.value;
     });
   }
 
-  setCustomScrollbar(): void {
+  private setCustomScrollbar(): void {
     SimpleBar.removeObserver();
     const scrollbar = new SimpleBar(this.userList.nativeElement, scrollbarOpt);
     this.userListScroll = <HTMLElement> scrollbar.getScrollElement();
   }
 
-  loadUsersOnScrollDown(): void {
+  private loadUsersOnScrollDown(): void {
     this.userListScroll.addEventListener('wheel', (e: WheelEvent) => {
       const scroll = this.userListScroll.scrollTop + this.userListScroll.clientHeight;
       const height = this.userListScroll.scrollHeight;
@@ -60,8 +69,22 @@ export class SearchRootComponent implements OnInit {
     });
   }
 
-  clearSearchInput(): void {
+  private clearSearchInput(): void {
     this.search.nativeElement.value = '';
     this.searchValue = '';
   }
+
+  private setTitle(): void {
+    this.i18n.translate.get('title.search').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
+  }
+
 }

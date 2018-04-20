@@ -18,13 +18,13 @@
         </div>
     </div>
     <div class="right">
-        <div class="video" title="Видеозвонок">
+        <div class="video" title="{{ 'hint.video_call' | translate }}">
             <i class="fa fa-video-camera"></i>
         </div>
-        <div class="phone" title="Позвонить">
+        <div class="phone" title="{{ 'hint.call' | translate }}">
             <i class="fa fa-phone"></i>
         </div>
-        <div class="add-user" title="Добавить пользователя">
+        <div class="add-user" title="{{ 'hint.add_user' | translate }}">
             <i class="fa fa-user-plus"></i>
         </div>
     </div>
@@ -52,22 +52,22 @@
 
     <div class="outer">
       <div class="message-input">
-        <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1"></textarea>
+        <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1"></textarea>
         <div class="input-items">
-          <div class="item keyboard" title="Экранная клавиатура">
+          <div class="item keyboard" title="{{ 'hint.screen_keyboard' | translate }}">
               <i class="fa fa-keyboard-o"></i>
           </div>
-          <div class="item smiles" title="Добавить смайл">
+          <div class="item smiles" title="{{ 'hint.smile' | translate }}">
               <i class="fa fa-smile-o"></i>
           </div>
-          <div class="item add" title="Прикрепить файл">
+          <div class="item add" title="{{ 'hint.attach_file' | translate }}">
               <i class="fa fa-paperclip"></i>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="send" title="Отправить сообщение">
+    <div class="send" title="{{ 'hint.send_message' | translate }}">
         <button (click)="sendMessage(messageArea)">
             <i class="fa fa-paper-plane"></i>
         </button>

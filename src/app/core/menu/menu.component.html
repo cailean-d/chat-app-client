@@ -1,7 +1,7 @@
 <nav class="menu">
   <ul class="items">
     <li class="avatar">
-      <div class="image" title="Профиль">
+      <div class="image" title="{{ 'hint.profile' | translate }}">
         <div class="img-outer">
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" draggable="false"/>
         </div>
@@ -12,10 +12,10 @@
         </div>
       </div>
     </li>
-    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="Поиск пользователей">
+    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}">
       <i class="fa fa-search"></i>
     </li>
-    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="Друзья">
+    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}">
       <i class="fa fa-user"></i>
       <div class="counter" *ngIf="friendService.invites.length > 0">
         <span>
@@ -23,22 +23,22 @@
         </span>
       </div>
     </li>
-    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="Избранное">
+    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}">
       <i class="fa fa-star"></i>
     </li>
-    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="Чаты">
+    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}">
       <i class="fa fa-commenting"></i>
     </li>
-    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="Настройки">
+    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}">
       <i class="fa fa-cog"></i>
     </li>
     <div class="active-block"></div>
   </ul>
   <div class="misc">
-    <div class="notification" title="Уведомления">
+    <div class="notification" title="{{ 'hint.notification' | translate }}">
         <i class="fa fa-bell"></i>
     </div>
-    <div class="language" title="Сменить язык" [ngClass]="{'lang-show': showLanguage}" (click)="toggleLanguageVisibility()">
+    <div class="language" title="{{ 'hint.lang' | translate }}" [ngClass]="{'lang-show': showLanguage}" (click)="toggleLanguageVisibility()">
         <i class="fa fa-language"></i>
         <div class="language-list">
           <div class="lang" (click)="changeLangToRus()">
@@ -49,7 +49,7 @@
           </div>
         </div>
     </div>
-    <div class="logout" routerLink="/auth/login" (click)="logout()" title="Выйти">
+    <div class="logout" routerLink="/auth/login" (click)="logout()" title="{{ 'hint.exit' | translate }}">
       <i class="fa fa-sign-out"></i>
     </div>
   </div>

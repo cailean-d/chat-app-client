@@ -1,3 +1,4 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private i18n: I18nService,
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

@@ -22,7 +22,8 @@
       "nickname" : "Nickname",
       "email" : "Email",
       "password": "Password",
-      "confirm_password" : "Confirm password"
+      "confirm_password" : "Confirm password",
+      "search": "Search"
     },
     "title" : {
       "registration" : "Registration",
@@ -32,6 +33,56 @@
   },
   "button" : {
     "back" : "Go back"
+  },
+  "title": {
+    "search": "People Search",
+    "basic_info": "Basic Information",
+    "contact_info": "Contact Information",
+    "add_info": "Additional Information",
+    "choose_user": "Choose an user to see his profile",
+    "choose_chat": "Choose a dialog to start chatting"
+  },
+  "profile": {
+    "id": "ID",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "lang": "Language",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "web_site": "Website",
+    "registration": "Registration Date",
+    "country": "Country",
+    "city": "City",
+    "was_online": "Was Online"
+  },
+  "hint" : {
+    "search": "People search",
+    "friends": "Friends",
+    "favorite": "Favorite",
+    "chats": "Chats",
+    "settings": "Settings",
+    "notification": "Notifications",
+    "lang": "Change language",
+    "exit": "Sign Out",
+    "send_message": "Send a message",
+    "screen_keyboard": "Screen keyboard",
+    "attach_file": "Attach a file",
+    "smile": "Smiles",
+    "add_favorite": "Add to favorite",
+    "del_favorite": "Delete from favorite",
+    "add_friend": "Add to friends",
+    "block_user": "Block a user",
+    "complain_user": "Complain about a user",
+    "reject_user": "Reject friendship",
+    "cancel_frind": "Cancel friendship",
+    "add_user": "Add a user",
+    "call": "Call up",
+    "video_call": "Video call",
+    "profile": "Profile"
+  },
+  "chat": {
+    "type_message": "Type a message"
   }
 }
 

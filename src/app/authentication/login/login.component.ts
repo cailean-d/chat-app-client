@@ -2,6 +2,8 @@ import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +17,15 @@ export class LoginComponent implements OnInit {
   constructor(
     private storage: NgForage,
     private router: Router,
-    private i18n: I18nService
+    private i18n: I18nService,
+    private title: Title
   ) { }
 
   async ngOnInit() {
     await this.i18n.useLanguage();
     this.isDataLoaded = true;
+    this.setTitle();
+    this.updateTitleOnLangChange();
   }
 
   async login(event: Event): Promise <void> {
@@ -29,12 +34,25 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['app']);
   }
 
-  onFocusField(element: HTMLDivElement): void {
+  private onFocusField(element: HTMLDivElement): void {
     element.classList.add('focus');
   }
 
-  onBlurField(element: HTMLDivElement): void {
+  private onBlurField(element: HTMLDivElement): void {
     element.classList.remove('focus');
+  }
+
+  private setTitle(): void {
+    this.i18n.translate.get('form.title.authorization').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
   }
 
 }

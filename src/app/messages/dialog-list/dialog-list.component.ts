@@ -1,3 +1,4 @@
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { ChatsService } from '../../__services/chats.service';
@@ -15,7 +16,10 @@ export class DialogListComponent implements OnInit {
 
   private _searchValue: string;
 
-  constructor(protected chatService: ChatsService) { }
+  constructor(
+    protected chatService: ChatsService,
+    private i18n: I18nService
+  ) { }
 
   get searchValue(): string {
     return this._searchValue;
