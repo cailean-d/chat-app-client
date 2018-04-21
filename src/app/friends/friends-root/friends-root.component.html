@@ -1,22 +1,22 @@
 <div class="side-field">
     <div class="search">
       <div class="search-field">
-          <input type="text" placeholder="Поиск" #search/>
+          <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
           <i class="fa fa-search"></i>
       </div>
     </div>
     <div class="friend-menu">
       <div class="row">
-        <div class="button" title="Все друзья" routerLink="all" routerLinkActive="button-active" >
+        <div class="button" title="{{ 'title.all_friends' | translate }}" routerLink="all" routerLinkActive="button-active" >
             <i class="fa fa-user"></i>
         </div>
-        <div class="button" title="Друзья онлайн" routerLink="online" routerLinkActive="button-active">
+        <div class="button" title="{{ 'title.friend_online' | translate }}" routerLink="online" routerLinkActive="button-active">
             <i class="fa fa-user-secret"></i>
         </div>
-        <div class="button" title="Заявки в друзья" routerLink="invite" routerLinkActive="button-active">
+        <div class="button" title="{{ 'title.invites' | translate }}" routerLink="invite" routerLinkActive="button-active">
             <i class="fa fa-user-plus"></i>
         </div>
-        <div class="button" title="Группы пользователей" routerLink="search" routerLinkActive="button-active">
+        <div class="button" title="{{ 'title.groups' | translate }}" routerLink="search" routerLinkActive="button-active">
             <i class="fa fa-users"></i>
         </div>
       </div>
