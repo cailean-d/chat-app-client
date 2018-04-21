@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CoreRoutingModule } from './core-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { RootComponent } from './root/root.component';
-import { FriendsService } from '../friends/_services/friends.service';
+import { InviteService } from '../__services/invite.service';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
     RootComponent
   ],
   providers: [
-    FriendsService
+    InviteService
   ]
 })
 export class CoreModule { }

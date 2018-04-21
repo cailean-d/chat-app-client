@@ -17,9 +17,9 @@
     </li>
     <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
       <i class="fa fa-user"></i>
-      <div class="counter" *ngIf="friendService.invites.length > 0">
+      <div class="counter" *ngIf="inviteService.users.length > 0">
         <span>
-            {{friendService.invites.length}}
+            {{inviteService.users.length}}
         </span>
       </div>
     </li>

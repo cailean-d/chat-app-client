@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
-import { FriendsService } from '../../friends/_services/friends.service';
+import { InviteService } from '../../__services/invite.service';
 
 @Component({
   selector: 'app-menu',
@@ -18,7 +18,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     protected storage: NgForage,
-    public friendService: FriendsService,
+    protected inviteService: InviteService,
     private i18n: I18nService,
     private title: Title
   ) { }
