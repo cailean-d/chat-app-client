@@ -1,3 +1,4 @@
+import { LangChangeEvent } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,6 +20,7 @@ export class MenuComponent implements OnInit {
     protected storage: NgForage,
     public friendService: FriendsService,
     private i18n: I18nService,
+    private title: Title
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,36 @@ export class MenuComponent implements OnInit {
   private async changeLangToEn(): Promise<void> {
     await this.i18n.switchLanguage('en');
     this.showLanguage = false;
+  }
+
+  private changeSearchTitle(): void {
+    this.i18n.translate.get('hint.search').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+  }
+
+  private changeFriendsTitle(): void {
+    this.i18n.translate.get('hint.friends').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+  }
+
+  private changeFavoriteTitle(): void {
+    this.i18n.translate.get('hint.favorite').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+  }
+
+  private changeChatsTitle(): void {
+    this.i18n.translate.get('hint.chats').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+  }
+
+  private changeSettingsTitle(): void {
+    this.i18n.translate.get('hint.settings').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
   }
 
 }

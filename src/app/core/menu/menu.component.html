@@ -12,10 +12,10 @@
         </div>
       </div>
     </li>
-    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}">
+    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
       <i class="fa fa-search"></i>
     </li>
-    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}">
+    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
       <i class="fa fa-user"></i>
       <div class="counter" *ngIf="friendService.invites.length > 0">
         <span>
@@ -23,13 +23,13 @@
         </span>
       </div>
     </li>
-    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}">
+    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}" (click)="changeFavoriteTitle()">
       <i class="fa fa-star"></i>
     </li>
-    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}">
+    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
       <i class="fa fa-commenting"></i>
     </li>
-    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}">
+    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
       <i class="fa fa-cog"></i>
     </li>
     <div class="active-block"></div>

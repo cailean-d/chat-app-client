@@ -1,3 +1,6 @@
+import { LangChangeEvent } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
+import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsRootComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private i18n: I18nService,
+    private title: Title
+  ) { }
 
   ngOnInit() {
+    this.setTitle();
+    this.updateTitleOnLangChange();
   }
+
+  private setTitle(): void {
+    this.i18n.translate.get('hint.settings').subscribe((res: string) => {
+      this.title.setTitle(res);
+    });
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
+  }
+
 
 }

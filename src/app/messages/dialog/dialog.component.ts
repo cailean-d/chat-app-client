@@ -1,10 +1,11 @@
 import { I18nService } from '../../_root/service/i18n.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { ChatService } from '../../__services/chat.service';
 import { ActivatedRoute } from '@angular/router';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog',
@@ -23,7 +24,8 @@ export class DialogComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     protected chatService: ChatService,
     private activeRoute: ActivatedRoute,
-    private i18n: I18nService
+    private i18n: I18nService,
+    private title: Title
   ) {
   }
 
@@ -32,6 +34,9 @@ export class DialogComponent implements OnInit, AfterViewInit {
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
     this.getChatData();
+    this.setTitle();
+    this.updateTitleOnLangChange();
+    this.updateTitleOnChatChange();
   }
 
   ngAfterViewInit() {
@@ -104,6 +109,26 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   private playAudioOnMessageSent(): void {
     new Audio('./assets/sounds/send_message.ogg').play();
+  }
+
+  private setTitle(): void {
+    this.i18n.translate.get('hint.chats').subscribe((res: string) => {
+      this.title.setTitle(`${res} - ${this.chatService.title}`);
+    });
+
+  }
+
+  private updateTitleOnLangChange(): void {
+    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
+    });
+
+  }
+
+  private updateTitleOnChatChange(): void {
+    this.chatService.on('title_changed', () => {
+      this.setTitle();
+    });
   }
 
 }

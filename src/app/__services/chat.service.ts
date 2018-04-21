@@ -6,17 +6,29 @@ import { ChatInterface } from '../__interfaces/chat';
 import { MessageInterface } from '../__interfaces/message';
 import { User } from '../__classes/user';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EventEmitter } from 'eventemitter3';
 
 @Injectable()
-export class ChatService {
+export class ChatService extends EventEmitter{
 
   id: number;
-  title: string;
+  _title: string;
   image: string;
   users: Array<User>;
   messages: Array<MessageInterface>;
 
-  constructor(private profileService: ProfileService, private sanitizer: DomSanitizer) { }
+  get title(): string {
+    return this._title;
+  }
+
+  set title(s: string) {
+    this._title = s;
+    this.emit('title_changed');
+  }
+
+  constructor(private profileService: ProfileService, private sanitizer: DomSanitizer) {
+    super();
+  }
 
   public getChatData(id: number): void {
 
