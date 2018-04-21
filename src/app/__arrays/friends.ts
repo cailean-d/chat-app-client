@@ -41,4 +41,10 @@ export const friendsArray = [
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_09.jpg',
     online: false
   },
+  {
+    id: 21,
+    name: 'Ed	Malone',
+    image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg',
+    online: false
+  },
 ];
