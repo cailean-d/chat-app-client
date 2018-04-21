@@ -40,7 +40,11 @@
     "contact_info": "Contact Information",
     "add_info": "Additional Information",
     "choose_user": "Choose an user to see his profile",
-    "choose_chat": "Choose a dialog to start chatting"
+    "choose_chat": "Choose a dialog to start chatting",
+    "invites": "Invites",
+    "friend_online": "Friends online",
+    "all_friends": "All friends",
+    "groups": "Groups"
   },
   "profile": {
     "id": "ID",
