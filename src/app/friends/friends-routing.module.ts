@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { FriendsRootComponent } from './friends-root/friends-root.component';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
-import { FriendsFavoriteComponent } from './friends-favorite/friends-favorite.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
 
 const routes: Routes = [

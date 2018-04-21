@@ -2,6 +2,7 @@ import { FriendList } from '../_classes/friendList';
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from '../_services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
+import { InviteService } from '../../__services/invite.service';
 
 @Component({
   selector: 'app-friends-invite',
@@ -12,6 +13,7 @@ export class FriendsInviteComponent extends FriendList implements OnInit {
 
   constructor(
     public friendsService: FriendsService,
+    public inviteService: InviteService,
     protected friendsRoot: FriendsRootComponent
   ) {
     super();
@@ -22,6 +24,10 @@ export class FriendsInviteComponent extends FriendList implements OnInit {
   ngOnInit() {
     this.clearSearchField();
     this.updateSearchOnInput();
+  }
+
+  rejectFriendship(index: number): void {
+    this.inviteService.deleteInvite(index);
   }
 
 }

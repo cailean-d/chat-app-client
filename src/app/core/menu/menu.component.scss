@@ -97,6 +97,12 @@
         justify-content: center;
         align-items: center;
 
+        span{
+          color: #fff;
+          position: absolute;
+          top: 2px;
+        }
+
       }
 
       &:not(.link-active):hover {

@@ -1,12 +1,12 @@
-<div *ngIf="friendsService.invites.length > 0; else noFriends">
-  <li class="friend" *ngFor="let friend of friendsService.invites; let i = index">
+<div *ngIf="inviteService.usersFiltered.length > 0; else noMatch">
+  <li class="friend" *ngFor="let friend of inviteService.usersFiltered; let i = index">
     <div class="image">
       <img src="{{friend.image}}" alt="avatar" draggable="false"/>
       <div class="status">
-        <span *ngIf="friend.online == 'online'; else left" >
+        <span *ngIf="friend.online; else offline" >
             <i class="fa fa-circle online"></i>
         </span>
-        <ng-template #left>
+        <ng-template #offline>
             <i class="fa fa-circle offline"></i>
         </ng-template>
       </div>
@@ -14,26 +14,26 @@
     <div class="about">
       <div class="name">{{friend.name}}</div>
       <div class="right">
-        <div class="item favorite" *ngIf="friend.favorite === false"  title="Добавить в избранное">
+        <div class="item favorite" *ngIf="!friend.isFavorite"  title="Добавить в избранное">
             <i class="fa fa-star" (click)="friendsService.invites[i].setFavorite()"></i>
         </div>
         <div class="item add" title="Добавить в друзья">
             <i class="fa fa-plus"></i>
         </div>
         <div class="item refuse" title="Проигнорировать приглашение">
-            <i class="fa fa-times" (click)="friendsService.invites[i].refuseFriendship()"></i>
+            <i class="fa fa-times" (click)="rejectFriendship(i)"></i>
         </div>
       </div>
     </div>
   </li>
 </div>
-<ng-template #noFriends>
-    <li class="notification" *ngIf="searchInput.value == ''; else noMatch">
+<ng-template #noMatch>
+  <li class="notification" *ngIf="searchInput.value !== ''; else noSearch">
+    Заявок не найдено
+  </li>
+  <ng-template #noSearch>
+    <li class="notification">
       Нет новых заявок
     </li>
-    <ng-template #noMatch>
-      <li class="notification">
-        Заявок не найдено
-      </li>
-    </ng-template>
+  </ng-template>
 </ng-template>

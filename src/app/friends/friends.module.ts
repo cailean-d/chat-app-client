@@ -1,3 +1,4 @@
+import { InviteService } from '../__services/invite.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,7 +7,6 @@ import { FriendsRootComponent } from './friends-root/friends-root.component';
 import { FriendsService } from './_services/friends.service';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
-import { FriendsFavoriteComponent } from './friends-favorite/friends-favorite.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
 
 @NgModule({
@@ -15,8 +15,14 @@ import { FriendsInviteComponent } from './friends-invite/friends-invite.componen
     FriendsRoutingModule
   ],
   providers: [
-    FriendsService
+    FriendsService,
+    InviteService
   ],
-  declarations: [FriendsRootComponent, AllFriendsComponent, FriendsOnlineComponent, FriendsFavoriteComponent, FriendsInviteComponent]
+  declarations: [
+    FriendsRootComponent,
+    AllFriendsComponent,
+    FriendsOnlineComponent,
+    FriendsInviteComponent
+  ]
 })
 export class FriendsModule { }

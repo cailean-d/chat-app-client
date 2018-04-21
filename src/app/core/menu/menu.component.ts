@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   links: NodeListOf<HTMLElement>;
   activeBlock: HTMLElement;
   showLanguage: boolean;
+  invitesCount: number;
 
   constructor(
     protected storage: NgForage,
@@ -27,6 +28,7 @@ export class MenuComponent implements OnInit {
     this.getLinks();
     this.getActiveBlock();
     this.moveActiveBlockOnClick();
+    this.updateInviteCount();
   }
 
   private async logout() {
@@ -113,6 +115,13 @@ export class MenuComponent implements OnInit {
   private changeSettingsTitle(): void {
     this.i18n.translate.get('hint.settings').subscribe((res: string) => {
       this.title.setTitle(res);
+    });
+  }
+
+  private updateInviteCount(): void {
+    this.invitesCount = this.inviteService.users.length;
+    this.inviteService.on('length_changed', () => {
+      this.invitesCount = this.inviteService.users.length;
     });
   }
 

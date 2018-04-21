@@ -1,10 +1,14 @@
 export class FriendList {
   protected friendsService: any;
+  protected inviteService: any;
   protected friendsRoot: any;
   protected searchInput: any;
 
   clearSearchField(): void {
     this.friendsService.search = '';
+    if (this.inviteService) {
+      this.inviteService.search = '';
+    }
     this.searchInput.value = '';
     this.scrollToTop();
   }
@@ -15,6 +19,9 @@ export class FriendList {
 
   updateSearch(): void {
     this.friendsService.search = this.searchInput.value;
+    if (this.inviteService) {
+      this.inviteService.search = this.searchInput.value;
+    }
   }
 
   updateSearchOnInput(): void {

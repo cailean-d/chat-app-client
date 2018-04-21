@@ -2,9 +2,10 @@ import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
 import { invitesArray } from '../__arrays/invites';
 import { User } from '../__classes/user';
+import { EventEmitter } from 'eventemitter3';
 
 @Injectable()
-export class InviteService {
+export class InviteService extends EventEmitter {
 
   private _search: string;
 
@@ -12,6 +13,7 @@ export class InviteService {
   public usersFiltered: User[];
 
   constructor() {
+    super();
     this.users = [];
     this.usersFiltered = [];
     this.loadUsers();
@@ -38,7 +40,7 @@ export class InviteService {
   }
 
   public loadUsers(): void {
-    const result: Array<UserInterface> = invitesArray.sort(this.sortFriends);
+    const result: Array<UserInterface> = invitesArray.sort(this.sort);
     const users = this.convertResponseToObject(result);
     this.assignLoadedUsers(users);
   }
@@ -57,7 +59,7 @@ export class InviteService {
     }
   }
 
-  private sortFriends(a: User | UserInterface, b: User | UserInterface): number {
+  private sort(a: User | UserInterface, b: User | UserInterface): number {
     if (a.name < b.name) {
       return -1;
     }
@@ -67,5 +69,10 @@ export class InviteService {
     return 0;
   }
 
+  public deleteInvite(index: number): void {
+    this.users.splice(index, 1).sort(this.sort);
+    this.loadFilteredUsers();
+    this.emit('length_changed');
+  }
 
 }
