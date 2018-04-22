@@ -1,5 +1,5 @@
 <div *ngIf="friendsService.usersFiltered.length > 0; else noFriends">
-  <li class="friend" *ngFor="let friend of friendsService.usersFiltered; let i = index">
+  <li class="friend" *ngFor="let friend of friendsService.usersFiltered; let i = index" routerLink="/app/friends/all/user/{{friend.id}}">
     <div class="image">
       <img src="{{friend.image}}" alt="avatar" draggable="false"/>
       <div class="status">

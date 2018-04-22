@@ -1,3 +1,13 @@
+.container{
+  display: flex;
+  height: 100vh;
+  overflow-x: hidden;
+
+  main{
+    flex-grow: 1;
+  }
+}
+
 .side-field {
   min-width: 260px;
   width: 20vw;

@@ -18,16 +18,103 @@ const routes: Routes = [
       },
       {
         path: 'all',
-        component: AllFriendsComponent
+        children: [
+          {
+            path: '',
+            children: [
+              {
+                path: '',
+                component: AllFriendsComponent
+              },
+              {
+                path: '',
+                component: MainComponent,
+                outlet: 'main'
+              }
+            ]
+          },
+          {
+            path: 'user/:id',
+            children: [
+              {
+                path: '',
+                component: AllFriendsComponent
+              },
+              {
+                path: '',
+                component: UserComponent,
+                outlet: 'main'
+              }
+            ]
+          }
+        ]
       },
       {
         path: 'online',
-        component: FriendsOnlineComponent
+        children: [
+          {
+            path: '',
+            children: [
+              {
+                path: '',
+                component: FriendsOnlineComponent
+              },
+              {
+                path: '',
+                component: MainComponent,
+                outlet: 'main'
+              }
+            ]
+          },
+          {
+            path: 'user/:id',
+            children: [
+              {
+                path: '',
+                component: FriendsOnlineComponent
+              },
+              {
+                path: '',
+                component: UserComponent,
+                outlet: 'main'
+              }
+            ]
+          }
+        ]
       },
       {
         path: 'invite',
-        component: FriendsInviteComponent
-      }
+        children: [
+          {
+            path: '',
+            children: [
+              {
+                path: '',
+                component: FriendsInviteComponent
+              },
+              {
+                path: '',
+                component: MainComponent,
+                outlet: 'main'
+              }
+            ]
+          },
+          {
+            path: 'user/:id',
+            children: [
+              {
+                path: '',
+                component: FriendsInviteComponent
+              },
+              {
+                path: '',
+                component: UserComponent,
+                outlet: 'main'
+              }
+            ]
+          }
+        ]
+      },
     ]
   }
 ];

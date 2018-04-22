@@ -1,5 +1,5 @@
 <div *ngIf="inviteService.usersFiltered.length > 0; else noMatch">
-  <li class="friend" *ngFor="let friend of inviteService.usersFiltered; let i = index">
+  <li class="friend" *ngFor="let friend of inviteService.usersFiltered; let i = index" routerLink="/app/friends/invite/user/{{friend.id}}">
     <div class="image">
       <img src="{{friend.image}}" alt="avatar" draggable="false"/>
       <div class="status">
