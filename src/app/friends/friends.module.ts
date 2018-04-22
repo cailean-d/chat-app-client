@@ -8,11 +8,13 @@ import { FriendsService as qq } from './_services/friends.service';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
+import { ProfileModule } from '../profile/profile.module';
+import { FriendsService} from '../__services/friends.service';
+
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { FriendsService} from '../__services/friends.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,6 +25,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     FriendsRoutingModule,
+    ProfileModule,
     TranslateModule.forChild({
       loader: {
           provide: TranslateLoader,

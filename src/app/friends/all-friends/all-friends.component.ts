@@ -31,7 +31,7 @@ export class AllFriendsComponent extends FriendList implements OnInit {
     this.updateTitleOnLangChange();
   }
 
-  deleteFriend(index: number): void {
+  private deleteFriend(index: number): void {
     this.friendsService.deleteFriend(index);
   }
 

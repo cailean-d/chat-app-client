@@ -4,6 +4,8 @@ import { FriendsRootComponent } from './friends-root/friends-root.component';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
+import { MainComponent } from '../profile/main/main.component';
+import { UserComponent } from '../profile/user/user.component';
 
 const routes: Routes = [
   {
@@ -22,10 +24,6 @@ const routes: Routes = [
         path: 'online',
         component: FriendsOnlineComponent
       },
-      // {
-      //   path: 'favorite',
-      //   component: FriendsFavoriteComponent
-      // },
       {
         path: 'invite',
         component: FriendsInviteComponent
