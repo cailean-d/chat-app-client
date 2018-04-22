@@ -2,7 +2,6 @@ import { I18nService } from '../../_root/service/i18n.service';
 import { OnlineService } from '../../__services/online.service';
 import { FriendList } from '../_classes/friendList';
 import { Component, OnInit } from '@angular/core';
-import { FriendsService } from '../_services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -15,7 +14,6 @@ import { LangChangeEvent } from '@ngx-translate/core';
 export class FriendsOnlineComponent extends FriendList implements OnInit {
 
   constructor(
-    public friendsService: FriendsService,
     protected friendsRoot: FriendsRootComponent,
     protected onlineService: OnlineService,
     private i18n: I18nService,

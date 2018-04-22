@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { FriendsRoutingModule } from './friends-routing.module';
 import { FriendsRootComponent } from './friends-root/friends-root.component';
-import { FriendsService as qq } from './_services/friends.service';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
@@ -37,8 +36,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     FriendsService,
     InviteService,
-    OnlineService,
-    qq
+    OnlineService
   ],
   declarations: [
     FriendsRootComponent,

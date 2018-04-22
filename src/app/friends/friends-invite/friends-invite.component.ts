@@ -1,7 +1,6 @@
 import { LangChangeEvent } from '@ngx-translate/core';
 import { FriendList } from '../_classes/friendList';
 import { Component, OnInit } from '@angular/core';
-import { FriendsService } from '../_services/friends.service';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 import { InviteService } from '../../__services/invite.service';
 import { I18nService } from '../../_root/service/i18n.service';
@@ -15,7 +14,6 @@ import { Title } from '@angular/platform-browser';
 export class FriendsInviteComponent extends FriendList implements OnInit {
 
   constructor(
-    public friendsService: FriendsService,
     public inviteService: InviteService,
     protected friendsRoot: FriendsRootComponent,
     private i18n: I18nService,
