@@ -1,20 +1,20 @@
-<div *ngIf="friendsService.friendsOnline.length > 0; else noFriends">
-  <li class="friend" *ngFor="let friend of friendsService.friendsOnline; let i = index">
+<div *ngIf="onlineService.usersFiltered.length > 0; else noFriends">
+  <li class="friend" *ngFor="let friend of onlineService.usersFiltered; let i = index">
     <div class="image">
       <img src="{{friend.image}}" alt="avatar" draggable="false"/>
       <div class="status">
-        <span *ngIf="friend.online == 'online'; else left" >
+        <span *ngIf="friend.online; else offline" >
             <i class="fa fa-circle online"></i>
         </span>
-        <ng-template #left>
+        <ng-template #offline>
             <i class="fa fa-circle offline"></i>
         </ng-template>
       </div>
     </div>
     <div class="about">
       <div class="name">{{friend.name}}</div>
-      <div class="favorite" *ngIf="friend.favorite === true"  title="Добавить в избранное">
-          <i class="fa fa-star" (click)="friendsService.friendsOnline[i].setFavorite()"></i>
+      <div class="favorite" *ngIf="friend.isFavorite === true"  title="Добавить в избранное">
+          <i class="fa fa-star"></i>
       </div>
     </div>
   </li>

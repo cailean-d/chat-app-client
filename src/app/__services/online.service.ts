@@ -1,22 +1,19 @@
-import { EventEmitter } from 'eventemitter3';
-import { friendsArray } from '../__arrays/friends';
 import { UserInterface } from '../__interfaces/user';
-import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
+import { Injectable } from '@angular/core';
+import { FriendsService } from './friends.service';
 
 @Injectable()
-export class FriendsService extends EventEmitter {
+export class OnlineService {
 
   private _search: string;
 
   public users: User[];
   public usersFiltered: User[];
 
-  constructor() {
-    super();
-    this.users = [];
-    this.usersFiltered = [];
-    this.loadUsers();
+  constructor(private friendsService: FriendsService) {
+    this.loadData();
+    this.updateDataOnFriendsChange();
   }
 
   get search(): string {
@@ -29,18 +26,33 @@ export class FriendsService extends EventEmitter {
     this.loadFilteredUsers();
   }
 
+  private loadData(): void {
+    this.users = [];
+    this.usersFiltered = [];
+    this.loadUsers();
+    this.loadFilteredUsers();
+  }
+
+  private updateDataOnFriendsChange(): void {
+    this.friendsService.on('change', () => {
+      this.loadData();
+    });
+  }
+
   private clearFilter(): void {
     this.usersFiltered = [];
   }
 
-  public loadFilteredUsers(): void {
+  private loadFilteredUsers(): void {
     this.usersFiltered = this.users.filter((item) => {
       return item.name.match(new RegExp(this.search, 'i'));
     });
   }
 
-  public loadUsers(): void {
-    const result: Array<UserInterface> = friendsArray.sort(this.sort);
+  private loadUsers(): void {
+    const result: Array<User> = this.friendsService.users.filter((item) => {
+      return item.online === true;
+    });
     const users = this.convertResponseToObject(result);
     this.assignLoadedUsers(users);
   }
@@ -67,12 +79,6 @@ export class FriendsService extends EventEmitter {
       return 1;
     }
     return 0;
-  }
-
-  public deleteFriend(index: number): void {
-    this.users.splice(index, 1).sort(this.sort);
-    this.loadFilteredUsers();
-    this.emit('change');
   }
 
 }

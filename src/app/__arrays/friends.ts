@@ -9,7 +9,7 @@ export const friendsArray = [
     id: 3,
     name: 'Brad	Brewer',
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg',
-    online: false
+    online: true
   },
   {
     id: 4,
@@ -21,7 +21,7 @@ export const friendsArray = [
     id: 5,
     name: 'Lucille Jennings',
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_05.jpg',
-    online: false
+    online: true
   },
   {
     id: 6,
@@ -33,7 +33,7 @@ export const friendsArray = [
     id: 7,
     name: 'Kristine	Freeman',
     image: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_07.jpg',
-    online: false
+    online: true
   },
   {
     id: 8,
