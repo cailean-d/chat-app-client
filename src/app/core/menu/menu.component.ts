@@ -31,26 +31,26 @@ export class MenuComponent implements OnInit {
     this.updateInviteCount();
   }
 
-  private async logout() {
+  async logout() {
     await this.storage.removeItem('user');
   }
 
-  private deleteActiveClass(): void {
+  deleteActiveClass(): void {
     for (let i = 0; i < this.links.length; i++) {
       const element = this.links[i];
       element.classList.remove('link-active');
     }
   }
 
-  private getLinks(): void {
+  getLinks(): void {
     this.links = <NodeListOf<HTMLElement>> document.querySelectorAll('.link');
   }
 
-  private getActiveBlock(): void {
+  getActiveBlock(): void {
     this.activeBlock = <HTMLElement> document.querySelector('.active-block');
   }
 
-  private moveActiveBlockOnClick(): void {
+  moveActiveBlockOnClick(): void {
     for (let i = 0; i < this.links.length; i++) {
       const element = this.links[i];
       this.activateLinkIfHasClass(element);
@@ -62,11 +62,11 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  private moveActiveBlock(el: HTMLElement): void {
+  moveActiveBlock(el: HTMLElement): void {
     this.activeBlock.style.top = el.offsetTop + 'px';
   }
 
-  private activateLinkIfHasClass(el: HTMLElement): void {
+  activateLinkIfHasClass(el: HTMLElement): void {
     setTimeout(() => {
       if (el.classList.contains('link-active')) {
         this.moveActiveBlock(el);
@@ -74,51 +74,51 @@ export class MenuComponent implements OnInit {
     }, 0);
   }
 
-  private toggleLanguageVisibility(): void {
+  toggleLanguageVisibility(): void {
     this.showLanguage = !this.showLanguage;
   }
 
-  private async changeLangToRus(): Promise<void> {
+  async changeLangToRus(): Promise<void> {
     await this.i18n.switchLanguage('ru');
     this.showLanguage = false;
   }
 
-  private async changeLangToEn(): Promise<void> {
+  async changeLangToEn(): Promise<void> {
     await this.i18n.switchLanguage('en');
     this.showLanguage = false;
   }
 
-  private changeSearchTitle(): void {
+  changeSearchTitle(): void {
     this.i18n.translate.get('hint.search').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
-  private changeFriendsTitle(): void {
+  changeFriendsTitle(): void {
     this.i18n.translate.get('hint.friends').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
-  private changeFavoriteTitle(): void {
+  changeFavoriteTitle(): void {
     this.i18n.translate.get('hint.favorite').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
-  private changeChatsTitle(): void {
+  changeChatsTitle(): void {
     this.i18n.translate.get('hint.chats').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
-  private changeSettingsTitle(): void {
+  changeSettingsTitle(): void {
     this.i18n.translate.get('hint.settings').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
-  private updateInviteCount(): void {
+  updateInviteCount(): void {
     this.invitesCount = this.inviteService.users.length;
     this.inviteService.on('length_changed', () => {
       this.invitesCount = this.inviteService.users.length;

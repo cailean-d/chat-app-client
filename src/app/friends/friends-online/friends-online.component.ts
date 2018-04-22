@@ -15,7 +15,7 @@ export class FriendsOnlineComponent extends FriendList implements OnInit {
 
   constructor(
     protected friendsRoot: FriendsRootComponent,
-    protected onlineService: OnlineService,
+    public onlineService: OnlineService,
     private i18n: I18nService,
     private title: Title
   ) {

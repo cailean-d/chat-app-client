@@ -24,26 +24,26 @@ export class RestoreRootComponent implements OnInit {
     this.updateTitleOnLangChange();
   }
 
-  private restore(event: Event): void {
+  restore(event: Event): void {
     event.preventDefault();
   }
 
-  private onFocusField(element: HTMLDivElement): void {
+  onFocusField(element: HTMLDivElement): void {
     element.classList.add('focus');
   }
 
-  private onBlurField(element: HTMLDivElement): void {
+  onBlurField(element: HTMLDivElement): void {
     element.classList.remove('focus');
   }
 
-  private setTitle(): void {
+  setTitle(): void {
     this.i18n.translate.get('form.title.restore_access').subscribe((res: string) => {
       this.title.setTitle(res);
     });
 
   }
 
-  private updateTitleOnLangChange(): void {
+  updateTitleOnLangChange(): void {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });

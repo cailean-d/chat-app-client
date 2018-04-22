@@ -22,7 +22,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    protected chatService: ChatService,
+    public chatService: ChatService,
     private activeRoute: ActivatedRoute,
     private i18n: I18nService,
     private title: Title
@@ -43,34 +43,34 @@ export class DialogComponent implements OnInit, AfterViewInit {
     this.scrollToBottom();
   }
 
-  private getChatData(): void {
+  getChatData(): void {
     this.activeRoute.params.subscribe((params) => {
       this.chatService.getChatData(params.id);
     });
   }
 
-  private setCustomScrollbar(): void {
+  setCustomScrollbar(): void {
     SimpleBar.removeObserver();
     const scrollbar = new SimpleBar(this.chat.nativeElement, scrollbarOpt);
     this.messageList = <HTMLElement> scrollbar.getScrollElement();
   }
 
-  private scrollToBottom(): void {
+  scrollToBottom(): void {
     setTimeout(() => {
       const height = this.messageList.scrollHeight + this.messageList.clientHeight;
       this.messageList.scrollTop = height;
     }, 0);
   }
 
-  private showScrollBottomPanelOnScroll(): void {
+  showScrollBottomPanelOnScroll(): void {
     this.messageList.addEventListener('scroll', (e =>  this.showSlideToBottom()));
   }
 
-  private scrollToBottomOnMessageSent(): void {
+  scrollToBottomOnMessageSent(): void {
     this.messageList.addEventListener('DOMNodeInserted', () => { this.scrollToBottom(); });
   }
 
-  private showSlideToBottom(): void {
+  showSlideToBottom(): void {
 
     const height = this.messageList.scrollTop + this.messageList.clientHeight;
 
@@ -84,7 +84,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   }
 
-  private sendMessage(message: HTMLTextAreaElement): void {
+  sendMessage(message: HTMLTextAreaElement): void {
 
     if (message.value.trim() !== '') {
 
@@ -100,32 +100,32 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   }
 
-  private sendMessageOnEnterPress(event: KeyboardEvent): void {
+  sendMessageOnEnterPress(event: KeyboardEvent): void {
     if (event.keyCode === 13 && !event.shiftKey) {
       event.preventDefault();
       this.sendMessage(<HTMLTextAreaElement>event.target);
     }
   }
 
-  private playAudioOnMessageSent(): void {
+  playAudioOnMessageSent(): void {
     new Audio('./assets/sounds/send_message.ogg').play();
   }
 
-  private setTitle(): void {
+  setTitle(): void {
     this.i18n.translate.get('hint.chats').subscribe((res: string) => {
       this.title.setTitle(`${res} - ${this.chatService.title}`);
     });
 
   }
 
-  private updateTitleOnLangChange(): void {
+  updateTitleOnLangChange(): void {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
 
   }
 
-  private updateTitleOnChatChange(): void {
+  updateTitleOnChatChange(): void {
     this.chatService.on('title_changed', () => {
       this.setTitle();
     });
