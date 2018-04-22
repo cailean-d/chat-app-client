@@ -31,10 +31,10 @@ const routes: Routes = [
     path: 'template',
     component: TestTemplateComponent
   },
-  // {
-  //   path: '**',
-  //   redirectTo: '404'
-  // }
+  {
+    path: '**',
+    redirectTo: '404'
+  }
 ];
 
 @NgModule({
