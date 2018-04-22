@@ -17,15 +17,6 @@ export class FriendsRootComponent implements OnInit {
 
   constructor(private i18n: I18nService) { }
 
-  private scrollbarOpt = {
-    classNames: {
-      content: 'custom-content',
-      scrollContent: 'custom-scroll-content',
-      scrollbar: 'custom-scrollbar',
-      track: 'custom-track'
-    }
-  };
-
   ngOnInit() {
     this.customScrollBar();
   }
@@ -34,6 +25,11 @@ export class FriendsRootComponent implements OnInit {
     SimpleBar.removeObserver();
     const scrollbar = new SimpleBar(this.friendList.nativeElement, scrollbarOpt);
     this.friendListScroll = <HTMLElement> scrollbar.getScrollElement();
+  }
+
+  private clearSearchInput(): void {
+    this.search.nativeElement.value = '';
+    this.search.nativeElement.dispatchEvent(new Event('input'));
   }
 
 }

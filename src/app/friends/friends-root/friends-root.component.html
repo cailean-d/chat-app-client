@@ -1,9 +1,10 @@
 <div class="side-field">
   <div class="search">
     <div class="search-field">
-        <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
-        <i class="fa fa-search"></i>
-    </div>
+      <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
+      <i class="fa fa-search"></i>
+      <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
+  </div>
   </div>
   <div class="friend-menu">
     <div class="row">

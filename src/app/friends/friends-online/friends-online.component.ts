@@ -44,5 +44,4 @@ export class FriendsOnlineComponent extends FriendList implements OnInit {
     });
   }
 
-
 }

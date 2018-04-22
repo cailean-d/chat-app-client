@@ -44,11 +44,19 @@
         top: -1px;
         line-height: 38px;
         color: rgb(197, 197, 197);
-        // cursor: pointer;
+      }
 
-        // &:hover {
-        //   color: #fff;
-        // }
+      .fa-times {
+        position: absolute;
+        right: 10px;
+        top: -2px;
+        line-height: 38px;
+        color: rgb(197, 197, 197);
+        cursor: pointer;
+
+        &:hover{
+          color: #fff;
+        }
       }
     }
   }
