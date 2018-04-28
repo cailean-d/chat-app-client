@@ -21,8 +21,8 @@ export class UserComponent implements OnInit {
 
   set user(u: User) {
     this._user = u;
-    this.user.isFavorite = this.getFavorite();
-    this.title.setTitle(this.user.name);
+    // this.user.isFavorite = this.getFavorite();
+    // this.title.setTitle(this.user.nickname);
   }
 
   constructor(
@@ -36,22 +36,31 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.title.setTitle(this.user.name);
-    }, 50);
+    // setTimeout(() => {
+    //   this.title.setTitle(this.user.nickname);
+    // }, 50);
   }
 
-  getUser() {
+  async getUser() {
     this.activeRoute.params.subscribe((params) => {
-      this.user = this.profile.getUser(params.id);
+      this.profile.getUser(params.id).then((res) => {
+        if (res) {
+          this.user = res;
+          this.title.setTitle(this.user.name);
+        } else {
+          this.i18n.translate.get('hint.profile').subscribe((s: string) => {
+            this.title.setTitle(s);
+          });
+        }
+      });
     });
   }
 
-  getFavorite(): boolean {
-    return !!this.favoriteService.users.find((el: any) => {
-      return el.id === this.user.id;
-    });
-  }
+  // getFavorite(): boolean {
+  //   return !!this.favoriteService.users.find((el: any) => {
+  //     return el.id === this.user.id;
+  //   });
+  // }
 
   toggleFavorite(): void {
     if (this.user.isFavorite) {

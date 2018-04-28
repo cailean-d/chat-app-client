@@ -58,7 +58,8 @@
     "registration": "Registration Date",
     "country": "Country",
     "city": "City",
-    "was_online": "Was Online"
+    "was_online": "Was Online",
+    "not_found": "User not found"
   },
   "hint" : {
     "search": "People search",

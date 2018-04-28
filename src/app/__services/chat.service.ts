@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { EventEmitter } from 'eventemitter3';
 
 @Injectable()
-export class ChatService extends EventEmitter{
+export class ChatService extends EventEmitter {
 
   id: number;
   _title: string;
@@ -71,9 +71,10 @@ export class ChatService extends EventEmitter{
     this.messages.push(tempMessage);
   }
 
-  private getUsers(id: number[]): void {
+  private async getUsers(id: number[]): Promise<void> {
     for (const i of id) {
-      this.users.push(this.profileService.getUser(i));
+      const user = await this.profileService.getUser(i);
+      this.users.push(user);
     }
   }
 

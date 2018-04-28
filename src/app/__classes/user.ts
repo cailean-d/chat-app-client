@@ -8,6 +8,15 @@ export class User {
   public isFavorite: boolean;
   public isFriend: boolean;
 
+  public avatar?: string;
+  public nickname?: string;
+  public city?: string;
+  public country?: string;
+  public gender?: string;
+  public phone?: string;
+  public website?: string;
+  public address?: string;
+
   constructor (id, image, name, online) {
     this.id = id;
     this.image = image;

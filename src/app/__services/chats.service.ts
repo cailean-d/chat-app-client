@@ -39,13 +39,13 @@ export class ChatsService {
     this.assignLoadedUsers(result);
   }
 
-  private assignLoadedUsers(chats: ChatInterface[]): void {
+  private async assignLoadedUsers(chats: ChatInterface[]): Promise<void> {
     for (const i of chats) {
-      this.chats.push(this.getChatInfo(i));
+      this.chats.push(await this.getChatInfo(i));
     }
   }
 
-  private getChatInfo(chat: ChatInterface) {
+  private async getChatInfo(chat: ChatInterface) {
 
       if (!chat.title || !chat.image) {
 
@@ -55,7 +55,7 @@ export class ChatsService {
           return el !== 99;
         });
 
-        const user: User = this.user.getUser(firstUser);
+        const user: User = await this.user.getUser(firstUser);
 
         if (!chat.title) {
           chat.title = user.name;

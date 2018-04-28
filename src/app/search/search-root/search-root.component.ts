@@ -60,11 +60,8 @@ export class SearchRootComponent implements OnInit {
       const scroll = this.userListScroll.scrollTop + this.userListScroll.clientHeight;
       const height = this.userListScroll.scrollHeight;
       if (scroll + 20 >= height) {
-        if (this.searchValue === '') {
-          this.searchService.loadUsers();
-        } else {
-          this.searchService.loadFilteredUsers();
-        }
+        this.searchService.oldSearch = this.search.nativeElement.value;
+        this.searchService.loadFilteredUsers();
       }
     });
   }

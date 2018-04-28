@@ -1,7 +1,9 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
 import { usersArray } from '../__arrays/users';
+import { Response } from '../__interfaces/response';
 
 @Injectable()
 export class SearchService {
@@ -13,21 +15,24 @@ export class SearchService {
   private loadQuantity: number;
 
   private usersFilteredLoaded: number;
-  private filteredLoadQuantity: number;
-  private index: number;
+  private stopLoading;
 
   public users: User[];
   public usersFiltered: User[];
 
-  constructor() {
-    this.usersLoaded = 0;
+
+  public oldSearch: string;
+
+  constructor(private http: HttpClient) {
     this.loadQuantity = 20;
+    this.usersLoaded = 0;
     this.usersFilteredLoaded = 0;
-    this.filteredLoadQuantity = 20;
-    this.index = usersArray.length - 1;
     this.users = [];
     this.usersFiltered = [];
+    this.search = '';
+    this.oldSearch = '';
     this.loadUsers();
+    this.loadFilteredUsers();
   }
 
   get search(): string {
@@ -35,58 +40,83 @@ export class SearchService {
   }
 
   set search(s: string) {
+    this.oldSearch = this.search;
     this._search = s;
     this.clearFilter();
     this.loadFilteredUsers();
   }
 
   public loadFilteredUsers(): void {
-    if (!this.dataIsLoading) {
-      if (this.index > 0) {
-        this.dataIsLoading = true;
-        const result: Array<UserInterface> = [];
-        let counter = 0;
-        for (let i = this.index; i >= 0; i--) {
-          this.index = i - 1;
-          const element = usersArray[i];
-          if (element.name.match(new RegExp(this.search, 'i'))) {
-            counter++;
-            result.push(element);
-            if (counter === this.filteredLoadQuantity) {
-              const usersx = this.convertResponseToObject(result);
-              this.assignLoadedFilteredUsers(usersx);
-              this.usersFilteredLoaded += this.filteredLoadQuantity;
-              this.dataIsLoading = false;
-              return;
-            }
-          }
+
+    if (!this.dataIsLoading && !this.stopLoading) {
+      this.dataIsLoading = true;
+
+      const Params = new HttpParams({
+        fromObject: {
+          offset: this.usersFilteredLoaded.toString(),
+          limit: this.loadQuantity.toString(),
+          name: this.search
         }
-        const users = this.convertResponseToObject(result);
-        this.assignLoadedFilteredUsers(users);
-        this.dataIsLoading = false;
-      }
+      });
+
+      this.http.get<Response>('http://localhost:3000/api/users', {params: Params}).subscribe(
+        response => {
+          const res: Response = response;
+          const users: Array<UserInterface> = response.data;
+
+          if (this.search !== this.oldSearch) {
+            this.usersFiltered = [];
+          }
+
+          if (users.length > 0) {
+            const usersx = this.convertResponseToObject(users).sort(this.sortFriends);
+            this.assignLoadedFilteredUsers(usersx);
+            this.usersFilteredLoaded += this.loadQuantity;
+          } else {
+            this.stopLoading = true;
+          }
+          this.dataIsLoading = false;
+        },
+        error => {
+          console.error(error);
+          this.dataIsLoading = false;
+        }
+      );
     }
   }
 
   public loadUsers(): void {
-    if (!this.dataIsLoading) {
-      if (this.usersLoaded < usersArray.length) {
+
+    if (!this.dataIsLoading && !this.stopLoading) {
         this.dataIsLoading = true;
-        const result: Array<UserInterface> = [];
-        const a = usersArray.length - this.usersLoaded - 1;
-        const b = usersArray.length - (this.usersLoaded + this.loadQuantity) - 1;
-        for (let i = a; i > b; i--) {
-          const element = usersArray[i];
-          if (element) {
-            result.push(element);
+
+        const Params = new HttpParams({
+          fromObject: {
+            offset: this.usersLoaded.toString(),
+            limit: this.loadQuantity.toString(),
           }
-        }
-        const users = this.convertResponseToObject(result);
-        this.assignLoadedUsers(users);
-        this.usersLoaded += this.loadQuantity;
-        this.dataIsLoading = false;
-      }
+        });
+
+        this.http.get<Response>('http://localhost:3000/api/users', {params: Params}).subscribe(
+          response => {
+            const res: Response = response;
+            const users: Array<UserInterface> = response.data;
+            if (users.length > 0) {
+              const usersx = this.convertResponseToObject(users).sort(this.sortFriends);
+              this.assignLoadedUsers(usersx);
+              this.usersLoaded += this.loadQuantity;
+            } else {
+              this.stopLoading = true;
+            }
+            this.dataIsLoading = false;
+          },
+          error => {
+            console.error(error);
+            this.dataIsLoading = false;
+          }
+        );
     }
+
   }
 
   private assignLoadedUsers(users: User[]): void {
@@ -104,15 +134,14 @@ export class SearchService {
   private convertResponseToObject(obj: Array<UserInterface>): User[] {
     const arr: User[] = [];
     for (const i of obj) {
-      arr.push(new User(i.id, i.image, i.name, i.online));
+      arr.push(new User(i.id, i.avatar, i.nickname, i.online));
     }
     return arr;
   }
 
   private clearFilter(): void {
-    this.usersFiltered = [];
+    this.stopLoading = false;
     this.usersFilteredLoaded = 0;
-    this.index = usersArray.length - 1;
   }
 
   private sortFriends(a: User, b: User): number {

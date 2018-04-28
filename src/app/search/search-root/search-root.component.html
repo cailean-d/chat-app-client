@@ -8,7 +8,7 @@
       </div>
     </div>
     <ul class="user-list" #userList>
-      <div *ngIf="searchValue !== ''; else users" >
+      <!-- <div *ngIf="searchValue !== ''; else users" > -->
         <div *ngIf="searchService.usersFiltered.length > 0; else notFound">
           <li *ngFor="let user of searchService.usersFiltered; let i = index">
             <div class="user" routerLink="user/{{user.id}}">
@@ -35,8 +35,8 @@
             Пользователей не найдено
           </li>
         </ng-template>
-      </div>
-      <ng-template #users>
+      <!-- </div> -->
+      <!-- <ng-template #users>
         <li *ngFor="let user of searchService.users; let i = index">
           <div class="user" routerLink="user/{{user.id}}">
             <div class="image">
@@ -56,7 +56,7 @@
             </div>
           </div>
         </li>
-      </ng-template>
+      </ng-template> -->
     </ul>
   </div>
   <main>
