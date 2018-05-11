@@ -20,7 +20,7 @@ export class SearchRootComponent implements OnInit {
   private userListScroll: HTMLElement;
 
   constructor(
-    protected searchService: SearchService,
+    public searchService: SearchService,
     private title: Title,
     private i18n: I18nService
   ) { }

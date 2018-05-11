@@ -4,6 +4,9 @@ import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { InviteService } from '../../__services/invite.service';
+import { AuthService } from '../../_root/service/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-menu',
@@ -21,7 +24,9 @@ export class MenuComponent implements OnInit {
     protected storage: NgForage,
     protected inviteService: InviteService,
     private i18n: I18nService,
-    private title: Title
+    private title: Title,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -31,8 +36,14 @@ export class MenuComponent implements OnInit {
     this.updateInviteCount();
   }
 
-  async logout() {
-    await this.storage.removeItem('user');
+  async logout(): Promise <void> {
+    try {
+      await this.authService.logout();
+      await this.storage.removeItem('user');
+      this.router.navigate(['authe/login']);
+    } catch (error) {
+      console.log(error.toString());
+    }
   }
 
   deleteActiveClass(): void {

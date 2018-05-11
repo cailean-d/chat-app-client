@@ -1,10 +1,10 @@
 <div class="wrapper">
 <div class="form-panel" *ngIf="isDataLoaded">
 	<h2 class="title">{{ 'form.title.registration' | translate }}</h2>
-<form action="#" method="post">
+<form (submit)="reg($event)" autocomplete="off">
 	<div class="form-field">
 		<div class="input-wrap" #nicknameField>
-			<input type="text" name="Username" placeholder="{{ 'form.input.nickname' | translate }}" (focus)="onFocusField(nicknameField)" (blur)="onBlurField(nicknameField)"/>
+			<input type="text" name="nickname" placeholder="{{ 'form.input.nickname' | translate }}" (focus)="onFocusField(nicknameField)" (blur)="onBlurField(nicknameField)"/>
 		</div>
 		<div class="form-field__icon">
 			<i class="fa fa-user" aria-hidden="true"></i>
@@ -12,7 +12,7 @@
 	</div>
 	<div class="form-field">
 		<div class="input-wrap" #emailField>
-			<input type="email" name="Username" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+			<input type="email" name="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
 		</div>
 		<div class="form-field__icon">
 			<i class="fa fa-user" aria-hidden="true"></i>
@@ -20,7 +20,7 @@
 	</div>
 			<div class="form-field">
 				<div class="input-wrap" #passwordField>
-					<input type="password" name="Password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+					<input type="password" name="password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
 				</div>
 				<div class="form-field__icon">
 					<i class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -28,18 +28,18 @@
 	</div>
 	<div class="form-field">
 		<div class="input-wrap" #confirmPasswordField>
-			<input type="password" name="Password" placeholder="{{ 'form.input.confirm_password' | translate }}" (focus)="onFocusField(confirmPasswordField)" (blur)="onBlurField(confirmPasswordField)"/>
+			<input type="password" name="password2" placeholder="{{ 'form.input.confirm_password' | translate }}" (focus)="onFocusField(confirmPasswordField)" (blur)="onBlurField(confirmPasswordField)"/>
 		</div>
 		<div class="form-field__icon">
 			<i class="fa fa-unlock-alt" aria-hidden="true"></i>
 		</div>
 	</div>
 			<div class="submit-panel">
-				<input class="submit-panel__button" type="submit" value="{{ 'reg_page.create' | translate }}" (click)="reg($event)">
+				<input class="submit-panel__button" type="submit" value="{{ 'reg_page.create' | translate }}">
 			</div>
 
 			<div class="login-panel">
-					{{ 'reg_page.got_account' | translate }}?<a class="login-panel__link"  routerLink="/auth/login">{{ 'form.title.authorization' | translate }}</a>
+					{{ 'reg_page.got_account' | translate }}?<a class="login-panel__link"  routerLink="/authe/login">{{ 'form.title.authorization' | translate }}</a>
 			</div>
 		</form>
 	</div>

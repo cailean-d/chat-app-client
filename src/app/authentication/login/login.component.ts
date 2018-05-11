@@ -4,6 +4,7 @@ import { NgForage } from 'ngforage';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { AuthService } from '../../_root/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private storage: NgForage,
     private router: Router,
     private i18n: I18nService,
-    private title: Title
+    private title: Title,
+    private authService: AuthService
   ) { }
 
   async ngOnInit() {
@@ -28,10 +30,18 @@ export class LoginComponent implements OnInit {
     this.updateTitleOnLangChange();
   }
 
-  async login(event: Event): Promise <void> {
+  private async login(event: Event): Promise <void> {
     event.preventDefault();
-    await this.storage.setItem('user', true);
-    this.router.navigate(['app']);
+    const form = <HTMLFormElement>event.target;
+    const email = form.elements['email'].value;
+    const password = form.elements['password'].value;
+    try {
+      const user = await this.authService.login(email, password);
+      await this.storage.setItem('user', user);
+      this.router.navigate(['app']);
+    } catch (error) {
+      console.log(error.toString());
+    }
   }
 
   private onFocusField(element: HTMLDivElement): void {
