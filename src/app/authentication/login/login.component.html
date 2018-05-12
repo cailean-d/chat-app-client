@@ -1,25 +1,37 @@
 <div class="wrapper">
   <div class="form-panel" *ngIf="isDataLoaded">
     <h2 class="title">{{ 'form.title.authorization' | translate }}</h2>
-    <form (submit)="login($event)" autocomplete="off">
+    <form (submit)="login()" autocomplete="off" [formGroup]="form">
       <div class="form-field">
         <div #emailField class="input-wrap">
-          <input type="email" name="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+          <input type="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)" formControlName="email"/>
         </div>
         <div class="form-field__icon">
           <i class="fa fa-user" aria-hidden="true"></i>
         </div>
+        <div class="form-field__valid" *ngIf="isControlInvalid('email')">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <div class="valid_message">
+            Email заполнен некорректно (account@domain.com)
+          </div>
+        </div>
       </div>
       <div class="form-field">
         <div #passwordField class="input-wrap">
-          <input type="password" name="password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+          <input type="password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)" formControlName="password"/>
         </div>
         <div class="form-field__icon">
           <i class="fa fa-unlock-alt" aria-hidden="true"></i>
         </div>
+        <div class="form-field__valid" *ngIf="isControlInvalid('password')">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <div class="valid_message">
+            Пароль должен содержать от 6 до 30 символов
+          </div>
+        </div>
       </div>
       <div class="submit-panel">
-        <input class="submit-panel__button" type="submit" value="{{ 'login_page.enter' | translate }}">
+        <input class="submit-panel__button" type="submit" value="{{ 'login_page.enter' | translate }}" [disabled]="form.invalid">
       </div>
       <div class="social-sign-up">
         <div class="description">

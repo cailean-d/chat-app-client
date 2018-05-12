@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from '../../_root/service/auth.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,15 @@ import { AuthService } from '../../_root/service/auth.service';
 export class LoginComponent implements OnInit {
 
   isDataLoaded: boolean;
+  form: FormGroup;
 
   constructor(
     private storage: NgForage,
     private router: Router,
     private i18n: I18nService,
     private title: Title,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) { }
 
   async ngOnInit() {
@@ -28,13 +31,12 @@ export class LoginComponent implements OnInit {
     this.isDataLoaded = true;
     this.setTitle();
     this.updateTitleOnLangChange();
+    this.initForm();
   }
 
-  private async login(event: Event): Promise <void> {
-    event.preventDefault();
-    const form = <HTMLFormElement>event.target;
-    const email = form.elements['email'].value;
-    const password = form.elements['password'].value;
+  private async login(): Promise <void> {
+    const email = this.form.controls['email'].value;
+    const password = this.form.controls['password'].value;
     try {
       const user = await this.authService.login(email, password);
       await this.storage.setItem('user', user);
@@ -42,6 +44,30 @@ export class LoginComponent implements OnInit {
     } catch (error) {
       console.log(error.toString());
     }
+  }
+
+  initForm() {
+    this.form = this.fb.group({
+     email: [null,
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)
+      ]
+    ],
+     password: [null,
+      [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(30)
+      ]
+    ]
+    });
+  }
+
+  isControlInvalid(controlName: string): boolean {
+    const control = this.form.controls[controlName];
+    const result = control.invalid && control.touched;
+    return result;
   }
 
   private onFocusField(element: HTMLDivElement): void {
