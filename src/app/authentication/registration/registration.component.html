@@ -1,41 +1,67 @@
 <div class="wrapper">
 <div class="form-panel" *ngIf="isDataLoaded">
 	<h2 class="title">{{ 'form.title.registration' | translate }}</h2>
-<form (submit)="reg($event)" autocomplete="off">
+<form (submit)="reg()" autocomplete="off" [formGroup]="form">
 	<div class="form-field">
 		<div class="input-wrap" #nicknameField>
-			<input type="text" name="nickname" placeholder="{{ 'form.input.nickname' | translate }}" (focus)="onFocusField(nicknameField)" (blur)="onBlurField(nicknameField)"/>
+			<input type="text" formControlName="nickname" placeholder="{{ 'form.input.nickname' | translate }}" (focus)="onFocusField(nicknameField)" (blur)="onBlurField(nicknameField)"/>
 		</div>
 		<div class="form-field__icon">
 			<i class="fa fa-user" aria-hidden="true"></i>
-		</div>
+    </div>
+    <div class="form-field__valid" *ngIf="isControlInvalid('nickname')">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <div class="valid_message">
+        Поле должно содержать только русские, английские символы, цифры, подчеркивание, пробел и быть длинной от 3 до 30.
+      </div>
+    </div>
 	</div>
 	<div class="form-field">
 		<div class="input-wrap" #emailField>
-			<input type="email" name="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+			<input type="email" formControlName="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
 		</div>
 		<div class="form-field__icon">
 			<i class="fa fa-user" aria-hidden="true"></i>
-		</div>
-	</div>
-			<div class="form-field">
-				<div class="input-wrap" #passwordField>
-					<input type="password" name="password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
-				</div>
-				<div class="form-field__icon">
-					<i class="fa fa-unlock-alt" aria-hidden="true"></i>
-				</div>
-	</div>
-	<div class="form-field">
-		<div class="input-wrap" #confirmPasswordField>
-			<input type="password" name="password2" placeholder="{{ 'form.input.confirm_password' | translate }}" (focus)="onFocusField(confirmPasswordField)" (blur)="onBlurField(confirmPasswordField)"/>
-		</div>
-		<div class="form-field__icon">
-			<i class="fa fa-unlock-alt" aria-hidden="true"></i>
-		</div>
-	</div>
+    </div>
+    <div class="form-field__valid" *ngIf="isControlInvalid('email')">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <div class="valid_message">
+        Email заполнен некорректно. (account@domain.com)
+      </div>
+    </div>
+  </div>
+  <div formGroupName="passwords">
+    <div class="form-field">
+      <div class="input-wrap" #passwordField>
+        <input type="password" formControlName="password" placeholder="{{ 'form.input.password' | translate }}" (focus)="onFocusField(passwordField)" (blur)="onBlurField(passwordField)"/>
+      </div>
+      <div class="form-field__icon">
+        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+      </div>
+      <div class="form-field__valid" *ngIf="isSubControlInvalid('password')">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <div class="valid_message">
+          Пароль должен содержать от 6 до 30 символов.
+        </div>
+      </div>
+    </div>
+    <div class="form-field">
+      <div class="input-wrap" #confirmPasswordField>
+        <input type="password" formControlName="confirm_password" placeholder="{{ 'form.input.confirm_password' | translate }}" (focus)="onFocusField(confirmPasswordField)" (blur)="onBlurField(confirmPasswordField)"/>
+      </div>
+      <div class="form-field__icon">
+        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+      </div>
+      <div class="form-field__valid" *ngIf="form.controls['passwords'].invalid && form.controls['passwords'].controls['confirm_password'].touched">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <div class="valid_message">
+          Поле не совпадает с паролем.
+        </div>
+      </div>
+    </div>
+  </div>
 			<div class="submit-panel">
-				<input class="submit-panel__button" type="submit" value="{{ 'reg_page.create' | translate }}">
+				<input class="submit-panel__button" type="submit" value="{{ 'reg_page.create' | translate }}" [disabled]="form.invalid">
 			</div>
 
 			<div class="login-panel">

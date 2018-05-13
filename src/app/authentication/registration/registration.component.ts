@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from '../../_root/service/auth.service';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-registration',
@@ -13,12 +14,14 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   isDataLoaded: boolean;
+  form: FormGroup;
 
   constructor(
     private i18n: I18nService,
     private title: Title,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) { }
 
   async ngOnInit() {
@@ -26,6 +29,64 @@ export class RegistrationComponent implements OnInit {
     this.isDataLoaded = true;
     this.setTitle();
     this.updateTitleOnLangChange();
+    this.initForm();
+  }
+
+  initForm(): void {
+    this.form = this.fb.group({
+      nickname: [null,
+        [
+          Validators.required,
+          Validators.pattern(/^[A-Za-zА-Яа-я\s-_]+[0-9]*$/),
+          Validators.minLength(3),
+          Validators.maxLength(30)
+        ]
+      ],
+       email: [null,
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)
+        ]
+      ],
+      passwords: this.fb.group({
+        password: [null,
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(30)
+          ]
+          ],
+        confirm_password: [null, 
+          [
+            Validators.required
+          ]
+        ]
+      }, {validator: (group: FormGroup) => {
+
+        const pass1 = group.controls['password'].value;
+        const pass2 = group.controls['confirm_password'].value;
+
+        if (pass1 !== pass2) {
+          return {mismatch: true};
+        } else {
+          return false;
+        }
+
+      }})
+    });
+  }
+
+  isControlInvalid(controlName: string): boolean {
+    const control = this.form.controls[controlName];
+    const result = control.invalid && control.touched;
+    return result;
+  }
+
+  isSubControlInvalid(controlName: string): boolean {
+    const passwords = this.form.controls['passwords'] as FormGroup;
+    const control = passwords.controls[controlName];
+    const result = control.invalid && control.touched;
+    return result;
   }
 
   private onFocusField(element: HTMLDivElement): void {
@@ -36,12 +97,10 @@ export class RegistrationComponent implements OnInit {
     element.classList.remove('focus');
   }
 
-  private async reg(event: Event) {
-    event.preventDefault();
-    const form = <HTMLFormElement>event.target;
-    const nickname = form.elements['nickname'].value;
-    const email = form.elements['email'].value;
-    const password = form.elements['password'].value;
+  private async reg(): Promise<void> {
+    const nickname = this.form.controls['nickname'].value;
+    const email = this.form.controls['email'].value;
+    const password = this.form.controls['password'].value;
     try {
       await this.authService.regUser(nickname, email, password);
       this.router.navigate(['authe/login']);
