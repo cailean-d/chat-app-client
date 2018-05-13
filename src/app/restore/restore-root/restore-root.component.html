@@ -1,21 +1,27 @@
 <div class="wrapper">
-    <div class="form-panel">
-      <h2 class="title">{{ 'form.title.restore_access' | translate }}</h2>
-      <form action="#" method="post">
-        <div class="form-field">
-          <div #emailField class="input-wrap">
-            <input type="email" name="Username" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+  <div class="form-panel" *ngIf="isDataLoaded">
+    <h2 class="title">{{ 'form.title.restore_access' | translate }}</h2>
+    <form [formGroup]="form" (submit)="restore()" autocomplete="off" >
+      <div class="form-field">
+        <div #emailField class="input-wrap">
+          <input type="email" formControlName="email" placeholder="{{ 'form.input.email' | translate }}" (focus)="onFocusField(emailField)" (blur)="onBlurField(emailField)"/>
+        </div>
+        <div class="form-field__icon">
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="form-field__valid" *ngIf="isControlInvalid('email')">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <div class="valid_message">
+            Email заполнен некорректно (account@domain.com)
           </div>
-          <div class="form-field__icon">
-            <i class="fa fa-user" aria-hidden="true"></i>
-          </div>
         </div>
-        <div class="submit-panel">
-          <input class="submit-panel__button" type="submit" value="{{ 'restore_page.send' | translate }}" (click)="restore($event)">
-        </div>
-        <div class="back-panel">
-          <a class="back-panel__link" routerLink="">{{ 'button.back' | translate }}</a>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div class="submit-panel">
+        <input class="submit-panel__button" type="submit" value="{{ 'restore_page.send' | translate }}" [disabled]="form.invalid">
+      </div>
+      <div class="back-panel">
+        <a class="back-panel__link" routerLink="">{{ 'button.back' | translate }}</a>
+      </div>
+    </form>
   </div>
+</div>

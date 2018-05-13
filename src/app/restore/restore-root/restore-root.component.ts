@@ -2,6 +2,7 @@ import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-restore-root',
@@ -11,10 +12,12 @@ import { LangChangeEvent } from '@ngx-translate/core';
 export class RestoreRootComponent implements OnInit {
 
   isDataLoaded: boolean;
+  form: FormGroup;
 
   constructor(
     private i18n: I18nService,
-    private title: Title
+    private title: Title,
+    private fb: FormBuilder
   ) { }
 
   async ngOnInit() {
@@ -22,10 +25,27 @@ export class RestoreRootComponent implements OnInit {
     this.isDataLoaded = true;
     this.setTitle();
     this.updateTitleOnLangChange();
+    this.initForm();
   }
 
-  restore(event: Event): void {
-    event.preventDefault();
+  initForm(): void  {
+    this.form = this.fb.group({
+     email: [null,
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)
+      ]
+    ]
+    });
+  }
+
+  isControlInvalid(controlName: string): boolean {
+    const control = this.form.controls[controlName];
+    const result = control.invalid && control.touched;
+    return result;
+  }
+
+  restore(): void {
   }
 
   onFocusField(element: HTMLDivElement): void {
