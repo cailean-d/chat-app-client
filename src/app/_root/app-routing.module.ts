@@ -2,7 +2,6 @@ import { AuthService } from './service/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules, PreloadingStrategy } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
-import { TestTemplateComponent } from './test-template/test-template.component';
 
 const routes: Routes = [
   {
@@ -26,10 +25,6 @@ const routes: Routes = [
   {
     path: 'restore',
     loadChildren: 'app/restore/restore.module#RestoreModule'
-  },
-  {
-    path: 'template',
-    component: TestTemplateComponent
   },
   {
     path: '**',
