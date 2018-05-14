@@ -3,19 +3,26 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Response } from '../__interfaces/response';
 import { Router } from '@angular/router';
+import { NgForage } from 'ngforage';
 
 @Injectable()
 export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private storage: NgForage,
   ) {}
 
   async isLoggedIn(): Promise<boolean> {
     try {
       const response = await this.http.get<Response>('auth/check').toPromise();
       if (response.data) {
+        const user = await this.storage.getItem('user');
+        if (!user) {
+          const responseUser = await this.http.get<Response>('api/users/me').toPromise();
+          await this.storage.setItem('user', responseUser.data);
+        }
         return true;
       } else {
         return false;
