@@ -56,7 +56,7 @@ export class RegistrationComponent implements OnInit {
             Validators.maxLength(30)
           ]
           ],
-        confirm_password: [null, 
+        confirm_password: [null,
           [
             Validators.required
           ]

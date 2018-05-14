@@ -1,0 +1,61 @@
+.popup{
+  position: fixed;
+  opacity: 0;
+  top: -200px;
+  // opacity: 1;
+  // top: 0;
+  left: 0;
+  padding: 25px 20px;
+  background: #4c4b4b;
+  color: #fff;
+  border-radius: 2px;
+  max-width: 288px;
+  // max-height: 48px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  margin: 12px;
+  font-size: 14px;
+  cursor: default;
+  transition: top 0.5s, opacity 0.5s;
+}
+
+.close{
+  position: absolute;
+  font-size: 25px;
+  right: 0;
+  top: 0;
+  margin-right: 5px;
+  color: #ccc;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover{
+    color: #fff;
+  }
+}
+
+.show{
+  top: 0;
+  opacity: 1;
+}
+
+.container{
+  display: flex;
+
+  .icon{
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i{
+      font-size: 50px;
+      color: #00aced;
+    }
+  }
+
+  .message{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

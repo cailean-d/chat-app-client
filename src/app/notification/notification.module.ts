@@ -1,12 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { AuthService } from '../_root/service/auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NotificationModule } from '../notification/notification.module';
+import { PopupMessageComponent } from './popup-message/popup-message.component';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -19,11 +13,7 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   imports: [
     CommonModule,
-    AuthenticationRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NotificationModule,
     TranslateModule.forChild({
       loader: {
           provide: TranslateLoader,
@@ -32,12 +22,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
     })
   ],
-  declarations: [
-    LoginComponent,
-    RegistrationComponent
-  ],
-  providers: [
-    AuthService
-  ]
+  declarations: [PopupMessageComponent],
+  exports: [PopupMessageComponent]
 })
-export class AuthenticationModule { }
+export class NotificationModule { }

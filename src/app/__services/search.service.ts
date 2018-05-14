@@ -59,7 +59,7 @@ export class SearchService {
         }
       });
 
-      this.http.get<Response>('http://localhost:3000/api/users', {params: Params}).subscribe(
+      this.http.get<Response>('api/users', {params: Params}).subscribe(
         response => {
           const res: Response = response;
           const users: Array<UserInterface> = response.data;
@@ -97,7 +97,7 @@ export class SearchService {
           }
         });
 
-        this.http.get<Response>('http://localhost:3000/api/users', {params: Params}).subscribe(
+        this.http.get<Response>('api/users', {params: Params}).subscribe(
           response => {
             const res: Response = response;
             const users: Array<UserInterface> = response.data;

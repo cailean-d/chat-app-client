@@ -84,7 +84,8 @@
     "add_user": "Add a user",
     "call": "Call up",
     "video_call": "Video call",
-    "profile": "Profile"
+    "profile": "Profile",
+    "close": "Close"
   },
   "chat": {
     "type_message": "Type a message"

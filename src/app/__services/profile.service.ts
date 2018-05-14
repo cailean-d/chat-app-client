@@ -14,7 +14,7 @@ export class ProfileService {
 
   async getUser(id: number): Promise<User> {
     try {
-      const r = `http://localhost:3000/api/users/${id}`;
+      const r = `api/users/${id}`;
       const response: any = await this.http.get(r).toPromise();
 
       const _user: UserInterface = response.data;

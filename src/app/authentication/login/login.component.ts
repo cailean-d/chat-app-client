@@ -1,11 +1,12 @@
 import { I18nService } from '../../_root/service/i18n.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from '../../_root/service/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PopupMessageComponent } from '../../notification/popup-message/popup-message.component';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   isDataLoaded: boolean;
   form: FormGroup;
+  @ViewChild(PopupMessageComponent) notification: PopupMessageComponent;
 
   constructor(
     private storage: NgForage,
@@ -23,7 +25,7 @@ export class LoginComponent implements OnInit {
     private i18n: I18nService,
     private title: Title,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { }
 
   async ngOnInit() {
@@ -42,7 +44,7 @@ export class LoginComponent implements OnInit {
       await this.storage.setItem('user', user);
       this.router.navigate(['app']);
     } catch (error) {
-      console.log(error.toString());
+      this.notification.showPopup(error.toString());
     }
   }
 
