@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { I18nService } from '../../_root/service/i18n.service';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-pagenotfound',

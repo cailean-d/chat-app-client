@@ -1,10 +1,10 @@
-import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
 import { User } from '../../__classes/user';
 import { ActivatedRoute } from '@angular/router';
 import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-user',

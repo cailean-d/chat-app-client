@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { AuthService } from '../_root/service/auth.service';
+import { AuthService } from '../__services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationModule } from '../notification/notification.module';
 

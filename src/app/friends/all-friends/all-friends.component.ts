@@ -1,10 +1,10 @@
-import { I18nService } from '../../_root/service/i18n.service';
 import { Title } from '@angular/platform-browser';
 import { FriendList } from '../_classes/friendList';
 import { Component, OnInit } from '@angular/core';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 import { FriendsService } from '../../__services/friends.service';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-all-friends',

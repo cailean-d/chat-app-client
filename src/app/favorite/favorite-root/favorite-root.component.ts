@@ -1,10 +1,10 @@
-import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-favorite-root',

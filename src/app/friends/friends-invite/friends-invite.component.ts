@@ -3,8 +3,8 @@ import { FriendList } from '../_classes/friendList';
 import { Component, OnInit } from '@angular/core';
 import { FriendsRootComponent } from '../friends-root/friends-root.component';
 import { InviteService } from '../../__services/invite.service';
-import { I18nService } from '../../_root/service/i18n.service';
 import { Title } from '@angular/platform-browser';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-friends-invite',

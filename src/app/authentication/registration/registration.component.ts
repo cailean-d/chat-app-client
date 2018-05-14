@@ -1,12 +1,11 @@
-import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
-import { AuthService } from '../../_root/service/auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { PopupMessageComponent } from '../../notification/popup-message/popup-message.component';
-
+import { I18nService } from '../../__services/i18n.service';
+import { AuthService } from '../../__services/auth.service';
 
 @Component({
   selector: 'app-registration',

@@ -1,7 +1,7 @@
 import { LangChangeEvent } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-settings-root',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
-import { I18nService } from '../../_root/service/i18n.service';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-friends-root',

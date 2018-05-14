@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { Response } from '../../__interfaces/response';
+import { Response } from '../__interfaces/response';
 import { Router } from '@angular/router';
 
 @Injectable()

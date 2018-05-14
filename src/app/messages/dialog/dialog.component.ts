@@ -1,4 +1,3 @@
-import { I18nService } from '../../_root/service/i18n.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
@@ -6,6 +5,7 @@ import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { ChatService } from '../../__services/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { I18nService } from '../../__services/i18n.service';
 
 @Component({
   selector: 'app-dialog',

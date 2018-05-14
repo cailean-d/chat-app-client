@@ -1,11 +1,11 @@
 import { LangChangeEvent } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { I18nService } from '../../_root/service/i18n.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForage } from 'ngforage';
 import { InviteService } from '../../__services/invite.service';
-import { AuthService } from '../../_root/service/auth.service';
 import { Router } from '@angular/router';
+import { I18nService } from '../../__services/i18n.service';
+import { AuthService } from '../../__services/auth.service';
 
 
 @Component({
