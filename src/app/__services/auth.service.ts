@@ -18,11 +18,7 @@ export class AuthService {
     try {
       const response = await this.http.get<Response>('auth/check').toPromise();
       if (response.data) {
-        const user = await this.storage.getItem('user');
-        if (!user) {
-          const responseUser = await this.http.get<Response>('api/users/me').toPromise();
-          await this.storage.setItem('user', responseUser.data);
-        }
+        this.getUser();
         return true;
       } else {
         return false;
@@ -71,6 +67,14 @@ export class AuthService {
       const response = await this.http.delete<Response>('auth/logout').toPromise();
     } catch (err) {
       throw new Error(err.error.message);
+    }
+  }
+
+  private async getUser(): Promise<void> {
+    const user = await this.storage.getItem('user');
+    if (!user) {
+      const responseUser = await this.http.get<Response>('api/users/me').toPromise();
+      await this.storage.setItem('user', responseUser.data);
     }
   }
 

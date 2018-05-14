@@ -6,7 +6,7 @@ import { InviteService } from '../../__services/invite.service';
 import { Router } from '@angular/router';
 import { I18nService } from '../../__services/i18n.service';
 import { AuthService } from '../../__services/auth.service';
-
+import { UserInterface } from '../../__interfaces/user';
 
 @Component({
   selector: 'app-menu',
@@ -19,6 +19,7 @@ export class MenuComponent implements OnInit {
   activeBlock: HTMLElement;
   showLanguage: boolean;
   invitesCount: number;
+  avatar = '/assets/images/default-user.png';
 
   constructor(
     protected storage: NgForage,
@@ -34,6 +35,7 @@ export class MenuComponent implements OnInit {
     this.getActiveBlock();
     this.moveActiveBlockOnClick();
     this.updateInviteCount();
+    this.getAvatar();
   }
 
   async logout(): Promise <void> {
@@ -134,6 +136,18 @@ export class MenuComponent implements OnInit {
     this.inviteService.on('length_changed', () => {
       this.invitesCount = this.inviteService.users.length;
     });
+  }
+
+  async getAvatar(): Promise<void> {
+
+    let user: UserInterface;
+
+    do {
+      user = await this.storage.getItem('user') as UserInterface;
+    } while (!user);
+
+    this.avatar = user.avatar;
+
   }
 
 }

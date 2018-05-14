@@ -3,7 +3,6 @@ export interface UserInterface {
   name: string;
   image: string;
   online: boolean | string;
-
   avatar?: string;
   nickname?: string;
   city?: string;
