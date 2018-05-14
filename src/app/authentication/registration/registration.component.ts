@@ -1,10 +1,12 @@
 import { I18nService } from '../../_root/service/i18n.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from '../../_root/service/auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { PopupMessageComponent } from '../../notification/popup-message/popup-message.component';
+
 
 @Component({
   selector: 'app-registration',
@@ -15,6 +17,7 @@ export class RegistrationComponent implements OnInit {
 
   isDataLoaded: boolean;
   form: FormGroup;
+  @ViewChild(PopupMessageComponent) notification: PopupMessageComponent;
 
   constructor(
     private i18n: I18nService,
@@ -100,12 +103,15 @@ export class RegistrationComponent implements OnInit {
   private async reg(): Promise<void> {
     const nickname = this.form.controls['nickname'].value;
     const email = this.form.controls['email'].value;
-    const password = this.form.controls['password'].value;
+    const passwords = this.form.controls['passwords'] as FormGroup;
+    const password = passwords.controls['password'].value;
     try {
       await this.authService.regUser(nickname, email, password);
       this.router.navigate(['authe/login']);
     } catch (error) {
-      console.log(error.toString());
+      const err = error.toString() as string;
+      const msg = err.slice(7, err.length);
+      this.notification.showPopup(msg);
     }
   }
 

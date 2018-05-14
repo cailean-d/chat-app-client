@@ -44,7 +44,9 @@ export class LoginComponent implements OnInit {
       await this.storage.setItem('user', user);
       this.router.navigate(['app']);
     } catch (error) {
-      this.notification.showPopup(error.toString());
+      const err = error.toString() as string;
+      const msg = err.slice(7, err.length);
+      this.notification.showPopup(msg);
     }
   }
 
