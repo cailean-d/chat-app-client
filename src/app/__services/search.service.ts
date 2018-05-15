@@ -4,35 +4,26 @@ import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
 import { usersArray } from '../__arrays/users';
 import { Response } from '../__interfaces/response';
+import { NgForage } from 'ngforage';
 
 @Injectable()
 export class SearchService {
 
   private _search: string;
+
   private dataIsLoading: boolean;
-
-  private usersLoaded: number;
-  private loadQuantity: number;
-
-  private usersFilteredLoaded: number;
+  private loadQuantity = 20;
+  private usersFilteredLoaded = 0;
   private stopLoading;
 
-  public users: User[];
+  public oldSearch: string;
   public usersFiltered: User[];
 
-
-  public oldSearch: string;
-
-  constructor(private http: HttpClient) {
-    this.loadQuantity = 20;
-    this.usersLoaded = 0;
-    this.usersFilteredLoaded = 0;
-    this.users = [];
+  constructor(private http: HttpClient, private storage: NgForage) {
     this.usersFiltered = [];
     this.search = '';
     this.oldSearch = '';
     this.loadUsers();
-    this.loadFilteredUsers();
   }
 
   get search(): string {
@@ -43,10 +34,10 @@ export class SearchService {
     this.oldSearch = this.search;
     this._search = s;
     this.clearFilter();
-    this.loadFilteredUsers();
+    this.loadUsers();
   }
 
-  public loadFilteredUsers(): void {
+  public async loadUsers(): Promise<void>   {
 
     if (!this.dataIsLoading && !this.stopLoading) {
       this.dataIsLoading = true;
@@ -59,84 +50,43 @@ export class SearchService {
         }
       });
 
-      this.http.get<Response>('api/users', {params: Params}).subscribe(
-        response => {
-          const res: Response = response;
-          const users: Array<UserInterface> = response.data;
+      try {
+        const res: Response = await this.http.get<Response>('api/users', {params: Params}).toPromise();
+        const users: Array<UserInterface> = res.data;
 
-          if (this.search !== this.oldSearch) {
-            this.usersFiltered = [];
-          }
+        const usersx = await this.convertResponseToObject(users);
 
-          if (users.length > 0) {
-            const usersx = this.convertResponseToObject(users).sort(this.sortFriends);
-            this.assignLoadedFilteredUsers(usersx);
-            this.usersFilteredLoaded += this.loadQuantity;
-          } else {
-            this.stopLoading = true;
-          }
-          this.dataIsLoading = false;
-        },
-        error => {
-          console.error(error);
-          this.dataIsLoading = false;
+        if (this.search !== this.oldSearch) {
+          this.usersFiltered = [];
         }
-      );
+
+        if (usersx.length > 0) {
+          this.assignLoadedUsers(usersx);
+          this.usersFilteredLoaded += this.loadQuantity;
+        } else {
+          this.stopLoading = true;
+        }
+        this.dataIsLoading = false;
+      } catch (error) {
+        console.error(error);
+        this.dataIsLoading = false;
+      }
     }
   }
 
-  public loadUsers(): void {
-
-    if (!this.dataIsLoading && !this.stopLoading) {
-        this.dataIsLoading = true;
-
-        const Params = new HttpParams({
-          fromObject: {
-            offset: this.usersLoaded.toString(),
-            limit: this.loadQuantity.toString(),
-          }
-        });
-
-        this.http.get<Response>('api/users', {params: Params}).subscribe(
-          response => {
-            const res: Response = response;
-            const users: Array<UserInterface> = response.data;
-            if (users.length > 0) {
-              const usersx = this.convertResponseToObject(users).sort(this.sortFriends);
-              this.assignLoadedUsers(usersx);
-              this.usersLoaded += this.loadQuantity;
-            } else {
-              this.stopLoading = true;
-            }
-            this.dataIsLoading = false;
-          },
-          error => {
-            console.error(error);
-            this.dataIsLoading = false;
-          }
-        );
+  private async convertResponseToObject(obj: Array<UserInterface>): Promise<User[]> {
+    const users = await this.delOwnProfile(obj);
+    const arr: User[] = [];
+    for (const i of users) {
+      arr.push(new User(i.id, i.avatar, i.nickname, i.online));
     }
-
+    return arr;
   }
 
   private assignLoadedUsers(users: User[]): void {
     for (const i of users) {
-      this.users.push(i);
-    }
-  }
-
-  private assignLoadedFilteredUsers(users: User[]): void {
-    for (const i of users) {
       this.usersFiltered.push(i);
     }
-  }
-
-  private convertResponseToObject(obj: Array<UserInterface>): User[] {
-    const arr: User[] = [];
-    for (const i of obj) {
-      arr.push(new User(i.id, i.avatar, i.nickname, i.online));
-    }
-    return arr;
   }
 
   private clearFilter(): void {
@@ -144,14 +94,12 @@ export class SearchService {
     this.usersFilteredLoaded = 0;
   }
 
-  private sortFriends(a: User, b: User): number {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
+  private async delOwnProfile(obj: Array<UserInterface>): Promise<Array<UserInterface>> {
+    const user = await this.storage.getItem('user') as UserInterface;
+    obj = obj.filter(function(o) {
+      return o.id !== user.id;
+    });
+    return obj;
   }
 
 }

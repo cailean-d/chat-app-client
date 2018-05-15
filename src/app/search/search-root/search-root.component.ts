@@ -32,10 +32,10 @@ export class SearchRootComponent implements OnInit {
   set searchValue(value: string) {
     this._searchValue = value;
     this.searchService.search = this.searchValue;
+    this.search.nativeElement.value = value;
   }
 
   ngOnInit() {
-    this.searchValue = '';
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
     this.loadUsersOnScrollDown();
@@ -61,13 +61,12 @@ export class SearchRootComponent implements OnInit {
       const height = this.userListScroll.scrollHeight;
       if (scroll + 20 >= height) {
         this.searchService.oldSearch = this.search.nativeElement.value;
-        this.searchService.loadFilteredUsers();
+        this.searchService.loadUsers();
       }
     });
   }
 
   private clearSearchInput(): void {
-    this.search.nativeElement.value = '';
     this.searchValue = '';
   }
 
