@@ -79,6 +79,10 @@
         &:hover{
           border-color: #434a54;
           background-color: #434a54;
+
+          .red{
+            color: #ec5b51;
+          }
         }
 
         &:disabled{
@@ -89,6 +93,7 @@
 
         *{
           cursor: pointer;
+          transition: color .25s;
         }
       }
     }

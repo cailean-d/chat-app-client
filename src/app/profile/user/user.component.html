@@ -2,10 +2,10 @@
   <div class="main">
     <div class="user">
       <div class="avatar">
-        <img src="{{user.image}}" alt="avatar" draggable="false"/>
+        <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
       </div>
-      <div class="name" title="{{user.name}}">
-        {{user.name}}
+      <div class="name" title="{{user.nickname}}">
+        {{user.nickname}}
       </div>
       <div class="buttons">
           <div class="button" title="{{ 'hint.send_message' | translate }}">
@@ -16,7 +16,7 @@
                   Написать сообщение
               </div> -->
           </div>
-          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="user.isFavorite ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
+          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="false ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
             <div class="icon">
               <i class="fa fa-star"></i>
             </div>
@@ -33,7 +33,7 @@
             </div> -->
           </div>
           <div class="button" title="{{ 'hint.complain_user' | translate }}">
-            <div class="icon">
+            <div class="icon red">
               <i class="fa fa-exclamation-triangle"></i>
             </div>
             <!-- <div class="description">
@@ -41,7 +41,7 @@
             </div> -->
           </div>
           <div class="button" title="{{ 'hint.block_user' | translate }}">
-            <div class="icon">
+            <div class="icon red">
               <i class="fa fa-ban"></i>
             </div>
             <!-- <div class="description">
@@ -66,15 +66,15 @@
           </tr>
           <tr>
             <td>{{ 'profile.gender' | translate }}</td>
-            <td>Мужской</td>
+            <td>{{ user.gender || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.birthday' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.birthday || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.lang' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.language[0] ||  'profile.unknown' | translate }}</td>
           </tr>
         </tbody>
        </table>
@@ -89,19 +89,19 @@
          <tbody>
           <tr>
             <td>{{ 'profile.address' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.phone' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.phone || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.email' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.email || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.web_site' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.website || 'profile.unknown' | translate }}</td>
           </tr>
          </tbody>
        </table>
@@ -116,19 +116,19 @@
          <tbody>
           <tr>
             <td>{{ 'profile.registration' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.date || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.country' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.country || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.city' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ user.city || 'profile.unknown' | translate }}</td>
           </tr>
           <tr>
             <td>{{ 'profile.was_online' | translate }}</td>
-            <td>Неизвестно</td>
+            <td>{{ 'profile.unknown' | translate }}</td>
           </tr>
          </tbody>
        </table>

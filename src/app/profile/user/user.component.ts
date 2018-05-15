@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
-import { User } from '../../__classes/user';
 import { ActivatedRoute } from '@angular/router';
 import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../__services/i18n.service';
+import { UserInterface } from '../../__interfaces/user';
 
 @Component({
   selector: 'app-user',
@@ -13,13 +13,13 @@ import { I18nService } from '../../__services/i18n.service';
 })
 export class UserComponent implements OnInit {
 
-  _user: User;
+  _user: UserInterface;
 
-  get user(): User {
+  get user(): UserInterface {
     return this._user;
   }
 
-  set user(u: User) {
+  set user(u: UserInterface) {
     this._user = u;
     // this.user.isFavorite = this.getFavorite();
     // this.title.setTitle(this.user.nickname);
@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
     // }, 50);
   }
 
-  async getUser() {
+  getUser() {
     this.activeRoute.params.subscribe((params) => {
       this.profile.getUser(params.id).then((res) => {
         if (res) {
@@ -63,21 +63,21 @@ export class UserComponent implements OnInit {
   // }
 
   toggleFavorite(): void {
-    if (this.user.isFavorite) {
-      this.deleteFromFavorite();
-    } else {
-      this.addToFavorite();
-    }
+    // if (this.user.isFavorite) {
+    //   this.deleteFromFavorite();
+    // } else {
+    //   this.addToFavorite();
+    // }
   }
 
   deleteFromFavorite(): void {
-    this.user.isFavorite = false;
-    this.favoriteService.deleteUser(this.user.id);
+    // this.user.isFavorite = false;
+    // this.favoriteService.deleteUser(this.user.id);
   }
 
   addToFavorite(): void {
-    this.user.isFavorite = true;
-    this.favoriteService.addToUser(this.user);
+    // this.user.isFavorite = true;
+    // this.favoriteService.addToUser(this.user);
   }
 
 }

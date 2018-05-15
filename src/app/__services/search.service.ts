@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
-import { usersArray } from '../__arrays/users';
 import { Response } from '../__interfaces/response';
 import { NgForage } from 'ngforage';
 

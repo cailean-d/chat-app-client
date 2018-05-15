@@ -4,9 +4,9 @@ import { messagesArray } from '../__arrays/messages';
 import { Injectable } from '@angular/core';
 import { ChatInterface } from '../__interfaces/chat';
 import { MessageInterface } from '../__interfaces/message';
-import { User } from '../__classes/user';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EventEmitter } from 'eventemitter3';
+import { UserInterface } from '../__interfaces/user';
 
 @Injectable()
 export class ChatService extends EventEmitter {
@@ -14,7 +14,7 @@ export class ChatService extends EventEmitter {
   id: number;
   _title: string;
   image: string;
-  users: Array<User>;
+  users: Array<UserInterface>;
   messages: Array<MessageInterface>;
 
   get title(): string {
@@ -43,7 +43,7 @@ export class ChatService extends EventEmitter {
     this.getMessages(chat.id);
 
     if (!chat.title || !chat.image) {
-      const firstUser: User = this.users.find((el: User) => {
+      const firstUser: UserInterface = this.users.find((el: UserInterface) => {
         return el.id !== 99;
       });
 
@@ -93,7 +93,7 @@ export class ChatService extends EventEmitter {
 
   private addUserInfoToMessage(msg: MessageInterface): MessageInterface {
 
-    const user: User = this.users.find((el: User) => {
+    const user: UserInterface = this.users.find((el: UserInterface) => {
       return +el.id === +msg.sender_id;
     });
 

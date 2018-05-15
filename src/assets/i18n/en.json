@@ -59,7 +59,8 @@
     "country": "Country",
     "city": "City",
     "was_online": "Was Online",
-    "not_found": "User not found"
+    "not_found": "User not found",
+    "unknown": "Unknown"
   },
   "hint" : {
     "search": "People search",

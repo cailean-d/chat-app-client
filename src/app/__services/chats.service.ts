@@ -1,8 +1,8 @@
+import { UserInterface } from '../__interfaces/user';
 import { ProfileService } from './profile.service';
 import { Injectable } from '@angular/core';
 import { chatArray } from '../__arrays/chats';
 import { ChatInterface } from '../__interfaces/chat';
-import { User } from '../__classes/user';
 
 @Injectable()
 export class ChatsService {
@@ -55,7 +55,7 @@ export class ChatsService {
           return el !== 99;
         });
 
-        const user: User = await this.user.getUser(firstUser);
+        const user: UserInterface = await this.user.getUser(firstUser);
 
         if (!chat.title) {
           chat.title = user.name;
