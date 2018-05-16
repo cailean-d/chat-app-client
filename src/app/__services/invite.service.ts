@@ -125,4 +125,46 @@ export class InviteService extends EventEmitter {
     }
   }
 
+  public async getMyInvites(): Promise<UserInterface[]> {
+    try {
+      const res: Response = await this.http.get<Response>('api/invites/me').toPromise();
+      return res.data;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
+  public async isInvited(index: number): Promise<boolean> {
+    try {
+      const r = `api/invites/isinvited/${index}`;
+      const res: Response = await this.http.get<Response>(r).toPromise();
+      return res.data;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
+  public async meIsInvited(index: number): Promise<boolean> {
+    try {
+      const r = `api/invites/isinvited/me/${index}`;
+      const res: Response = await this.http.get<Response>(r).toPromise();
+      return res.data;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
+  public async cancelMyInvite(index: number): Promise<void> {
+    try {
+      const r = `api/invites/me/${this.users[index].id}`;
+      const response: any = await this.http.delete(r).toPromise();
+    } catch (err) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(err);
+    }
+  }
+
 }
