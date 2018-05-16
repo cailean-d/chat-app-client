@@ -112,4 +112,15 @@ export class FriendsService extends EventEmitter {
     }
   }
 
+  public async isFriend(index: number): Promise<boolean> {
+    try {
+      const r = `api/friends/isfriend/${index}`;
+      const response: any = await this.http.get(r).toPromise();
+      return response.data;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
+  }
+
 }
