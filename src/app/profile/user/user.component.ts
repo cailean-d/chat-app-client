@@ -1,3 +1,4 @@
+import { FriendsService } from '../../__services/friends.service';
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
 import { ActivatedRoute } from '@angular/router';
@@ -5,6 +6,7 @@ import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../__services/i18n.service';
 import { UserInterface } from '../../__interfaces/user';
+import { InviteService } from '../../__services/invite.service';
 
 @Component({
   selector: 'app-user',
@@ -27,6 +29,8 @@ export class UserComponent implements OnInit {
 
   constructor(
     private profile: ProfileService,
+    public friendsService: FriendsService,
+    public inviteService: InviteService,
     private activeRoute: ActivatedRoute,
     protected favoriteService: FavoriteService,
     private i18n: I18nService,
@@ -36,9 +40,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    // setTimeout(() => {
-    //   this.title.setTitle(this.user.nickname);
-    // }, 50);
+
   }
 
   getUser() {
@@ -46,7 +48,7 @@ export class UserComponent implements OnInit {
       this.profile.getUser(params.id).then((res) => {
         if (res) {
           this.user = res;
-          this.title.setTitle(this.user.name);
+          this.title.setTitle(this.user.nickname);
         } else {
           this.i18n.translate.get('hint.profile').subscribe((s: string) => {
             this.title.setTitle(s);

@@ -4,9 +4,10 @@ import { Injectable } from '@angular/core';
 import { User } from '../__classes/user';
 import { Response } from '../__interfaces/response';
 import { NgForage } from 'ngforage';
+import { EventEmitter } from 'eventemitter3';
 
 @Injectable()
-export class SearchService {
+export class SearchService extends EventEmitter{
 
   private _search: string;
 
@@ -14,11 +15,13 @@ export class SearchService {
   private loadQuantity = 20;
   private usersFilteredLoaded = 0;
   private stopLoading;
+  public dataIsLoaded: boolean;
 
   public oldSearch: string;
   public usersFiltered: User[];
 
   constructor(private http: HttpClient, private storage: NgForage) {
+    super();
     this.usersFiltered = [];
     this.search = '';
     this.oldSearch = '';
@@ -58,6 +61,9 @@ export class SearchService {
         if (this.search !== this.oldSearch) {
           this.usersFiltered = [];
         }
+
+        this.dataIsLoaded = true;
+        this.emit('DATA_IS_LOADED');
 
         if (usersx.length > 0) {
           this.assignLoadedUsers(usersx);

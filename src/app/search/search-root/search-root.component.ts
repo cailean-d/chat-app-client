@@ -16,6 +16,8 @@ export class SearchRootComponent implements OnInit {
   @ViewChild('search') search: ElementRef;
   @ViewChild('userList') userList: ElementRef;
 
+  dataIsLoaded: boolean;
+
   private _searchValue: string;
   private userListScroll: HTMLElement;
 
@@ -41,6 +43,7 @@ export class SearchRootComponent implements OnInit {
     this.loadUsersOnScrollDown();
     this.setTitle();
     this.updateTitleOnLangChange();
+    this.checkDataLoading();
   }
 
   private changeSearchValueOnInput(): void {
@@ -81,6 +84,16 @@ export class SearchRootComponent implements OnInit {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
+  }
+
+  private checkDataLoading(): void {
+    if (this.searchService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.searchService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
 }
