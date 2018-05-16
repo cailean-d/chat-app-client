@@ -51,28 +51,33 @@ export class FriendsService extends EventEmitter {
       this.emit('DATA_IS_LOADED');
       this.dataIsLoaded = true;
     } catch (res) {
-      console.error(res.error.status, res.error.message);
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
     }
   }
 
   private assignLoadedUsers(users: UserInterface[] | UserInterface): void {
 
     if (Array.isArray(users)) {
-      for (const i of users) {
-        this.users.push(i);
+      if (users.length > 0) {
+        for (const i of users) {
+          this.users.push(i);
+        }
       }
     } else {
-      this.users.push(users);
+      if (users) {
+        this.users.push(users);
+      }
     }
 
     this.users.sort(this.sort);
   }
 
   private sort(a: UserInterface, b: UserInterface): number {
-    if (a.name < b.name) {
+    if (a.nickname < b.nickname) {
       return -1;
     }
-    if (a.name > b.name) {
+    if (a.nickname > b.nickname) {
       return 1;
     }
     return 0;
@@ -94,7 +99,7 @@ export class FriendsService extends EventEmitter {
 
   public async addFriend(index: number): Promise<void> {
     try {
-      const r = `api/friends/${this.users[index].id}`;
+      const r = `api/friends/${index}`;
       const response: any = await this.http.post(r, {}).toPromise();
       const user = response.data;
       this.assignLoadedUsers(user);

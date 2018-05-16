@@ -7,7 +7,7 @@ import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
 import { ProfileModule } from '../profile/profile.module';
-import { FriendsService} from '../__services/friends.service';
+import { FriendsService } from '../__services/friends.service';
 import { InviteService } from '../__services/invite.service';
 import { OnlineService } from '../__services/online.service';
 import { StopBubblingDirective } from '../__directives/stop-bubbling.directive';

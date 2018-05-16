@@ -1,39 +1,46 @@
-<div *ngIf="inviteService.usersFiltered.length > 0; else noMatch">
-  <li class="friend" *ngFor="let friend of inviteService.usersFiltered; let i = index" routerLink="/app/friends/invite/user/{{friend.id}}">
-    <div class="image">
-      <img src="{{friend.image}}" alt="avatar" draggable="false"/>
-      <div class="status">
-        <span *ngIf="friend.online; else offline" >
-            <i class="fa fa-circle online"></i>
-        </span>
-        <ng-template #offline>
-            <i class="fa fa-circle offline"></i>
-        </ng-template>
-      </div>
-    </div>
-    <div class="about">
-      <div class="name">{{friend.name}}</div>
-      <div class="right">
-        <div class="item favorite" *ngIf="!friend.isFavorite"  title="Добавить в избранное">
-            <i class="fa fa-star"></i>
-        </div>
-        <div class="item add" title="Добавить в друзья">
-            <i class="fa fa-plus"></i>
-        </div>
-        <div class="item refuse" title="Проигнорировать приглашение">
-            <i class="fa fa-times" (click)="rejectFriendship(i)"></i>
+<div *ngIf="dataIsLoaded; else loading">
+  <div *ngIf="inviteService.usersFiltered.length > 0; else noMatch">
+    <li class="friend" *ngFor="let friend of inviteService.usersFiltered; let i = index" routerLink="/app/friends/invite/user/{{friend.id}}">
+      <div class="image">
+        <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+        <div class="status">
+          <span *ngIf="friend.online; else offline" >
+              <i class="fa fa-circle online"></i>
+          </span>
+          <ng-template #offline>
+              <i class="fa fa-circle offline"></i>
+          </ng-template>
         </div>
       </div>
-    </div>
-  </li>
-</div>
-<ng-template #noMatch>
-  <li class="notification" *ngIf="searchInput.value !== ''; else noSearch">
-    Заявок не найдено
-  </li>
-  <ng-template #noSearch>
-    <li class="notification">
-      Нет новых заявок
+      <div class="about">
+        <div class="name">{{friend.nickname}}</div>
+        <div class="right" appStopBubbling>
+          <div class="item favorite" *ngIf="!friend.isFavorite"  title="Добавить в избранное">
+              <i class="fa fa-star"></i>
+          </div>
+          <div class="item add" title="Добавить в друзья">
+              <i class="fa fa-plus" (click)="inviteService.addToFriends(i)"></i>
+          </div>
+          <div class="item refuse" title="Проигнорировать приглашение">
+              <i class="fa fa-times" (click)="inviteService.deleteInvite(i)"></i>
+          </div>
+        </div>
+      </div>
     </li>
+  </div>
+  <ng-template #noMatch>
+    <li class="notification" *ngIf="searchInput.value !== ''; else noSearch">
+      Заявок не найдено
+    </li>
+    <ng-template #noSearch>
+      <li class="notification">
+        Нет новых заявок
+      </li>
+    </ng-template>
   </ng-template>
+</div>
+<ng-template #loading>
+  <div class="load" title="{{ 'hint.loading' | translate }}">
+    <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+  </div>
 </ng-template>

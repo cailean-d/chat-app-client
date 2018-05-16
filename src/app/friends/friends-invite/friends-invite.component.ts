@@ -13,6 +13,8 @@ import { I18nService } from '../../__services/i18n.service';
 })
 export class FriendsInviteComponent extends FriendList implements OnInit {
 
+  dataIsLoaded: boolean;
+
   constructor(
     public inviteService: InviteService,
     protected friendsRoot: FriendsRootComponent,
@@ -29,10 +31,7 @@ export class FriendsInviteComponent extends FriendList implements OnInit {
     this.updateSearchOnInput();
     this.setTitle();
     this.updateTitleOnLangChange();
-  }
-
-  rejectFriendship(index: number): void {
-    this.inviteService.deleteInvite(index);
+    this.checkDataLoading();
   }
 
   private setTitle(): void {
@@ -46,6 +45,16 @@ export class FriendsInviteComponent extends FriendList implements OnInit {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
+  }
+
+  private checkDataLoading(): void {
+    if (this.inviteService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.inviteService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
 

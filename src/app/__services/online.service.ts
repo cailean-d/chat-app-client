@@ -1,5 +1,4 @@
 import { UserInterface } from '../__interfaces/user';
-import { User } from '../__classes/user';
 import { Injectable } from '@angular/core';
 import { FriendsService } from './friends.service';
 
@@ -64,10 +63,10 @@ export class OnlineService {
   }
 
   private sort(a: UserInterface, b: UserInterface): number {
-    if (a.name < b.name) {
+    if (a.nickname < b.nickname) {
       return -1;
     }
-    if (a.name > b.name) {
+    if (a.nickname > b.nickname) {
       return 1;
     }
     return 0;

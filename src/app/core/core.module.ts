@@ -5,6 +5,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { RootComponent } from './root/root.component';
 import { InviteService } from '../__services/invite.service';
+import { FriendsService } from '../__services/friends.service';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -33,6 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     InviteService,
+    FriendsService,
     AuthService
   ]
 })

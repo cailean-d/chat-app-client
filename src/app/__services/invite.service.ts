@@ -1,18 +1,21 @@
 import { UserInterface } from '../__interfaces/user';
-import { Injectable } from '@angular/core';
-import { invitesArray } from '../__arrays/invites';
-import { User } from '../__classes/user';
+import { Injectable} from '@angular/core';
 import { EventEmitter } from 'eventemitter3';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Response } from '../__interfaces/response';
+import { FriendsService } from './friends.service';
 
 @Injectable()
 export class InviteService extends EventEmitter {
 
   private _search: string;
 
-  public users: User[];
-  public usersFiltered: User[];
+  public users: UserInterface[];
+  public usersFiltered: UserInterface[];
 
-  constructor() {
+  public dataIsLoaded: boolean;
+
+  constructor(private http: HttpClient, private friendsService: FriendsService) {
     super();
     this.users = [];
     this.usersFiltered = [];
@@ -33,46 +36,93 @@ export class InviteService extends EventEmitter {
     this.usersFiltered = [];
   }
 
+  public async loadUsers(): Promise<void> {
+    try {
+      const res: Response = await this.http.get<Response>('api/invites').toPromise();
+      const u: Array<UserInterface> = res.data;
+      this.assignLoadedUsers(u);
+      this.loadFilteredUsers();
+      this.emit('DATA_IS_LOADED');
+      this.dataIsLoaded = true;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
   public loadFilteredUsers(): void {
     this.usersFiltered = this.users.filter((item) => {
-      return item.name.match(new RegExp(this.search, 'i'));
+      return item.nickname.match(new RegExp(this.search, 'i'));
     });
   }
 
-  public loadUsers(): void {
-    const result: Array<UserInterface> = invitesArray.sort(this.sort);
-    const users = this.convertResponseToObject(result);
-    this.assignLoadedUsers(users);
-  }
+  private assignLoadedUsers(users: UserInterface[] | UserInterface): void {
 
-  private convertResponseToObject(obj: Array<UserInterface>): User[] {
-    const arr: User[] = [];
-    for (const i of obj) {
-      arr.push(new User(i.id, i.image, i.name, i.online));
+    if (Array.isArray(users)) {
+      if (users.length > 0) {
+        for (const i of users) {
+          this.users.push(i);
+        }
+      }
+    } else {
+      if (users) {
+        this.users.push(users);
+      }
     }
-    return arr;
+
+    this.users.sort(this.sort);
   }
 
-  private assignLoadedUsers(users: User[]): void {
-    for (const i of users) {
-      this.users.push(i);
-    }
-  }
-
-  private sort(a: User | UserInterface, b: User | UserInterface): number {
-    if (a.name < b.name) {
+  private sort(a: UserInterface, b: UserInterface): number {
+    if (a.nickname < b.nickname) {
       return -1;
     }
-    if (a.name > b.name) {
+    if (a.nickname > b.nickname) {
       return 1;
     }
     return 0;
   }
 
-  public deleteInvite(index: number): void {
-    this.users.splice(index, 1).sort(this.sort);
-    this.loadFilteredUsers();
-    this.emit('length_changed');
+  public async deleteInvite(index: number): Promise<void> {
+    try {
+      const r = `api/invites/${this.users[index].id}`;
+      const response: any = await this.http.delete(r).toPromise();
+      this.users.splice(index, 1).sort(this.sort);
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
+    } catch (err) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(err);
+    }
+  }
+
+  public async inviteUser(index: number): Promise<void> {
+    try {
+      const r = `api/invites/${index}`;
+      const response: any = await this.http.post(r, {}).toPromise();
+      const user = response.data;
+      this.assignLoadedUsers(user);
+      this.loadFilteredUsers();
+      this.emit('USER_IS_ADDED');
+      this.emit('DATA_IS_CHANGED');
+    } catch (err) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(err);
+    }
+  }
+
+  public async addToFriends(index: number): Promise<void> {
+    try {
+      await this.friendsService.addFriend(this.users[index].id);
+      this.users.splice(index, 1).sort(this.sort);
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
+    } catch (err) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(err);
+    }
   }
 
 }

@@ -15,6 +15,8 @@ import { UserInterface } from '../../__interfaces/user';
 })
 export class MenuComponent implements OnInit {
 
+  subscription: any;
+
   links: NodeListOf<HTMLElement>;
   activeBlock: HTMLElement;
   showLanguage: boolean;
@@ -23,7 +25,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     protected storage: NgForage,
-    protected inviteService: InviteService,
+    public inviteService: InviteService,
     private i18n: I18nService,
     private title: Title,
     private authService: AuthService,
@@ -132,8 +134,10 @@ export class MenuComponent implements OnInit {
   }
 
   updateInviteCount(): void {
-    this.invitesCount = this.inviteService.users.length;
-    this.inviteService.on('length_changed', () => {
+    this.inviteService.on('DATA_IS_LOADED', () => {
+      this.invitesCount = this.inviteService.users.length;
+    });
+    this.inviteService.on('DATA_IS_CHANGED', () => {
       this.invitesCount = this.inviteService.users.length;
     });
   }

@@ -33,13 +33,7 @@ export class AllFriendsComponent extends FriendList implements OnInit {
     this.updateSearchOnInput();
     this.setTitle();
     this.updateTitleOnLangChange();
-    if (this.friendsService.dataIsLoaded) {
-      this.dataIsLoaded = true;
-    } else {
-      this.friendsService.on('DATA_IS_LOADED', () => {
-        this.dataIsLoaded = true;
-      });
-    }
+    this.checkDataLoading();
   }
 
   private setTitle(): void {
@@ -53,6 +47,16 @@ export class AllFriendsComponent extends FriendList implements OnInit {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
+  }
+
+  private checkDataLoading(): void {
+    if (this.friendsService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.friendsService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
 }
