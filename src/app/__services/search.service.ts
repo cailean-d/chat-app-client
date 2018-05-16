@@ -36,7 +36,7 @@ export class SearchService {
     this.loadUsers();
   }
 
-  public async loadUsers(): Promise<void>   {
+  public async loadUsers(): Promise<void> {
 
     if (!this.dataIsLoading && !this.stopLoading) {
       this.dataIsLoading = true;

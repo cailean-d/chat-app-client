@@ -10,6 +10,7 @@ import { ProfileModule } from '../profile/profile.module';
 import { FriendsService} from '../__services/friends.service';
 import { InviteService } from '../__services/invite.service';
 import { OnlineService } from '../__services/online.service';
+import { StopBubblingDirective } from '../__directives/stop-bubbling.directive';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -42,7 +43,8 @@ export function createTranslateLoader(http: HttpClient) {
     FriendsRootComponent,
     AllFriendsComponent,
     FriendsOnlineComponent,
-    FriendsInviteComponent
+    FriendsInviteComponent,
+    StopBubblingDirective
   ]
 })
 export class FriendsModule { }

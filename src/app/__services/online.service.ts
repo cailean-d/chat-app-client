@@ -50,7 +50,7 @@ export class OnlineService {
   }
 
   private loadUsers(): void {
-    const result: Array<User> = this.friendsService.users.filter((item) => {
+    const result: Array<UserInterface> = this.friendsService.users.filter((item) => {
       return item.online === true;
     });
     const users = this.convertResponseToObject(result);

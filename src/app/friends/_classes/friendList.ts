@@ -6,17 +6,19 @@ export class FriendList {
   protected searchInput: any;
 
   clearSearchField(): void {
-    if (this.inviteService) {
-      this.inviteService.search = '';
+    if (this.searchInput.value !== '') {
+      if (this.inviteService) {
+        this.inviteService.search = '';
+      }
+      if (this.onlineService) {
+        this.onlineService.search = '';
+      }
+      if (this.friendsService) {
+        this.friendsService.search = '';
+      }
+      this.searchInput.value = '';
+      this.scrollToTop();
     }
-    if (this.onlineService) {
-      this.onlineService.search = '';
-    }
-    if (this.friendsService) {
-      this.friendsService.search = '';
-    }
-    this.searchInput.value = '';
-    this.scrollToTop();
   }
 
   updateSearchOnInput(): void {

@@ -86,7 +86,8 @@
     "call": "Call up",
     "video_call": "Video call",
     "profile": "Profile",
-    "close": "Close"
+    "close": "Close",
+    "loading": "Loading..."
   },
   "chat": {
     "type_message": "Type a message"

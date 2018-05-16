@@ -5,13 +5,17 @@ import { FriendsRootComponent } from '../friends-root/friends-root.component';
 import { FriendsService } from '../../__services/friends.service';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
+import { UserInterface } from '../../__interfaces/user';
 
 @Component({
   selector: 'app-all-friends',
   templateUrl: './all-friends.component.html',
   styleUrls: ['./all-friends.component.scss']
 })
+
 export class AllFriendsComponent extends FriendList implements OnInit {
+
+  dataIsLoaded: boolean;
 
   constructor(
     public friendsService: FriendsService,
@@ -24,15 +28,18 @@ export class AllFriendsComponent extends FriendList implements OnInit {
 
   protected searchInput: HTMLInputElement = this.friendsRoot.search.nativeElement;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.clearSearchField();
     this.updateSearchOnInput();
     this.setTitle();
     this.updateTitleOnLangChange();
-  }
-
-  private deleteFriend(index: number): void {
-    this.friendsService.deleteFriend(index);
+    if (this.friendsService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.friendsService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
   private setTitle(): void {
