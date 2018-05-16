@@ -8,8 +8,8 @@ export class OnlineService {
 
   private _search: string;
 
-  public users: User[];
-  public usersFiltered: User[];
+  public users: UserInterface[];
+  public usersFiltered: UserInterface[];
 
   constructor(private friendsService: FriendsService) {
     this.loadData();
@@ -34,7 +34,7 @@ export class OnlineService {
   }
 
   private updateDataOnFriendsChange(): void {
-    this.friendsService.on('change', () => {
+    this.friendsService.on('DATA_IS_CHANGED', () => {
       this.loadData();
     });
   }
@@ -53,25 +53,17 @@ export class OnlineService {
     const result: Array<UserInterface> = this.friendsService.users.filter((item) => {
       return item.online === true;
     });
-    const users = this.convertResponseToObject(result);
-    this.assignLoadedUsers(users);
+    this.assignLoadedUsers(result);
   }
 
-  private convertResponseToObject(obj: Array<UserInterface>): User[] {
-    const arr: User[] = [];
-    for (const i of obj) {
-      arr.push(new User(i.id, i.image, i.name, i.online));
-    }
-    return arr;
-  }
-
-  private assignLoadedUsers(users: User[]): void {
+  private assignLoadedUsers(users: UserInterface[]): void {
     for (const i of users) {
       this.users.push(i);
     }
+    this.users.sort(this.sort);
   }
 
-  private sort(a: User | UserInterface, b: User | UserInterface): number {
+  private sort(a: UserInterface, b: UserInterface): number {
     if (a.name < b.name) {
       return -1;
     }

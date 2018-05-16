@@ -2,7 +2,6 @@ import { EventEmitter } from 'eventemitter3';
 import { friendsArray } from '../__arrays/friends';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
-import { User } from '../__classes/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Response } from '../__interfaces/response';
 
@@ -69,7 +68,7 @@ export class FriendsService extends EventEmitter {
     this.users.sort(this.sort);
   }
 
-  private sort(a: User | UserInterface, b: User | UserInterface): number {
+  private sort(a: UserInterface, b: UserInterface): number {
     if (a.name < b.name) {
       return -1;
     }
@@ -86,6 +85,7 @@ export class FriendsService extends EventEmitter {
       this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
       this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
@@ -100,6 +100,7 @@ export class FriendsService extends EventEmitter {
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
       this.emit('USER_IS_ADDED');
+      this.emit('DATA_IS_CHANGED');
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
