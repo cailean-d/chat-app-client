@@ -1,150 +1,157 @@
-<div class="container" *ngIf="user; else notfound" >
-  <div class="main">
-    <div class="user">
-      <div class="avatar">
-        <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
-      </div>
-      <div class="name" title="{{user.nickname}}">
-        {{user.nickname}}
-      </div>
-      <div class="buttons">
-          <div class="button" title="{{ 'hint.send_message' | translate }}">
+<div *ngIf="dataLoaded">
+  <div class="container" *ngIf="user; else notfound" >
+    <div class="main">
+      <div class="user">
+        <div class="avatar">
+          <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
+        </div>
+        <div class="name" title="{{user.nickname}}">
+          {{user.nickname}}
+        </div>
+        <div class="buttons">
+            <div class="button" title="{{ 'hint.send_message' | translate }}">
               <div class="icon">
                 <i class="fa fa-comment"></i>
               </div>
-              <!-- <div class="description">
-                  Написать сообщение
-              </div> -->
-          </div>
-          <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="false ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
-            <div class="icon">
-              <i class="fa fa-star"></i>
             </div>
-            <!-- <div class="description">
-              Добавить в избранное
-            </div> -->
-          </div>
-          <div class="button" title="{{ 'hint.add_friend' | translate }}">
-            <div class="icon">
-              <i class="fa fa-user-plus"></i>
+            <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="false ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
+              <div class="icon">
+                <i class="fa fa-star"></i>
+              </div>
             </div>
-            <!-- <div class="description">
-              Добавить пользователя
-            </div> -->
-          </div>
-          <div class="button" title="{{ 'hint.complain_user' | translate }}">
-            <div class="icon red">
-              <i class="fa fa-exclamation-triangle"></i>
+            <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="addToFriends()" *ngIf="state === 0" >
+              <div class="icon">
+                <i class="fa fa-user-plus"></i>
+              </div>
             </div>
-            <!-- <div class="description">
-              Пожаловаться
-            </div> -->
-          </div>
-          <div class="button" title="{{ 'hint.block_user' | translate }}">
-            <div class="icon red">
-              <i class="fa fa-ban"></i>
+            <div class="button" title="{{ 'hint.reject_user' | translate }}" (click)="rejectInvite()" *ngIf="state === 0" >
+              <div class="icon red">
+                <i class="fa fa-user-times"></i>
+              </div>
             </div>
-            <!-- <div class="description">
-              Заблокировать
-            </div> -->
-          </div>
+            <div class="button" title="{{ 'hint.cancel_friend' | translate }}" (click)="cancelInvite()" *ngIf="state === 1" >
+              <div class="icon red">
+                <i class="fa fa-user-times"></i>
+              </div>
+            </div>
+            <div class="button" title="{{ 'hint.del_friend' | translate }}" (click)="deleteFromFriends()" *ngIf="state === 2" >
+              <div class="icon red">
+                <i class="fa fa-user-times"></i>
+              </div>
+            </div>
+            <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="inviteUser()" *ngIf="state === 3" >
+              <div class="icon">
+                <i class="fa fa-user-plus"></i>
+              </div>
+            </div>
+            <div class="button" title="{{ 'hint.complain_user' | translate }}">
+              <div class="icon red">
+                <i class="fa fa-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="button" title="{{ 'hint.block_user' | translate }}">
+              <div class="icon red">
+                <i class="fa fa-ban"></i>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
+    <div class="user-info">
+        <div class="block">
+          <table>
+          <thead>
+            <tr>
+              <th colspan="2">{{ 'title.basic_info' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ 'profile.id' | translate }}</td>
+              <td>{{user.id}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.gender' | translate }}</td>
+              <td>{{ user.gender || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.birthday' | translate }}</td>
+              <td>{{ user.birthday || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.lang' | translate }}</td>
+              <td>{{ user.language[0] ||  'profile.unknown' | translate }}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        <div class="block">
+          <table>
+            <thead>
+            <tr>
+              <th colspan="2">{{ 'title.contact_info' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{ 'profile.address' | translate }}</td>
+              <td>{{ 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.phone' | translate }}</td>
+              <td>{{ user.phone || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.email' | translate }}</td>
+              <td>{{ user.email || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.web_site' | translate }}</td>
+              <td>{{ user.website || 'profile.unknown' | translate }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="block">
+          <table>
+            <thead>
+            <tr>
+              <th colspan="2">{{ 'title.add_info' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{ 'profile.registration' | translate }}</td>
+              <td>{{ user.date || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.country' | translate }}</td>
+              <td>{{ user.country || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.city' | translate }}</td>
+              <td>{{ user.city || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.was_online' | translate }}</td>
+              <td>{{ 'profile.unknown' | translate }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
   </div>
-  <div class="user-info">
-     <div class="block">
-       <table>
-        <thead>
-          <tr>
-            <th colspan="2">{{ 'title.basic_info' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ 'profile.id' | translate }}</td>
-            <td>{{user.id}}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.gender' | translate }}</td>
-            <td>{{ user.gender || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.birthday' | translate }}</td>
-            <td>{{ user.birthday || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.lang' | translate }}</td>
-            <td>{{ user.language[0] ||  'profile.unknown' | translate }}</td>
-          </tr>
-        </tbody>
-       </table>
-     </div>
-     <div class="block">
-       <table>
-         <thead>
-          <tr>
-            <th colspan="2">{{ 'title.contact_info' | translate }}</th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-            <td>{{ 'profile.address' | translate }}</td>
-            <td>{{ 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.phone' | translate }}</td>
-            <td>{{ user.phone || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.email' | translate }}</td>
-            <td>{{ user.email || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.web_site' | translate }}</td>
-            <td>{{ user.website || 'profile.unknown' | translate }}</td>
-          </tr>
-         </tbody>
-       </table>
-     </div>
-     <div class="block">
-       <table>
-         <thead>
-          <tr>
-            <th colspan="2">{{ 'title.add_info' | translate }}</th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-            <td>{{ 'profile.registration' | translate }}</td>
-            <td>{{ user.date || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.country' | translate }}</td>
-            <td>{{ user.country || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.city' | translate }}</td>
-            <td>{{ user.city || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.was_online' | translate }}</td>
-            <td>{{ 'profile.unknown' | translate }}</td>
-          </tr>
-         </tbody>
-       </table>
-     </div>
-  </div>
+  <ng-template #notfound>
+    <div class="wrapper">
+        <div class="">
+            <div class="icon">
+                <i class="fa fa-user"></i>
+                <i class="fa fa-question"></i>
+            </div>
+            <div class="description">
+              {{ 'profile.not_found' | translate }}
+            </div>
+        </div>
+    </div>
+  </ng-template>
 </div>
-<ng-template #notfound>
-  <div class="wrapper">
-      <div class="">
-          <div class="icon">
-              <i class="fa fa-user"></i>
-              <i class="fa fa-question"></i>
-          </div>
-          <div class="description">
-            {{ 'profile.not_found' | translate }}
-          </div>
-      </div>
-  </div>
-</ng-template>

@@ -8,12 +8,18 @@ import { I18nService } from '../../__services/i18n.service';
 import { UserInterface } from '../../__interfaces/user';
 import { InviteService } from '../../__services/invite.service';
 
+
+enum UserState { IamInvited, InvitedByMe, Friend, NoFriend }
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+
+  dataLoaded: boolean;
+  state: UserState;
 
   _user: UserInterface;
 
@@ -39,15 +45,14 @@ export class UserComponent implements OnInit {
      this.getUser();
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   getUser() {
     this.activeRoute.params.subscribe((params) => {
       this.profile.getUser(params.id).then((res) => {
         if (res) {
           this.user = res;
+          this.getUserStatus(this.user.id);
           this.title.setTitle(this.user.nickname);
         } else {
           this.i18n.translate.get('hint.profile').subscribe((s: string) => {
@@ -56,6 +61,71 @@ export class UserComponent implements OnInit {
         }
       });
     });
+  }
+
+  async getUserStatus(id: number): Promise<void> {
+    const a = await this.inviteService.isInvited(id);
+    try {
+      if (a) {
+        this.state = UserState.InvitedByMe;
+      } else {
+        const b = await this.inviteService.meIsInvited(id);
+        if (b) {
+          this.state = UserState.IamInvited;
+        } else {
+          const c = await this.friendsService.isFriend(id);
+          if (c) {
+            this.state = UserState.Friend;
+          } else {
+            this.state = UserState.NoFriend;
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.dataLoaded = true;
+    }
+
+    // this.inviteService.isInvited(id).then((data) => {
+    //   if (data) {
+    //     this.state = UserState.InvitedByMe;
+    //   } else {
+    //     this.inviteService.meIsInvited(id).then((data2) => {
+    //       if (data2) {
+    //         this.state = UserState.IamInvited;
+    //       } else {
+    //         this.friendsService.isFriend(id).then((data3) => {
+    //           if (data3) {
+    //             this.state = UserState.Friend;
+    //           } else {
+    //             this.state = UserState.NoFriend;
+    //           }
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+  }
+
+  private addToFriends(): void {
+    this.inviteService.addToFriendsById(this.user.id).then(() => { this.state = UserState.Friend; });
+  }
+
+  private deleteFromFriends(): void {
+    this.friendsService.deleteFriend(this.user.id).then(() => { this.state = UserState.NoFriend; });
+  }
+
+  private inviteUser(): void {
+    this.inviteService.inviteUser(this.user.id).then(() => { this.state = UserState.InvitedByMe; });
+  }
+
+  private cancelInvite(): void {
+    this.inviteService.cancelMyInvite(this.user.id).then(() => { this.state = UserState.NoFriend; });
+  }
+
+  private rejectInvite(): void {
+    this.inviteService.deleteInvite(this.user.id).then(() => { this.state = UserState.NoFriend; });
   }
 
   // getFavorite(): boolean {

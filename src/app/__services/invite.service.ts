@@ -125,6 +125,21 @@ export class InviteService extends EventEmitter {
     }
   }
 
+  public async addToFriendsById(index: number): Promise<void> {
+    try {
+      await this.friendsService.addFriend(index);
+      this.users = this.users.filter((item) => {
+        return item.id !== index;
+      });
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
+    } catch (err) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(err);
+    }
+  }
+
   public async getMyInvites(): Promise<UserInterface[]> {
     try {
       const res: Response = await this.http.get<Response>('api/invites/me').toPromise();

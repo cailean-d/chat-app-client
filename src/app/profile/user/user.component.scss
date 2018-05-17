@@ -19,10 +19,6 @@
     border-right: 2px solid #c0c0c0;
     position: relative;
 
-    @media screen and (max-width: 1150px){
-      width: 380px;
-    }
-
     .avatar{
       border-radius: 50%;
       height: 300px;
@@ -63,8 +59,9 @@
       }
 
       .button{
+        width: 50px;
         display: flex;
-        margin-right: 10px;
+        margin-right: 5px;
         cursor: pointer;
         position: relative;
         padding: 5px 12px;
@@ -101,7 +98,7 @@
 
   .user-info{
     flex-grow: 1;
-    padding: 20px 60px;
+    padding: 20px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
