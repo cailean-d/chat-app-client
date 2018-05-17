@@ -28,7 +28,9 @@ export function createTranslateLoader(http: HttpClient) {
       }
   })
   ],
-  declarations: [FavoriteRootComponent],
+  declarations: [
+    FavoriteRootComponent,
+  ],
   providers: [
     FavoriteService
   ]

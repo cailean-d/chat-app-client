@@ -15,13 +15,13 @@
       <div class="about">
         <div class="name">{{friend.nickname}}</div>
         <div class="right" appStopBubbling>
-          <div class="item favorite" *ngIf="!friend.isFavorite"  title="Добавить в избранное">
+          <div class="item favorite" *ngIf="!friend.isFavorite"  title="{{ 'hint.add_favorite' | translate}}">
               <i class="fa fa-star"></i>
           </div>
-          <div class="item add" title="Добавить в друзья">
+          <div class="item add" title="{{ 'hint.add_friend' | translate}}">
               <i class="fa fa-plus" (click)="inviteService.addToFriends(i)"></i>
           </div>
-          <div class="item refuse" title="Проигнорировать приглашение">
+          <div class="item refuse" title="{{ 'hint.reject_user' | translate}}">
               <i class="fa fa-times" (click)="inviteService.deleteInvite(i)"></i>
           </div>
         </div>

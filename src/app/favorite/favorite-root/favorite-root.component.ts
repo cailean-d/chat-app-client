@@ -13,6 +13,8 @@ import { I18nService } from '../../__services/i18n.service';
 })
 export class FavoriteRootComponent implements OnInit {
 
+  dataIsLoaded: boolean;
+
   @ViewChild('search') search: ElementRef;
   @ViewChild('userList') userList: ElementRef;
 
@@ -34,11 +36,11 @@ export class FavoriteRootComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchValue = '';
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
     this.setTitle();
     this.updateTitleOnLangChange();
+    this.checkDataLoading();
   }
 
   changeSearchValueOnInput(): void {
@@ -68,6 +70,16 @@ export class FavoriteRootComponent implements OnInit {
     this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
+  }
+
+  private checkDataLoading(): void {
+    if (this.favoriteService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.favoriteService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
 }

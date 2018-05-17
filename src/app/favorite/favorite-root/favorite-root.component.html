@@ -2,18 +2,18 @@
   <div class="side-field">
     <div class="search">
       <div class="search-field">
-          <input type="text" placeholder="Поиск" #search/>
+          <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
           <i class="fa fa-search"></i>
-          <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
+          <i class="fa fa-times" title="{{ 'hint.cancel' | translate }}" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
       </div>
     </div>
     <ul class="user-list" #userList>
-      <div *ngIf="searchValue !== ''; else users" >
+      <div *ngIf="dataIsLoaded; else loading">
         <div *ngIf="favoriteService.usersFiltered.length > 0; else notFound">
           <li *ngFor="let user of favoriteService.usersFiltered; let i = index">
             <div class="user" routerLink="user/{{user.id}}">
               <div class="image">
-                <img src="{{user.image}}" alt="avatar" draggable="false"/>
+                <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
                 <div class="status">
                   <span *ngIf="user.online === true; else left" >
                       <i class="fa fa-circle online"></i>
@@ -25,44 +25,31 @@
                 </div>
               </div>
               <div class="about">
-                <div class="name">{{user.name}}</div>
+                <div class="name">{{user.nickname}}</div>
+                <div class="right" appStopBubbling>
+                  <div class="item refuse" title="{{ 'hint.del_favorite' | translate}}">
+                      <i class="fa fa-times" (click)="favoriteService.deleteFavorite(i)"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </li>
         </div>
         <ng-template #notFound>
-          <li class="notification">
-            Пользователей не найдено
-          </li>
+            <li class="notification" *ngIf="searchValue == ''; else noMatch">
+              Вы еще не добавили ни одного друга
+            </li>
+            <ng-template #noMatch>
+              <li class="notification">
+                Друзей не найдено
+              </li>
+            </ng-template>
         </ng-template>
       </div>
-      <ng-template #users>
-        <div *ngIf="favoriteService.users.length > 0; else noUsers" >
-          <li *ngFor="let user of favoriteService.users; let i = index">
-            <div class="user" routerLink="user/{{user.id}}">
-              <div class="image">
-                <img src="{{user.image}}" alt="avatar" draggable="false"/>
-                <div class="status">
-                  <span *ngIf="user.online === true; else left" >
-                      <i class="fa fa-circle online"></i>
-                      {{user.online}}
-                  </span>
-                  <ng-template #left>
-                      <i class="fa fa-circle offline"></i>
-                  </ng-template>
-                </div>
-              </div>
-              <div class="about">
-                <div class="name">{{user.name}}</div>
-              </div>
-            </div>
-          </li>
+      <ng-template #loading>
+        <div class="load" title="{{ 'hint.loading' | translate }}">
+          <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
         </div>
-        <ng-template #noUsers>
-          <li class="notification">
-            Вы еще не добавили в избранное ни одного пользователя
-          </li>
-        </ng-template>
       </ng-template>
     </ul>
   </div>

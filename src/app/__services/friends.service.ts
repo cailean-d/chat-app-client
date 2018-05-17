@@ -1,5 +1,4 @@
 import { EventEmitter } from 'eventemitter3';
-import { friendsArray } from '../__arrays/friends';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
