@@ -1,12 +1,11 @@
-import { ProfileService } from './profile.service';
-import { chatArray } from '../__arrays/chats';
-import { messagesArray } from '../__arrays/messages';
 import { Injectable } from '@angular/core';
 import { ChatInterface } from '../__interfaces/chat';
 import { MessageInterface } from '../__interfaces/message';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EventEmitter } from 'eventemitter3';
 import { UserInterface } from '../__interfaces/user';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Response } from '../__interfaces/response';
 
 @Injectable()
 export class ChatService extends EventEmitter {
@@ -14,8 +13,8 @@ export class ChatService extends EventEmitter {
   id: number;
   _title: string;
   image: string;
-  users: Array<UserInterface>;
-  messages: Array<MessageInterface>;
+  users: UserInterface[];
+  messages: MessageInterface[];
 
   get title(): string {
     return this._title;
@@ -26,43 +25,28 @@ export class ChatService extends EventEmitter {
     this.emit('title_changed');
   }
 
-  constructor(private profileService: ProfileService, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
     super();
   }
 
-  public getChatData(id: number): void {
+  public async getChatData(id: number): Promise<void> {
 
-    // this.users = [];
-    // this.messages = [];
+    this.users = [];
+    this.messages = [];
 
-    // const chat: ChatInterface = chatArray.find((el: any) => {
-    //   return +el.id === +id;
-    // });
+    this.getUsers(id);
+    this.getMessages(id);
 
-    // this.getUsers(chat.users);
-    // this.getMessages(chat.id);
+    const room = await this.getRoom(id);
 
-    // if (!chat.title || !chat.picture) {
-    //   const firstUser: UserInterface = this.users.find((el: UserInterface) => {
-    //     return el.id !== 99;
-    //   });
-
-    //   if (!chat.title) {
-    //     this.title = firstUser.name;
-    //   }
-
-    //   if (!chat.picture) {
-    //     this.image = firstUser.image;
-    //   }
-
-    // } else {
-    //   this.title = chat.title;
-    //   this.image = chat.image;
-    // }
+    this.id = id;
+    this.title = room.title;
+    this.image = room.picture;
 
   }
 
   public addMessage(msg: MessageInterface): void {
+    this.sendMessage(msg.message);
     let tempMessage = msg;
     tempMessage = this.addUserInfoToMessage(tempMessage);
     tempMessage.message = this.parseImage(tempMessage.message);
@@ -71,34 +55,61 @@ export class ChatService extends EventEmitter {
     this.messages.push(tempMessage);
   }
 
-  private async getUsers(id: number[]): Promise<void> {
-    for (const i of id) {
-      const user = await this.profileService.getUser(i);
-      this.users.push(user);
+  private async getUsers(id: number): Promise<void> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/rooms/${id}/users`).toPromise();
+      this.users = res.data as UserInterface[];
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
     }
   }
 
-  private getMessages(id: number): void {
+  private async getMessages(id: number): Promise<void> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/messages/${id}`).toPromise();
+      const msgs = res.data as MessageInterface[];
 
-    const messages: Array<MessageInterface> = messagesArray.filter((el) => {
-      return +el.chat_id === +id;
-    });
+      for (let i = msgs.length - 1; i >= 0; i--) {
+        this.messages.push(msgs[i]);
+      }
 
-    for (let msg of messages) {
-      msg = this.addUserInfoToMessage(msg);
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
     }
+  }
 
-    this.messages = messages;
+  private async getRoom(id: number): Promise<ChatInterface> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/rooms/${id}`).toPromise();
+      return res.data as ChatInterface;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
+  }
+
+  private async sendMessage(msg: string): Promise<void> {
+    try {
+      const res: Response = await this.http.post<Response>(`api/messages/${this.id}`, {
+        message: msg
+      }).toPromise();
+
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
   }
 
   private addUserInfoToMessage(msg: MessageInterface): MessageInterface {
 
-    const user: UserInterface = this.users.find((el: UserInterface) => {
-      return +el.id === +msg.sender_id;
-    });
+    // const user: UserInterface = this.users.find((el: UserInterface) => {
+    //   return +el.id === +msg.sender_id;
+    // });
 
-    msg.sender_image = user.image;
-    msg.sender_name = user.name;
+    // msg.sender_image = user.image;
+    // msg.sender_name = user.name;
 
     return msg;
   }

@@ -6,6 +6,8 @@ import { ChatService } from '../../__services/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
+import { NgForage } from 'ngforage';
+import { UserInterface } from '../../__interfaces/user';
 
 @Component({
   selector: 'app-dialog',
@@ -16,27 +18,29 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
-  @ViewChild('friendList') friendList: ElementRef;
 
   messageList: HTMLElement;
+
+  dataisLoaded: boolean;
+  user: UserInterface;
 
   constructor(
     private sanitizer: DomSanitizer,
     public chatService: ChatService,
     private activeRoute: ActivatedRoute,
     private i18n: I18nService,
-    private title: Title
-  ) {
-  }
+    private title: Title,
+    protected storage: NgForage,
+  ) { }
 
   ngOnInit() {
     this.setCustomScrollbar();
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
-    this.getChatData();
     this.setTitle();
     this.updateTitleOnLangChange();
     this.updateTitleOnChatChange();
+    this.getChatData();
   }
 
   ngAfterViewInit() {
@@ -45,8 +49,16 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   getChatData(): void {
     this.activeRoute.params.subscribe((params) => {
-      this.chatService.getChatData(params.id);
+      this.chatService.getChatData(params.id).then(() => {
+        this.getUserdata().then(() => {
+          this.dataisLoaded = true;
+        });
+      });
     });
+  }
+
+  async getUserdata(): Promise<void> {
+    this.user = await this.storage.getItem('user') as UserInterface;
   }
 
   setCustomScrollbar(): void {
@@ -89,9 +101,11 @@ export class DialogComponent implements OnInit, AfterViewInit {
     if (message.value.trim() !== '') {
 
       this.chatService.addMessage({
-        sender_id: 99,
+        sender_id: this.user.id,
         message: message.value,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        sender_nickname: this.user.nickname,
+        sender_avatar: this.user.avatar
       });
 
       message.value = null;
