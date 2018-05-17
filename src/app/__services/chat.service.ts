@@ -32,33 +32,33 @@ export class ChatService extends EventEmitter {
 
   public getChatData(id: number): void {
 
-    this.users = [];
-    this.messages = [];
+    // this.users = [];
+    // this.messages = [];
 
-    const chat: ChatInterface = chatArray.find((el: any) => {
-      return +el.id === +id;
-    });
+    // const chat: ChatInterface = chatArray.find((el: any) => {
+    //   return +el.id === +id;
+    // });
 
-    this.getUsers(chat.members);
-    this.getMessages(chat.id);
+    // this.getUsers(chat.users);
+    // this.getMessages(chat.id);
 
-    if (!chat.title || !chat.image) {
-      const firstUser: UserInterface = this.users.find((el: UserInterface) => {
-        return el.id !== 99;
-      });
+    // if (!chat.title || !chat.picture) {
+    //   const firstUser: UserInterface = this.users.find((el: UserInterface) => {
+    //     return el.id !== 99;
+    //   });
 
-      if (!chat.title) {
-        this.title = firstUser.name;
-      }
+    //   if (!chat.title) {
+    //     this.title = firstUser.name;
+    //   }
 
-      if (!chat.image) {
-        this.image = firstUser.image;
-      }
+    //   if (!chat.picture) {
+    //     this.image = firstUser.image;
+    //   }
 
-    } else {
-      this.title = chat.title;
-      this.image = chat.image;
-    }
+    // } else {
+    //   this.title = chat.title;
+    //   this.image = chat.image;
+    // }
 
   }
 

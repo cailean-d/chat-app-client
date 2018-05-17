@@ -8,12 +8,12 @@
       </div>
     </div>
     <ul class="user-list" #chatList>
-      <div *ngIf="searchValue !== ''; else users" >
+      <div *ngIf="dataIsLoaded; else loading">
         <div *ngIf="chatService.chatsFiltered.length > 0; else notFound">
           <li *ngFor="let chat of chatService.chatsFiltered; let i = index">
             <div class="user" routerLink="{{chat.id}}">
               <div class="image">
-                <img src="{{chat.image}}" alt="avatar" draggable="false"/>
+                <img src="{{chat.picture}}" alt="avatar" draggable="false"/>
                 <!-- <div class="status"> -->
                   <!-- <span *ngIf="user.online === true; else left" >
                       <i class="fa fa-circle online"></i>
@@ -25,34 +25,6 @@
                 <!-- </div> -->
               </div>
               <div class="about">
-                <div class="name">{{chat.title}}</div>
-              </div>
-            </div>
-          </li>
-        </div>
-        <ng-template #notFound>
-          <li class="notification">
-            Пользователей не найдено
-          </li>
-        </ng-template>
-      </div>
-      <ng-template #users>
-        <div *ngIf="chatService.chats.length > 0; else noUsers" >
-          <li *ngFor="let chat of chatService.chats; let i = index">
-            <div class="user" routerLink="{{chat.id}}">
-              <div class="image">
-                <img src="{{chat.image}}" alt="avatar" draggable="false"/>
-                <!-- <div class="status">
-                  <span *ngIf="user.online === true; else left" >
-                      <i class="fa fa-circle online"></i>
-                      {{user.online}}
-                  </span>
-                  <ng-template #left>
-                      <i class="fa fa-circle offline"></i>
-                  </ng-template>
-                </div> -->
-              </div>
-              <div class="about">
                 <div class="name">
                   <span>
                     {{chat.title}}
@@ -60,18 +32,28 @@
                 </div>
                 <div class="last-message">
                   <span>
-                    {{chat.lastMessage}}
+                    {{chat.message}}
                   </span>
                 </div>
               </div>
             </div>
           </li>
         </div>
-        <ng-template #noUsers>
-          <li class="notification">
-            У вас нет активных диалогов
+        <ng-template #notFound>
+          <li class="notification" *ngIf="searchValue == ''; else noMatch">
+            У Вас не создано ни одной беседы
           </li>
+          <ng-template #noMatch>
+            <li class="notification">
+              Беседа не найдена
+            </li>
+          </ng-template>
         </ng-template>
+      </div>
+      <ng-template #loading>
+        <div class="load" title="{{ 'hint.loading' | translate }}">
+          <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+        </div>
       </ng-template>
     </ul>
   </div>

@@ -15,6 +15,7 @@ export class DialogListComponent implements OnInit {
   @ViewChild('chatList') chatList: ElementRef;
 
   private _searchValue: string;
+  dataIsLoaded: boolean;
 
   constructor(
     protected chatService: ChatsService,
@@ -31,9 +32,9 @@ export class DialogListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchValue = '';
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
+    this.checkDataLoading();
   }
 
   changeSearchValueOnInput(): void {
@@ -50,6 +51,16 @@ export class DialogListComponent implements OnInit {
   clearSearchInput(): void {
     this.search.nativeElement.value = '';
     this.searchValue = '';
+  }
+
+  private checkDataLoading(): void {
+    if (this.chatService.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      this.chatService.on('DATA_IS_LOADED', () => {
+        this.dataIsLoaded = true;
+      });
+    }
   }
 
 }

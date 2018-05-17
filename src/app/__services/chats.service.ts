@@ -1,16 +1,18 @@
-import { UserInterface } from '../__interfaces/user';
-import { ProfileService } from './profile.service';
 import { Injectable } from '@angular/core';
-import { chatArray } from '../__arrays/chats';
 import { ChatInterface } from '../__interfaces/chat';
+import { EventEmitter } from 'eventemitter3';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Response } from '../__interfaces/response';
 
 @Injectable()
-export class ChatsService {
+export class ChatsService extends EventEmitter {
 
   private _search: string;
 
   public chats: ChatInterface[];
   public chatsFiltered: ChatInterface[];
+
+  public dataIsLoaded: boolean;
 
   get search(): string {
     return this._search;
@@ -22,7 +24,8 @@ export class ChatsService {
     this.loadFilteredChats();
   }
 
-  constructor(private user: ProfileService) {
+  constructor(private http: HttpClient) {
+    super();
     this.chats = [];
     this.chatsFiltered = [];
     this.loadChats();
@@ -34,41 +37,35 @@ export class ChatsService {
     });
   }
 
-  public loadChats(): void {
-    const result: Array<ChatInterface> = chatArray.sort(this.sortChats);
-    this.assignLoadedUsers(result);
-  }
-
-  private async assignLoadedUsers(chats: ChatInterface[]): Promise<void> {
-    for (const i of chats) {
-      this.chats.push(await this.getChatInfo(i));
+  public async loadChats(): Promise<void> {
+    try {
+      const res: Response = await this.http.get<Response>('api/rooms').toPromise();
+      const u: Array<ChatInterface> = res.data;
+      this.assignLoadedChats(u);
+      this.loadFilteredChats();
+      this.emit('DATA_IS_LOADED');
+      this.dataIsLoaded = true;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
     }
   }
 
-  private async getChatInfo(chat: ChatInterface) {
+  private assignLoadedChats(chats: ChatInterface[] | ChatInterface): void {
 
-      if (!chat.title || !chat.image) {
-
-        const members: number[] = chat.members;
-
-        const firstUser: number = members.find((el: any) => {
-          return el !== 99;
-        });
-
-        const user: UserInterface = await this.user.getUser(firstUser);
-
-        if (!chat.title) {
-          chat.title = user.name;
+    if (Array.isArray(chats)) {
+      if (chats.length > 0) {
+        for (const i of chats) {
+          this.chats.push(i);
         }
-
-        if (!chat.image) {
-          chat.image = user.image;
-        }
-
       }
+    } else {
+      if (chats) {
+        this.chats.push(chats);
+      }
+    }
 
-      return chat;
-
+    this.chats.sort(this.sortChats);
   }
 
   private clearFilter(): void {
