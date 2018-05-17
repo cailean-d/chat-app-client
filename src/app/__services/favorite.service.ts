@@ -96,6 +96,22 @@ export class FavoriteService extends EventEmitter {
     }
   }
 
+  public async deleteFavoriteById(index: number): Promise<void> {
+    try {
+      const r = `api/favorite/${index}`;
+      const response: any = await this.http.delete(r).toPromise();
+      this.users = this.users.filter((item) => {
+        return item.id !== index;
+      });
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
+  }
+
   public async addFavorite(index: number): Promise<void> {
     try {
       const r = `api/favorite/${index}`;
@@ -110,5 +126,6 @@ export class FavoriteService extends EventEmitter {
       throw new Error(res.error.message);
     }
   }
+
 
 }

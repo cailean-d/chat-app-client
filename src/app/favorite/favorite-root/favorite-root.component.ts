@@ -24,7 +24,7 @@ export class FavoriteRootComponent implements OnInit {
     protected favoriteService: FavoriteService,
     private i18n: I18nService,
     private title: Title
-  ) { }
+  ) {}
 
   get searchValue(): string {
     return this._searchValue;

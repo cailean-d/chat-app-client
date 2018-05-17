@@ -14,7 +14,12 @@
                 <i class="fa fa-comment"></i>
               </div>
             </div>
-            <div class="button" [ngClass]="{'active' : user.isFavorite}" (click)="toggleFavorite()" [attr.title]="false ? ('hint.del_favorite' | translate): ('hint.add_favorite' | translate)">
+            <div class="button" title="{{ 'hint.del_favorite' | translate }}" *ngIf="favState === 0" (click)="deleteFromFavorite()" >
+              <div class="icon red active">
+                <i class="fa fa-star"></i>
+              </div>
+            </div>
+            <div class="button" title="{{ 'hint.del_favorite' | translate }}" *ngIf="favState === 1" (click)="addToFavorite()">
               <div class="icon">
                 <i class="fa fa-star"></i>
               </div>

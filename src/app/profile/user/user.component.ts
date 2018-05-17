@@ -8,8 +8,8 @@ import { I18nService } from '../../__services/i18n.service';
 import { UserInterface } from '../../__interfaces/user';
 import { InviteService } from '../../__services/invite.service';
 
-
 enum UserState { IamInvited, InvitedByMe, Friend, NoFriend }
+enum FavoriteState { Favorite, NotFavorite }
 
 @Component({
   selector: 'app-user',
@@ -20,6 +20,7 @@ export class UserComponent implements OnInit {
 
   dataLoaded: boolean;
   state: UserState;
+  favState: FavoriteState;
 
   _user: UserInterface;
 
@@ -81,31 +82,21 @@ export class UserComponent implements OnInit {
           }
         }
       }
+
+      const isFavorite = this.favoriteService.users.some(e => e.id === id);
+
+      if (isFavorite) {
+        this.favState = FavoriteState.Favorite;
+      } else {
+        this.favState = FavoriteState.NotFavorite;
+      }
+
     } catch (error) {
       console.log(error);
     } finally {
       this.dataLoaded = true;
     }
 
-    // this.inviteService.isInvited(id).then((data) => {
-    //   if (data) {
-    //     this.state = UserState.InvitedByMe;
-    //   } else {
-    //     this.inviteService.meIsInvited(id).then((data2) => {
-    //       if (data2) {
-    //         this.state = UserState.IamInvited;
-    //       } else {
-    //         this.friendsService.isFriend(id).then((data3) => {
-    //           if (data3) {
-    //             this.state = UserState.Friend;
-    //           } else {
-    //             this.state = UserState.NoFriend;
-    //           }
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
   }
 
   private addToFriends(): void {
@@ -128,28 +119,13 @@ export class UserComponent implements OnInit {
     this.inviteService.deleteInvite(this.user.id).then(() => { this.state = UserState.NoFriend; });
   }
 
-  // getFavorite(): boolean {
-  //   return !!this.favoriteService.users.find((el: any) => {
-  //     return el.id === this.user.id;
-  //   });
-  // }
-
-  toggleFavorite(): void {
-    // if (this.user.isFavorite) {
-    //   this.deleteFromFavorite();
-    // } else {
-    //   this.addToFavorite();
-    // }
+  private addToFavorite(): void {
+    this.favoriteService.addFavorite(this.user.id).then(() => { this.favState = FavoriteState.Favorite; });
   }
 
-  deleteFromFavorite(): void {
-    // this.user.isFavorite = false;
-    // this.favoriteService.deleteUser(this.user.id);
-  }
-
-  addToFavorite(): void {
-    // this.user.isFavorite = true;
-    // this.favoriteService.addToUser(this.user);
+  private deleteFromFavorite(): void {
+    this.favoriteService.deleteFavoriteById(this.user.id)
+    .then(() => { this.favState = FavoriteState.NotFavorite; });
   }
 
 }
