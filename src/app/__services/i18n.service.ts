@@ -12,10 +12,15 @@ export class I18nService {
     public translate: TranslateService,
     private storage: NgForage,
   ) {
+    this.init();
+  }
+
+  async init(): Promise<void> {
     this.translate.addLangs(['ru', 'en']);
     this.browserLang = this.translate.getBrowserLang();
-    this.translate.setDefaultLang('en');
     this.langs = this.translate.getLangs();
+    this.translate.setDefaultLang(this.browserLang);
+    await this.useLanguage();
   }
 
   async switchLanguage(lang: string): Promise <void> {
