@@ -3,10 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { MainComponent } from './main/main.component';
 import { UserComponent } from './user/user.component';
-import { ProfileService } from '../__services/profile.service';
-import { FavoriteService } from '../__services/favorite.service';
-import { FriendsService } from '../__services/friends.service';
-import { InviteService } from '../__services/invite.service';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -33,9 +29,6 @@ export function createTranslateLoader(http: HttpClient) {
     MainComponent,
     UserComponent
   ],
-  providers: [
-    ProfileService,
-    FavoriteService
-  ]
+  providers: []
 })
 export class ProfileModule { }

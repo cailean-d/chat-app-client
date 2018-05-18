@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { FavoriteRoutingModule } from './favorite-routing.module';
 import { FavoriteRootComponent } from './favorite-root/favorite-root.component';
-import { FavoriteService } from '../__services/favorite.service';
 import { ProfileModule } from '../profile/profile.module';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -31,8 +30,6 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     FavoriteRootComponent,
   ],
-  providers: [
-    FavoriteService
-  ]
+  providers: []
 })
 export class FavoriteModule { }

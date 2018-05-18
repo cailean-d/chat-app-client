@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SearchRoutingModule } from './search-routing.module';
 import { SearchRootComponent } from './search-root/search-root.component';
-import { SearchService } from './../__services/search.service';
 import { ProfileModule } from '../profile/profile.module';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -29,8 +28,6 @@ export function createTranslateLoader(http: HttpClient) {
   })
   ],
   declarations: [SearchRootComponent],
-  providers: [
-    SearchService
-  ]
+  providers: []
 })
 export class SearchModule { }
