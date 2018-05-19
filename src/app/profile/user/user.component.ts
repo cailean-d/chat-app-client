@@ -22,17 +22,7 @@ export class UserComponent implements OnInit, OnDestroy {
   state: UserState;
   favState: FavoriteState;
 
-  _user: UserInterface;
-
-  get user(): UserInterface {
-    return this._user;
-  }
-
-  set user(u: UserInterface) {
-    this._user = u;
-    // this.user.isFavorite = this.getFavorite();
-    // this.title.setTitle(this.user.nickname);
-  }
+  user: UserInterface;
 
   constructor(
     private profile: ProfileService,

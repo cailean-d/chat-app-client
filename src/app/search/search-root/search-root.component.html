@@ -11,7 +11,7 @@
       <div *ngIf="dataIsLoaded; else loading">
         <div *ngIf="searchService.usersFiltered.length > 0; else notFound">
           <li *ngFor="let user of searchService.usersFiltered; let i = index">
-            <div class="user" routerLink="user/{{user.id}}">
+            <div class="user" routerLink="user/{{user.id}}" routerLinkActive="link-active">
               <div class="image">
                 <img src="{{user.image}}" alt="avatar" draggable="false"/>
                 <div class="status">
