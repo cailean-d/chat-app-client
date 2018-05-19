@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChatInterface } from '../__interfaces/chat';
 import { MessageInterface } from '../__interfaces/message';
-import { DomSanitizer } from '@angular/platform-browser';
 import { EventEmitter } from 'eventemitter3';
 import { UserInterface } from '../__interfaces/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -25,7 +24,7 @@ export class ChatService extends EventEmitter {
     this.emit('title_changed');
   }
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -47,12 +46,7 @@ export class ChatService extends EventEmitter {
 
   public addMessage(msg: MessageInterface): void {
     this.sendMessage(msg.message);
-    let tempMessage = msg;
-    tempMessage = this.addUserInfoToMessage(tempMessage);
-    tempMessage.message = this.parseImage(tempMessage.message);
-    tempMessage.message = this.parseLink(tempMessage.message);
-    tempMessage.message = <string>this.sanitizer.bypassSecurityTrustHtml(tempMessage.message);
-    this.messages.push(tempMessage);
+    this.messages.push(msg);
   }
 
   private async getUsers(id: number): Promise<void> {
@@ -100,59 +94,6 @@ export class ChatService extends EventEmitter {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
     }
-  }
-
-  private addUserInfoToMessage(msg: MessageInterface): MessageInterface {
-
-    // const user: UserInterface = this.users.find((el: UserInterface) => {
-    //   return +el.id === +msg.sender_id;
-    // });
-
-    // msg.sender_image = user.image;
-    // msg.sender_name = user.name;
-
-    return msg;
-  }
-
-  private addBreaksToMessage(text: string): string {
-    return text.replace(/\r?\n/g, '<br />');
-  }
-
-  private parseImage(text: string): string {
-    const imageRegExp = new RegExp(''
-      + '^https?:\\/\\/[\\w.\\/\\-=%_?&$]*'
-      + '(jpg|png|jpeg|gif)[\\w.\\/\\-=%_?&$]*$'
-    );
-    let res: any;
-    if (res = text.match(imageRegExp)) {
-      return text.replace(imageRegExp, `<img src="${res[0]}" alt="" style="max-width: 400px;
-      width: 100%;" draggable="false">`);
-    } else {
-      return text;
-    }
-  }
-
-  private parseLink(text: string): string {
-    const linkRegExp = new RegExp(''
-      + '(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}'
-      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))|((www\\.)?'
-      + '[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.'
-      + '(com|ru|info|biz|edu|gov|info|net|org)'
-      + '\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))',
-    'g');
-    return text.replace(linkRegExp, (str) => {
-      const x: number = text.indexOf(str);
-      if (text[x - 1] !== '"') {
-        if (str.match(/^http/)) {
-
-          return `<a href="${str}" target="_blank">${str}</a>`;
-        } else {
-          return `<a href="http://${str}" target="_blank">${str}</a>`;
-        }
-      } else {
-        return str;
-      }
-    });
   }
 
 }

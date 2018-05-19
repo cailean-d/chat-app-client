@@ -7,6 +7,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
 import { DatePipe } from '../__pipes/date.pipe';
 import { I18nModule } from '../i18n/i18n.module';
+import { MessagePipe } from '../__pipes/message.pipe';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { I18nModule } from '../i18n/i18n.module';
     DialogListComponent,
     DialogComponent,
     DialogEmptyComponent,
-    DatePipe
+    DatePipe,
+    MessagePipe
   ],
   providers: []
 })

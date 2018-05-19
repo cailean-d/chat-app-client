@@ -10,13 +10,16 @@ export class DatePipe implements PipeTransform {
     const date = new Date(value);
     const now = new Date();
 
+    const h = (date.getHours() < 10 ? '0' : '') + date.getHours();
+    const m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+
     if (date.getDate() === now.getDate()) {
-      return 'Сегодня';
+      return 'Сегодня, ' + h + ':' + m;
     } else if (date.getDate() + 1 === now.getDate()) {
-      return 'Вчера';
+      return 'Вчера, ' + h + ':' + m;
     } else {
       const formatter = new Intl.DateTimeFormat('ru');
-      return formatter.format(date);
+      return formatter.format(date) + ', ' + h + ':' + m;
     }
   }
 
