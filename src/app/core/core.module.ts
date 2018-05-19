@@ -17,6 +17,7 @@ import { ProfileService } from '../__services/profile.service';
 import { ChatService } from '../__services/chat.service';
 import { SearchService } from '../__services/search.service';
 import { OwnProfileService } from '../__services/own-profile.service';
+import { SocketService } from '../__services/socket.service';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { OwnProfileService } from '../__services/own-profile.service';
     ProfileService,
     ChatService,
     SearchService,
-    OwnProfileService
+    OwnProfileService,
+    SocketService
   ]
 })
 export class CoreModule { }

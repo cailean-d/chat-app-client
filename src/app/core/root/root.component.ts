@@ -1,3 +1,4 @@
+import { SocketService } from '../../__services/socket.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,7 +11,7 @@ export class RootComponent implements OnInit {
 
   dataIsLoaded: boolean;
 
-  constructor(private profile: OwnProfileService) {}
+  constructor(private profile: OwnProfileService, private socket: SocketService) {}
 
   ngOnInit() {
     this.getProfile();
