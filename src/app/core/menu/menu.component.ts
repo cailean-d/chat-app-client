@@ -1,3 +1,4 @@
+import { OwnProfileService } from '../../__services/own-profile.service';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
@@ -29,7 +30,8 @@ export class MenuComponent implements OnInit {
     private i18n: I18nService,
     private title: Title,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private profile: OwnProfileService
   ) { }
 
   ngOnInit() {
@@ -85,6 +87,7 @@ export class MenuComponent implements OnInit {
     setTimeout(() => {
       if (el.classList.contains('link-active')) {
         this.moveActiveBlock(el);
+        this.activeBlock.style.display = 'block';
       }
     }, 0);
   }
@@ -142,16 +145,8 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  async getAvatar(): Promise<void> {
-
-    let user: UserInterface;
-
-    do {
-      user = await this.storage.getItem('user') as UserInterface;
-    } while (!user);
-
-    this.avatar = user.avatar;
-
+  getAvatar() {
+    this.avatar = this.profile.user.avatar;
   }
 
 }

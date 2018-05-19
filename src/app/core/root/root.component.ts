@@ -1,3 +1,4 @@
+import { OwnProfileService } from '../../__services/own-profile.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RootComponent implements OnInit {
 
-  constructor() { }
+  dataIsLoaded: boolean;
+
+  constructor(private profile: OwnProfileService) {}
 
   ngOnInit() {
+    this.getProfile();
+  }
+
+  private async getProfile(): Promise<void> {
+    if (this.profile.dataIsLoaded) {
+      this.dataIsLoaded = true;
+    } else {
+      await this.profile.getData();
+      this.dataIsLoaded = true;
+    }
   }
 
 }

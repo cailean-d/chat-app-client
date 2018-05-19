@@ -6,6 +6,7 @@ import { MenuComponent } from './menu/menu.component';
 import { RootComponent } from './root/root.component';
 import { InviteService } from '../__services/invite.service';
 import { I18nModule } from '../i18n/i18n.module';
+import { DatePipe } from '../__pipes/date.pipe';
 
 import { AuthService } from '../__services/auth.service';
 import { FriendsService } from '../__services/friends.service';
@@ -15,7 +16,7 @@ import { ChatsService } from '../__services/chats.service';
 import { ProfileService } from '../__services/profile.service';
 import { ChatService } from '../__services/chat.service';
 import { SearchService } from '../__services/search.service';
-import { DatePipe } from '../__pipes/date.pipe';
+import { OwnProfileService } from '../__services/own-profile.service';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { DatePipe } from '../__pipes/date.pipe';
     ChatsService,
     ProfileService,
     ChatService,
-    SearchService
+    SearchService,
+    OwnProfileService
   ]
 })
 export class CoreModule { }
