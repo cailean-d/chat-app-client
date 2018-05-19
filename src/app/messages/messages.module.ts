@@ -6,27 +6,13 @@ import { DialogListComponent } from './dialog-list/dialog-list.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
 import { DatePipe } from '../__pipes/date.pipe';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
+import { I18nModule } from '../i18n/i18n.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MessagesRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
-      }
-  })
+    I18nModule
   ],
   declarations: [
     DialogListComponent,

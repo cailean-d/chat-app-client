@@ -5,14 +5,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { RootComponent } from './root/root.component';
 import { InviteService } from '../__services/invite.service';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { I18nModule } from '../i18n/i18n.module';
 
 import { AuthService } from '../__services/auth.service';
 import { FriendsService } from '../__services/friends.service';
@@ -27,13 +20,7 @@ import { SearchService } from '../__services/search.service';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
-      }
-  })
+    I18nModule
   ],
   declarations: [
     MenuComponent,

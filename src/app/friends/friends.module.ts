@@ -7,28 +7,14 @@ import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { FriendsOnlineComponent } from './friends-online/friends-online.component';
 import { FriendsInviteComponent } from './friends-invite/friends-invite.component';
 import { ProfileModule } from '../profile/profile.module';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
+import { I18nModule } from '../i18n/i18n.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FriendsRoutingModule,
     ProfileModule,
-    TranslateModule.forChild({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
-      }
-  })
+    I18nModule
   ],
   providers: [],
   declarations: [

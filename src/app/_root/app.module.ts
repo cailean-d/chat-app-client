@@ -5,15 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './_root/app.component';
 import { NgForageModule } from 'ngforage';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule } from '@angular/common/http';
 import { I18nService } from '../__services/i18n.service';
 import { StopBubblingDirective } from '../__directives/stop-bubbling.directive';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { I18nModule } from '../i18n/i18n-root.module';
 
 @NgModule({
   declarations: [
@@ -25,13 +20,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     NgForageModule,
     HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
-      }
-  })
+    I18nModule
   ],
   bootstrap: [AppComponent],
   providers: [I18nService]
