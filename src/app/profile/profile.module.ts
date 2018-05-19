@@ -4,7 +4,6 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { MainComponent } from './main/main.component';
 import { UserComponent } from './user/user.component';
 import { I18nModule } from '../i18n/i18n.module';
-import { DatePipe } from '../__pipes/date.pipe';
 
 @NgModule({
   imports: [
@@ -14,8 +13,7 @@ import { DatePipe } from '../__pipes/date.pipe';
   ],
   declarations: [
     MainComponent,
-    UserComponent,
-    DatePipe
+    UserComponent
   ],
   exports: [
     MainComponent,

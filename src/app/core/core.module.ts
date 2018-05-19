@@ -15,6 +15,7 @@ import { ChatsService } from '../__services/chats.service';
 import { ProfileService } from '../__services/profile.service';
 import { ChatService } from '../__services/chat.service';
 import { SearchService } from '../__services/search.service';
+import { DatePipe } from '../__pipes/date.pipe';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { SearchService } from '../__services/search.service';
   ],
   declarations: [
     MenuComponent,
-    RootComponent
+    RootComponent,
+    DatePipe
   ],
   providers: [
     InviteService,
