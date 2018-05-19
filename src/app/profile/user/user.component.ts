@@ -44,7 +44,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.inviteService.removeAllListeners();
   }
 
-  getUser() {
+  private getUser() {
     this.activeRoute.params.subscribe((params) => {
       this.profile.getUser(params.id).then((res) => {
         if (res) {

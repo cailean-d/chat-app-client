@@ -127,7 +127,7 @@
             <tbody>
             <tr>
               <td>{{ 'profile.registration' | translate }}</td>
-              <td>{{ user.date || 'profile.unknown' | translate }}</td>
+              <td>{{ (user.date | date) || ('profile.unknown' | translate) }}</td>
             </tr>
             <tr>
               <td>{{ 'profile.country' | translate }}</td>
