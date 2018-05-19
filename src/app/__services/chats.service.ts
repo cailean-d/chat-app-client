@@ -82,4 +82,14 @@ export class ChatsService extends EventEmitter {
     return 0;
   }
 
+  public updateChatMessage(id: number, message: string): void {
+    for (const i in this.chats) {
+      if (+this.chats[i].id === +id) {
+        this.chats[i].message = message;
+        break;
+      }
+    }
+    this.loadFilteredChats();
+  }
+
 }

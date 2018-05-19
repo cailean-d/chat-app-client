@@ -1,3 +1,4 @@
+import { ChatsService } from './chats.service';
 import { Injectable } from '@angular/core';
 import { ChatInterface } from '../__interfaces/chat';
 import { MessageInterface } from '../__interfaces/message';
@@ -24,7 +25,7 @@ export class ChatService extends EventEmitter {
     this.emit('title_changed');
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private chatsService: ChatsService) {
     super();
   }
 
@@ -47,6 +48,7 @@ export class ChatService extends EventEmitter {
   public addMessage(msg: MessageInterface): void {
     this.sendMessage(msg.message);
     this.messages.push(msg);
+    this.chatsService.updateChatMessage(this.id, msg.message);
   }
 
   private async getUsers(id: number): Promise<void> {
