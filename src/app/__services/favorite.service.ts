@@ -51,7 +51,7 @@ export class FavoriteService extends EventEmitter {
       this.dataIsLoaded = true;
     } catch (res) {
       // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
+      throw new Error(res);
     }
   }
 
@@ -84,15 +84,16 @@ export class FavoriteService extends EventEmitter {
 
   public async deleteFavorite(index: number): Promise<void> {
     try {
-      const r = `api/favorite/${this.users[index].id}`;
+      const id = this.users[index].id;
+      const r = `api/favorite/${id}`;
       const response: any = await this.http.delete(r).toPromise();
       this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
-      this.emit('USER_IS_DELETED');
+      this.emit('USER_IS_DELETED', id);
       this.emit('DATA_IS_CHANGED');
     } catch (res) {
       // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
+      throw new Error(res);
     }
   }
 
@@ -104,11 +105,11 @@ export class FavoriteService extends EventEmitter {
         return item.id !== index;
       });
       this.loadFilteredUsers();
-      this.emit('USER_IS_DELETED');
+      this.emit('USER_IS_DELETED', index);
       this.emit('DATA_IS_CHANGED');
     } catch (res) {
       // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
+      throw new Error(res);
     }
   }
 
@@ -119,11 +120,11 @@ export class FavoriteService extends EventEmitter {
       const user = response.data;
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
-      this.emit('USER_IS_ADDED');
+      this.emit('USER_IS_ADDED', index);
       this.emit('DATA_IS_CHANGED');
     } catch (res) {
       // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
+      throw new Error(res);
     }
   }
 

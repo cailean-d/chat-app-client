@@ -1,5 +1,5 @@
 import { FriendsService } from '../../__services/friends.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavoriteService } from '../../__services/favorite.service';
@@ -16,7 +16,7 @@ enum FavoriteState { Favorite, NotFavorite }
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
 
   dataLoaded: boolean;
   state: UserState;
@@ -38,15 +38,21 @@ export class UserComponent implements OnInit {
     private profile: ProfileService,
     public friendsService: FriendsService,
     public inviteService: InviteService,
+    public favoriteService: FavoriteService,
     private activeRoute: ActivatedRoute,
-    protected favoriteService: FavoriteService,
     private i18n: I18nService,
     private title: Title
   ) {
      this.getUser();
   }
 
-  ngOnInit() { }
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    this.favoriteService.removeAllListeners();
+    this.friendsService.removeAllListeners();
+    this.inviteService.removeAllListeners();
+  }
 
   getUser() {
     this.activeRoute.params.subscribe((params) => {
@@ -95,6 +101,7 @@ export class UserComponent implements OnInit {
       console.log(error);
     } finally {
       this.dataLoaded = true;
+      this.updateUserStatus();
     }
 
   }
@@ -126,6 +133,39 @@ export class UserComponent implements OnInit {
   private deleteFromFavorite(): void {
     this.favoriteService.deleteFavoriteById(this.user.id)
     .then(() => { this.favState = FavoriteState.NotFavorite; });
+  }
+
+  private updateUserStatus() {
+    this.favoriteService.on('USER_IS_DELETED', (data) => {
+      if (this.user.id === data) {
+        this.favState = FavoriteState.NotFavorite;
+      }
+    });
+    this.favoriteService.on('USER_IS_ADDED', (data) => {
+      if (this.user.id === data) {
+        this.favState = FavoriteState.Favorite;
+      }
+    });
+    this.friendsService.on('USER_IS_DELETED', (data) => {
+      if (this.user.id === data) {
+        this.state = UserState.NoFriend;
+      }
+    });
+    this.friendsService.on('USER_IS_ADDED', (data) => {
+      if (this.user.id === data) {
+        this.state = UserState.Friend;
+      }
+    });
+    this.inviteService.on('USER_IS_DELETED', (data) => {
+      if (this.user.id === data) {
+        this.state = UserState.NoFriend;
+      }
+    });
+    this.inviteService.on('USER_IS_ADDED', (data) => {
+      if (this.user.id === data) {
+        this.state = UserState.InvitedByMe;
+      }
+    });
   }
 
 }

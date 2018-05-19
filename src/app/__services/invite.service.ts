@@ -117,7 +117,6 @@ export class InviteService extends EventEmitter {
       await this.friendsService.addFriend(this.users[index].id);
       this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
-      this.emit('USER_IS_DELETED');
       this.emit('DATA_IS_CHANGED');
     } catch (err) {
       // console.error(res.error.status, res.error.message);
@@ -132,7 +131,6 @@ export class InviteService extends EventEmitter {
         return item.id !== index;
       });
       this.loadFilteredUsers();
-      this.emit('USER_IS_DELETED');
       this.emit('DATA_IS_CHANGED');
     } catch (err) {
       // console.error(res.error.status, res.error.message);
@@ -176,6 +174,8 @@ export class InviteService extends EventEmitter {
     try {
       const r = `api/invites/me/${this.users[index].id}`;
       const response: any = await this.http.delete(r).toPromise();
+      this.emit('USER_IS_DELETED');
+      this.emit('DATA_IS_CHANGED');
     } catch (err) {
       // console.error(res.error.status, res.error.message);
       throw new Error(err);

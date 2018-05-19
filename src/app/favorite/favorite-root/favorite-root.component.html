@@ -36,12 +36,12 @@
           </li>
         </div>
         <ng-template #notFound>
-            <li class="notification" *ngIf="searchValue == ''; else noMatch">
-              Вы еще не добавили ни одного друга
+            <li class="notification" *ngIf="!searchValue; else noMatch">
+              Список пуст
             </li>
             <ng-template #noMatch>
               <li class="notification">
-                Друзей не найдено
+                Пользователи не найдены
               </li>
             </ng-template>
         </ng-template>
