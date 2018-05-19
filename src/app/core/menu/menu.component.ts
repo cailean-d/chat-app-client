@@ -44,9 +44,9 @@ export class MenuComponent implements OnInit {
 
   async logout(): Promise <void> {
     try {
+      this.router.navigate(['authe/login']);
       await this.authService.logout();
       await this.storage.removeItem('user');
-      this.router.navigate(['authe/login']);
     } catch (error) {
       console.log(error.toString());
     }
