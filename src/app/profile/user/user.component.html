@@ -9,7 +9,7 @@
           {{user.nickname}}
         </div>
         <div class="buttons">
-            <div class="button" title="{{ 'hint.send_message' | translate }}">
+            <div class="button" title="{{ 'hint.send_message' | translate }}" (click)="getUserRoom()">
               <div class="icon">
                 <i class="fa fa-comment"></i>
               </div>

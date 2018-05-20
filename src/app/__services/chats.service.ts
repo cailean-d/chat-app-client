@@ -92,4 +92,19 @@ export class ChatsService extends EventEmitter {
     this.loadFilteredChats();
   }
 
+  public async getUserRoom(id: number): Promise<number> {
+    try {
+      const response: any = await this.http.post(`api/rooms/open/${id}`, {}).toPromise();
+      const chatID: number = response.data;
+      const res: Response = await this.http.get<Response>(`api/rooms/${chatID}`).toPromise();
+      const chat: ChatInterface = res.data;
+      this.assignLoadedChats(chat);
+      this.loadFilteredChats();
+      return chatID;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
 }

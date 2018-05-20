@@ -79,13 +79,15 @@ export class ChatService extends EventEmitter {
       const res: Response = await this.http.get<Response>(`api/messages/${id}`).toPromise();
       const msgs = res.data as MessageInterface[];
 
-      for (let i = msgs.length - 1; i >= 0; i--) {
-        this.messages.push(msgs[i]);
+      if (msgs) {
+        for (let i = msgs.length - 1; i >= 0; i--) {
+          this.messages.push(msgs[i]);
+        }
       }
 
     } catch (res) {
       // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
+      throw new Error(res);
     }
   }
 

@@ -1,12 +1,13 @@
 import { FriendsService } from '../../__services/friends.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
 import { I18nService } from '../../__services/i18n.service';
 import { UserInterface } from '../../__interfaces/user';
 import { InviteService } from '../../__services/invite.service';
+import { ChatsService } from '../../__services/chats.service';
 
 enum UserState { IamInvited, InvitedByMe, Friend, NoFriend }
 enum FavoriteState { Favorite, NotFavorite }
@@ -31,7 +32,9 @@ export class UserComponent implements OnInit, OnDestroy {
     public favoriteService: FavoriteService,
     private activeRoute: ActivatedRoute,
     private i18n: I18nService,
-    private title: Title
+    private title: Title,
+    private chatsService: ChatsService,
+    private router: Router
   ) {
      this.getUser();
   }
@@ -161,6 +164,11 @@ export class UserComponent implements OnInit, OnDestroy {
         this.state = UserState.IamInvited;
       }
     });
+  }
+
+  public async getUserRoom(): Promise<void> {
+    const id = await this.chatsService.getUserRoom(this.user.id);
+    this.router.navigate([`app/messages/${id}`]);
   }
 
 }
