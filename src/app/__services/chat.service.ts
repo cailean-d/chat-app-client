@@ -6,6 +6,7 @@ import { EventEmitter } from 'eventemitter3';
 import { UserInterface } from '../__interfaces/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Response } from '../__interfaces/response';
+import { SocketService, SocketAction, SocketEvent } from './socket.service';
 
 @Injectable()
 export class ChatService extends EventEmitter {
@@ -25,7 +26,11 @@ export class ChatService extends EventEmitter {
     this.emit('title_changed');
   }
 
-  constructor(private http: HttpClient, private chatsService: ChatsService) {
+  constructor(
+    private http: HttpClient,
+    private chatsService: ChatsService,
+    private socket: SocketService
+  ) {
     super();
   }
 
@@ -42,6 +47,14 @@ export class ChatService extends EventEmitter {
     this.id = id;
     this.title = room.title;
     this.image = room.picture;
+
+    this.socket.emit(SocketAction.ENTER_ROOM, this.id);
+
+    this.socket.onEvent(SocketEvent.CHAT_MESSAGE).subscribe((data) => {
+      const msg = JSON.parse(data);
+      this.messages.push(msg);
+      this.chatsService.updateChatMessage(this.id, msg.message);
+    });
 
   }
 

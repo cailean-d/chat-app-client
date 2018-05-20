@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import * as ws from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { OwnProfileService } from './own-profile.service';
 
-export enum Event {
+export enum SocketEvent {
   CONNECT = 'connect',
-  DISCONNECT = 'disconnect'
+  DISCONNECT = 'disconnect',
+  CHAT_MESSAGE = 'room_message',
+}
+
+export enum SocketAction {
+  ENTER_ROOM = 'room',
+  CHAT_MESSAGE = 'room_message',
 }
 
 @Injectable()
@@ -13,15 +20,15 @@ export class SocketService {
 
   private socket: SocketIOClient.Socket;
 
-  constructor() {
+  constructor(private profile: OwnProfileService) {
     this.initSocket();
-    this.socket.on('connect', function() {
-      console.log('connected');
-   });
   }
 
-  private initSocket(): void {
-    this.socket = ws.connect();
+  private async initSocket(): Promise<void> {
+    if (!this.profile.dataIsLoaded) {
+      await this.profile.getData();
+    }
+    this.socket = ws.connect({ query: { id: this. profile.user.id} });
   }
 
   public send(message: any): void {
@@ -29,7 +36,17 @@ export class SocketService {
   }
 
   public emit(event: string, message: any): void {
-    this.socket.emit(event, message);
+
+    let data;
+
+    if (typeof message === 'object') {
+      data = JSON.stringify(message);
+    } else {
+      data = message;
+    }
+
+    this.socket.emit(event, data);
+
   }
 
   public onMessage(): Observable<any> {
@@ -40,7 +57,7 @@ export class SocketService {
 
   public onEvent(event: string): Observable<any> {
       return new Observable<Event>(observer => {
-          this.socket.on(event, () => observer.next());
+          this.socket.on(event, (data: any) => observer.next(data));
       });
   }
 

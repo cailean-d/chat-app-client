@@ -8,6 +8,8 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
 import { NgForage } from 'ngforage';
 import { UserInterface } from '../../__interfaces/user';
+import { SocketService, SocketAction } from '../../__services/socket.service';
+import { OwnProfileService } from '../../__services/own-profile.service';
 
 @Component({
   selector: 'app-dialog',
@@ -31,6 +33,8 @@ export class DialogComponent implements OnInit, AfterViewInit {
     private i18n: I18nService,
     private title: Title,
     protected storage: NgForage,
+    private socket: SocketService,
+    private profile: OwnProfileService
   ) { }
 
   ngOnInit() {
@@ -50,15 +54,14 @@ export class DialogComponent implements OnInit, AfterViewInit {
   getChatData(): void {
     this.activeRoute.params.subscribe((params) => {
       this.chatService.getChatData(params.id).then(() => {
-        this.getUserdata().then(() => {
-          this.dataisLoaded = true;
-        });
+        this.getUserdata();
+        this.dataisLoaded = true;
       });
     });
   }
 
-  async getUserdata(): Promise<void> {
-    this.user = await this.storage.getItem('user') as UserInterface;
+  getUserdata() {
+    this.user = this.profile.user;
   }
 
   setCustomScrollbar(): void {
@@ -100,18 +103,33 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
     if (message.value.trim() !== '') {
 
+      const date = Date.now();
+
       this.chatService.addMessage({
         sender_id: this.user.id,
         message: message.value,
-        timestamp: Date.now(),
+        timestamp: date,
         sender_nickname: this.user.nickname,
         sender_avatar: this.user.avatar
       });
+
+      this.sendMessageToSocket(message.value, date);
 
       message.value = null;
       this.playAudioOnMessageSent();
     }
 
+  }
+
+  sendMessageToSocket(message: string, date: number): void {
+    this.socket.emit(SocketAction.CHAT_MESSAGE, {
+      chat_id: this.chatService.id,
+      message: message,
+      sender_id: this.profile.user.id,
+      sender_nickname: this.profile.user.nickname,
+      sender_avatar: this.profile.user.avatar,
+      timestamp: date
+    });
   }
 
   sendMessageOnEnterPress(event: KeyboardEvent): void {

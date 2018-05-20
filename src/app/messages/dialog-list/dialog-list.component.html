@@ -40,8 +40,8 @@
           </li>
         </div>
         <ng-template #notFound>
-          <li class="notification" *ngIf="searchValue == ''; else noMatch">
-            У Вас не создано ни одной беседы
+          <li class="notification" *ngIf="!searchValue; else noMatch">
+            Список пуст
           </li>
           <ng-template #noMatch>
             <li class="notification">
