@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
-import { User } from '../__classes/user';
 import { Response } from '../__interfaces/response';
 import { NgForage } from 'ngforage';
 import { EventEmitter } from 'eventemitter3';
+import { SocketService, SocketAction, SocketEvent } from './socket.service';
 
 @Injectable()
-export class SearchService extends EventEmitter{
+export class SearchService extends EventEmitter {
 
   private _search: string;
 
@@ -18,14 +18,19 @@ export class SearchService extends EventEmitter{
   public dataIsLoaded: boolean;
 
   public oldSearch: string;
-  public usersFiltered: User[];
+  public usersFiltered: UserInterface[];
 
-  constructor(private http: HttpClient, private storage: NgForage) {
+  constructor(
+    private http: HttpClient,
+    private storage: NgForage,
+    private socket: SocketService
+  ) {
     super();
     this.usersFiltered = [];
     this.search = '';
     this.oldSearch = '';
     this.loadUsers();
+    this.listenSocketEvents();
   }
 
   get search(): string {
@@ -54,24 +59,24 @@ export class SearchService extends EventEmitter{
 
       try {
         const res: Response = await this.http.get<Response>('api/users', {params: Params}).toPromise();
-        const users: Array<UserInterface> = res.data;
-
-        const usersx = await this.convertResponseToObject(users);
+        let users: Array<UserInterface> = res.data;
 
         if (this.search !== this.oldSearch) {
           this.usersFiltered = [];
         }
 
-        this.dataIsLoaded = true;
-        this.emit('DATA_IS_LOADED');
+        users = await this.delOwnProfile(users);
 
-        if (usersx.length > 0) {
-          this.assignLoadedUsers(usersx);
+        if (users.length > 0) {
+          await this.assignLoadedUsers(users);
           this.usersFilteredLoaded += this.loadQuantity;
         } else {
           this.stopLoading = true;
         }
+
         this.dataIsLoading = false;
+        this.dataIsLoaded = true;
+        this.emit('DATA_IS_LOADED');
       } catch (error) {
         console.error(error);
         this.dataIsLoading = false;
@@ -79,18 +84,10 @@ export class SearchService extends EventEmitter{
     }
   }
 
-  private async convertResponseToObject(obj: Array<UserInterface>): Promise<User[]> {
-    const users = await this.delOwnProfile(obj);
-    const arr: User[] = [];
-    for (const i of users) {
-      arr.push(new User(i.id, i.avatar, i.nickname, i.online));
-    }
-    return arr;
-  }
-
-  private assignLoadedUsers(users: User[]): void {
+  private async assignLoadedUsers(users: UserInterface[]): Promise<void> {
     for (const i of users) {
       this.usersFiltered.push(i);
+      this.socket.emit(SocketAction.GET_ONLINE, i.id);
     }
   }
 
@@ -105,6 +102,31 @@ export class SearchService extends EventEmitter{
       return o.id !== user.id;
     });
     return obj;
+  }
+
+  private setOnline(id: number, status: boolean): void {
+    for (const item of this.usersFiltered) {
+      if (+item.id === +id) {
+        item.online = status;
+      }
+    }
+  }
+
+  private listenSocketEvents() {
+
+    this.socket.onEvent(SocketEvent.GET_ONLINE).subscribe((data) => {
+      const res = JSON.parse(data);
+      this.setOnline(res.id, res.result);
+    });
+
+    this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
+      this.setOnline(data, false);
+    });
+
+    this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
+      this.setOnline(data, true);
+    });
+
   }
 
 }

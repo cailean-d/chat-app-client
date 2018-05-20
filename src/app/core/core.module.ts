@@ -6,7 +6,6 @@ import { MenuComponent } from './menu/menu.component';
 import { RootComponent } from './root/root.component';
 import { InviteService } from '../__services/invite.service';
 import { I18nModule } from '../i18n/i18n.module';
-import { DatePipe } from '../__pipes/date.pipe';
 
 import { AuthService } from '../__services/auth.service';
 import { FriendsService } from '../__services/friends.service';
@@ -28,7 +27,6 @@ import { SocketService } from '../__services/socket.service';
   declarations: [
     MenuComponent,
     RootComponent,
-    DatePipe
   ],
   providers: [
     InviteService,

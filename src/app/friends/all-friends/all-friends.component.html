@@ -3,13 +3,13 @@
     <li class="friend" *ngFor="let friend of friendsService.usersFiltered; let i = index" routerLink="/app/friends/all/user/{{friend.id}}" routerLinkActive="link-active">
       <div class="image">
         <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
-        <div class="status">
-          <span *ngIf="friend.online; else left" >
+        <div class="status" *ngIf="friend.online">
+          <span>
               <i class="fa fa-circle online"></i>
           </span>
-          <ng-template #left>
+          <!-- <ng-template #left>
               <i class="fa fa-circle offline"></i>
-          </ng-template>
+          </ng-template> -->
         </div>
       </div>
       <div class="about">

@@ -11,7 +11,9 @@ export class RootComponent implements OnInit {
 
   dataIsLoaded: boolean;
 
-  constructor(private profile: OwnProfileService, private socket: SocketService) {}
+  constructor(private profile: OwnProfileService, private socket: SocketService) {
+    this.socket.connect();
+  }
 
   ngOnInit() {
     this.getProfile();

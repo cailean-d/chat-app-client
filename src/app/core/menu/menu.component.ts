@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { I18nService } from '../../__services/i18n.service';
 import { AuthService } from '../../__services/auth.service';
 import { UserInterface } from '../../__interfaces/user';
+import { SocketService } from '../../__services/socket.service';
 
 @Component({
   selector: 'app-menu',
@@ -31,7 +32,8 @@ export class MenuComponent implements OnInit {
     private title: Title,
     private authService: AuthService,
     private router: Router,
-    private profile: OwnProfileService
+    private profile: OwnProfileService,
+    private socket: SocketService
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,8 @@ export class MenuComponent implements OnInit {
       this.router.navigate(['authe/login']);
       await this.authService.logout();
       await this.storage.removeItem('user');
+      this.profile.dataIsLoaded = false;
+      this.socket.disconnect();
     } catch (error) {
       console.log(error.toString());
     }

@@ -44,7 +44,7 @@ export class OnlineService {
 
   private loadFilteredUsers(): void {
     this.usersFiltered = this.users.filter((item) => {
-      return item.name.match(new RegExp(this.search, 'i'));
+      return item.nickname.match(new RegExp(this.search, 'i'));
     });
   }
 

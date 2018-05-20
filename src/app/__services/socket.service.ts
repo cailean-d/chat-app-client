@@ -12,7 +12,10 @@ export enum SocketEvent {
   CANCEL_INVITE = 'invite_canceled',
   REJECT_INVITE = 'invite_rejected',
   ADD_FRIEND = 'friend_added',
-  DEL_FRIEND = 'friend_deleted'
+  DEL_FRIEND = 'friend_deleted',
+  GET_ONLINE = 'is_online',
+  ONLINE = 'online',
+  OFFLINE = 'offline'
 }
 
 export enum SocketAction {
@@ -22,7 +25,8 @@ export enum SocketAction {
   CANCEL_INVITE = 'cancel_invite',
   REJECT_INVITE = 'reject_invite',
   ADD_FRIEND = 'add_friend',
-  DEL_FRIEND = 'del_friend'
+  DEL_FRIEND = 'del_friend',
+  GET_ONLINE = 'get_online'
 }
 
 @Injectable()
@@ -30,22 +34,24 @@ export class SocketService {
 
   private socket: SocketIOClient.Socket;
 
-  constructor(private profile: OwnProfileService) {
-    this.initSocket();
-  }
+  constructor(private profile: OwnProfileService) {}
 
-  private async initSocket(): Promise<void> {
+  public async connect(): Promise<void> {
     if (!this.profile.dataIsLoaded) {
       await this.profile.getData();
     }
     this.socket = ws.connect({ query: { id: this. profile.user.id} });
   }
 
+  public disconnect(): void {
+    this.socket.close();
+  }
+
   public send(message: any): void {
     this.socket.emit('message', message);
   }
 
-  public emit(event: string, message: any): void {
+  public emit(event: SocketAction, message: any): void {
 
     let data;
 
@@ -65,7 +71,7 @@ export class SocketService {
       });
   }
 
-  public onEvent(event: string): Observable<any> {
+  public onEvent(event: SocketEvent): Observable<any> {
       return new Observable<Event>(observer => {
           this.socket.on(event, (data: any) => observer.next(data));
       });

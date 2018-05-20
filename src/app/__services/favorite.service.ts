@@ -1,3 +1,4 @@
+import { SocketService, SocketAction, SocketEvent } from './socket.service';
 import { EventEmitter } from 'eventemitter3';
 import { Injectable } from '@angular/core';
 import { UserInterface } from '../__interfaces/user';
@@ -14,11 +15,12 @@ export class FavoriteService extends EventEmitter {
 
   public dataIsLoaded: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private socket: SocketService) {
     super();
     this.users = [];
     this.usersFiltered = [];
     this.loadUsers();
+    this.listenSocketEvents();
   }
 
   get search(): string {
@@ -61,11 +63,13 @@ export class FavoriteService extends EventEmitter {
       if (users.length > 0) {
         for (const i of users) {
           this.users.push(i);
+          this.socket.emit(SocketAction.GET_ONLINE, i.id);
         }
       }
     } else {
       if (users) {
         this.users.push(users);
+        this.socket.emit(SocketAction.GET_ONLINE, users.id);
       }
     }
 
@@ -128,5 +132,30 @@ export class FavoriteService extends EventEmitter {
     }
   }
 
+  private setOnline(id: number, status: boolean): void {
+    for (const item of this.users) {
+      if (+item.id === +id) {
+        item.online = status;
+      }
+    }
+    this.loadFilteredUsers();
+  }
+
+  private listenSocketEvents() {
+
+    this.socket.onEvent(SocketEvent.GET_ONLINE).subscribe((data) => {
+      const res = JSON.parse(data);
+      this.setOnline(res.id, res.result);
+    });
+
+    this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
+      this.setOnline(data, false);
+    });
+
+    this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
+      this.setOnline(data, true);
+    });
+
+  }
 
 }

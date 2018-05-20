@@ -13,19 +13,18 @@
           <li *ngFor="let user of searchService.usersFiltered; let i = index">
             <div class="user" routerLink="user/{{user.id}}" routerLinkActive="link-active">
               <div class="image">
-                <img src="{{user.image}}" alt="avatar" draggable="false"/>
-                <div class="status">
-                  <span *ngIf="user.online === true; else left" >
+                <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
+                <div class="status" *ngIf="user.online === true">
+                  <span>
                       <i class="fa fa-circle online"></i>
-                      {{user.online}}
                   </span>
-                  <ng-template #left>
+                  <!-- <ng-template #left>
                       <i class="fa fa-circle offline"></i>
-                  </ng-template>
+                  </ng-template> -->
                 </div>
               </div>
               <div class="about">
-                <div class="name">{{user.name}}</div>
+                <div class="name">{{user.nickname}}</div>
               </div>
             </div>
           </li>

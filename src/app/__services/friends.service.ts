@@ -68,11 +68,13 @@ export class FriendsService extends EventEmitter {
       if (users.length > 0) {
         for (const i of users) {
           this.users.push(i);
+          this.socket.emit(SocketAction.GET_ONLINE, i.id);
         }
       }
     } else {
       if (users) {
         this.users.push(users);
+        this.socket.emit(SocketAction.GET_ONLINE, users.id);
       }
     }
 
@@ -149,6 +151,7 @@ export class FriendsService extends EventEmitter {
   }
 
   private listenSocketEvents(): void {
+
     this.socket.onEvent(SocketEvent.ADD_FRIEND).subscribe((data) => {
       const user: UserInterface = JSON.parse(data);
       this.assignLoadedUsers(user);
@@ -166,6 +169,30 @@ export class FriendsService extends EventEmitter {
       this.emit('USER_IS_DELETED', user.id);
       this.emit('DATA_IS_CHANGED');
     });
+
+    this.socket.onEvent(SocketEvent.GET_ONLINE).subscribe((data) => {
+      const res = JSON.parse(data);
+      this.setOnline(res.id, res.result);
+    });
+
+    this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
+      this.setOnline(data, false);
+    });
+
+    this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
+      this.setOnline(data, true);
+    });
+
+  }
+
+  private setOnline(id: number, status: boolean): void {
+    for (const item of this.users) {
+      if (+item.id === +id) {
+        item.online = status;
+      }
+    }
+    this.loadFilteredUsers();
+    this.emit('DATA_IS_CHANGED');
   }
 
 }
