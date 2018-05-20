@@ -205,3 +205,50 @@
 .lang-show .language-list {
   display: flex !important;
 }
+
+.pulse {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.pulse-red:before,
+.pulse-red:after, .p {
+  box-shadow: 0 0 1px #c73030 !important;
+}
+
+.pulse:before,
+.pulse:after, .p {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  border-radius: 50%;
+  box-shadow: 0 0 1px #287ec6;
+  animation: glow-grow 2s ease-out;
+}
+.pulse:after {
+  animation-delay: .66s;
+}
+.pulse > .p{
+  animation-delay: 1.33s;
+  }
+
+
+@keyframes glow-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}

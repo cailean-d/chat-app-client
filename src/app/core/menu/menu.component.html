@@ -12,6 +12,7 @@
         </div> -->
       </div>
     </li>
+
     <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
       <i class="fa fa-search"></i>
     </li>
@@ -22,6 +23,9 @@
             {{invitesCount}}
         </span>
       </div>
+      <!-- <div class="pulse">
+        <span class="p"></span>
+      </div> -->
     </li>
     <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}" (click)="changeFavoriteTitle()">
       <i class="fa fa-star"></i>
