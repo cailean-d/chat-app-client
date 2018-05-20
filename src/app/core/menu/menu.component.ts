@@ -137,12 +137,7 @@ export class MenuComponent implements OnInit {
   }
 
   updateInviteCount(): void {
-    this.inviteService.on('DATA_IS_LOADED', () => {
-      this.invitesCount = this.inviteService.users.length;
-    });
-    this.inviteService.on('DATA_IS_CHANGED', () => {
-      this.invitesCount = this.inviteService.users.length;
-    });
+    this.inviteService.countCast.subscribe(count => this.invitesCount = count);
   }
 
   getAvatar() {

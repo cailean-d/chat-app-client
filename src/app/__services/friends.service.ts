@@ -1,3 +1,5 @@
+import { OwnProfileService } from './own-profile.service';
+import { SocketService, SocketAction, SocketEvent } from './socket.service';
 import { EventEmitter } from 'eventemitter3';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable } from '@angular/core';
@@ -14,11 +16,16 @@ export class FriendsService extends EventEmitter {
 
   public dataIsLoaded: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private socket: SocketService,
+    private profile: OwnProfileService
+  ) {
     super();
     this.users = [];
     this.usersFiltered = [];
     this.loadUsers();
+    this.listenSocketEvents();
   }
 
   get search(): string {
@@ -84,13 +91,28 @@ export class FriendsService extends EventEmitter {
 
   public async deleteFriend(index: number): Promise<void> {
     try {
-      const id = this.users[index].id;
-      const r = `api/friends/${id}`;
-      const response: any = await this.http.delete(r).toPromise();
+
+      let id;
+
+      if (this.users[index]) {
+        id = this.users[index].id;
+        this.users.splice(index, 1).sort(this.sort);
+      } else {
+        id = index;
+        this.users = this.users.filter((item) => {
+          return +item.id !== +id;
+        }).sort(this.sort);
+      }
+
+      const response: any = await this.http.delete(`api/friends/${id}`).toPromise();
       this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
       this.emit('USER_IS_DELETED', id);
       this.emit('DATA_IS_CHANGED');
+      this.socket.emit(SocketAction.DEL_FRIEND, JSON.stringify({
+        id: id,
+        user: this.profile.user
+      }));
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
@@ -99,13 +121,16 @@ export class FriendsService extends EventEmitter {
 
   public async addFriend(index: number): Promise<void> {
     try {
-      const r = `api/friends/${index}`;
-      const response: any = await this.http.post(r, {}).toPromise();
+      const response: any = await this.http.post(`api/friends/${index}`, {}).toPromise();
       const user = response.data;
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
       this.emit('USER_IS_ADDED', index);
       this.emit('DATA_IS_CHANGED');
+      this.socket.emit(SocketAction.ADD_FRIEND, JSON.stringify({
+        id: index,
+        user: this.profile.user
+      }));
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
@@ -121,6 +146,26 @@ export class FriendsService extends EventEmitter {
       // console.error(res.error.status, res.error.message);
       throw new Error(res.error.message);
     }
+  }
+
+  private listenSocketEvents(): void {
+    this.socket.onEvent(SocketEvent.ADD_FRIEND).subscribe((data) => {
+      const user: UserInterface = JSON.parse(data);
+      this.assignLoadedUsers(user);
+      this.loadFilteredUsers();
+      this.emit('USER_IS_ADDED', user.id);
+      this.emit('DATA_IS_CHANGED');
+    });
+
+    this.socket.onEvent(SocketEvent.DEL_FRIEND).subscribe((data) => {
+      const user: UserInterface = JSON.parse(data);
+      this.users = this.users.filter((item) => {
+        return +item.id !== +user.id;
+      });
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED', user.id);
+      this.emit('DATA_IS_CHANGED');
+    });
   }
 
 }

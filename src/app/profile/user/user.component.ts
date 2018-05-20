@@ -97,7 +97,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private addToFriends(): void {
-    this.inviteService.addToFriendsById(this.user.id).then(() => { this.state = UserState.Friend; });
+    this.inviteService.addToFriends(this.user.id).then(() => { this.state = UserState.Friend; });
   }
 
   private deleteFromFriends(): void {
@@ -154,6 +154,11 @@ export class UserComponent implements OnInit, OnDestroy {
     this.inviteService.on('USER_IS_ADDED', (data) => {
       if (this.user.id === data) {
         this.state = UserState.InvitedByMe;
+      }
+    });
+    this.inviteService.on('ME_IS_ADDED', (data) => {
+      if (this.user.id === data) {
+        this.state = UserState.IamInvited;
       }
     });
   }

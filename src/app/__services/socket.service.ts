@@ -8,11 +8,21 @@ export enum SocketEvent {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
   CHAT_MESSAGE = 'room_message',
+  INVITED = 'invited',
+  CANCEL_INVITE = 'invite_canceled',
+  REJECT_INVITE = 'invite_rejected',
+  ADD_FRIEND = 'friend_added',
+  DEL_FRIEND = 'friend_deleted'
 }
 
 export enum SocketAction {
   ENTER_ROOM = 'room',
   CHAT_MESSAGE = 'room_message',
+  INVITE_USER = 'invite',
+  CANCEL_INVITE = 'cancel_invite',
+  REJECT_INVITE = 'reject_invite',
+  ADD_FRIEND = 'add_friend',
+  DEL_FRIEND = 'del_friend'
 }
 
 @Injectable()

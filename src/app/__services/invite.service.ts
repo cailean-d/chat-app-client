@@ -1,3 +1,6 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { OwnProfileService } from './own-profile.service';
+import { SocketService, SocketEvent, SocketAction } from './socket.service';
 import { UserInterface } from '../__interfaces/user';
 import { Injectable} from '@angular/core';
 import { EventEmitter } from 'eventemitter3';
@@ -15,11 +18,20 @@ export class InviteService extends EventEmitter {
 
   public dataIsLoaded: boolean;
 
-  constructor(private http: HttpClient, private friendsService: FriendsService) {
+  private invitesCount = new BehaviorSubject<number>(0);
+  public countCast = this.invitesCount.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private friendsService: FriendsService,
+    private socket: SocketService,
+    private profile: OwnProfileService
+  ) {
     super();
     this.users = [];
     this.usersFiltered = [];
     this.loadUsers();
+    this.listenSocketEvents();
   }
 
   get search(): string {
@@ -30,6 +42,10 @@ export class InviteService extends EventEmitter {
     this._search = s;
     this.clearFilter();
     this.loadFilteredUsers();
+  }
+
+  private setCount(n: number): void {
+    this.invitesCount.next(n);
   }
 
   private clearFilter(): void {
@@ -54,6 +70,17 @@ export class InviteService extends EventEmitter {
     this.usersFiltered = this.users.filter((item) => {
       return item.nickname.match(new RegExp(this.search, 'i'));
     });
+    this.setCount(this.users.length);
+  }
+
+  public async getMyInvites(): Promise<UserInterface[]> {
+    try {
+      const res: Response = await this.http.get<Response>('api/invites/me').toPromise();
+      return res.data;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
   }
 
   private assignLoadedUsers(users: UserInterface[] | UserInterface): void {
@@ -85,12 +112,28 @@ export class InviteService extends EventEmitter {
 
   public async deleteInvite(index: number): Promise<void> {
     try {
-      const r = `api/invites/${this.users[index].id}`;
+
+      let id;
+
+      if (this.users[index]) {
+        id = this.users[index].id;
+        this.users.splice(index, 1).sort(this.sort);
+      } else {
+        id = index;
+        this.users = this.users.filter((item) => {
+          return +item.id !== +id;
+        }).sort(this.sort);
+      }
+
+      const r = `api/invites/${id}`;
       const response: any = await this.http.delete(r).toPromise();
-      this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
-      this.emit('USER_IS_DELETED');
+      this.emit('USER_IS_DELETED', id);
       this.emit('DATA_IS_CHANGED');
+      this.socket.emit(SocketAction.REJECT_INVITE, JSON.stringify({
+        id: id,
+        user: this.profile.user
+      }));
     } catch (err) {
       // console.error(res.error.status, res.error.message);
       throw new Error(err);
@@ -104,8 +147,12 @@ export class InviteService extends EventEmitter {
       const user = response.data;
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
-      this.emit('USER_IS_ADDED');
+      this.emit('USER_IS_ADDED', index);
       this.emit('DATA_IS_CHANGED');
+      this.socket.emit(SocketAction.INVITE_USER, JSON.stringify({
+        id: index,
+        user: this.profile.user
+      }));
     } catch (err) {
       // console.error(res.error.status, res.error.message);
       throw new Error(err);
@@ -114,8 +161,20 @@ export class InviteService extends EventEmitter {
 
   public async addToFriends(index: number): Promise<void> {
     try {
-      await this.friendsService.addFriend(this.users[index].id);
-      this.users.splice(index, 1).sort(this.sort);
+
+      let id;
+
+      if (this.users[index]) {
+        id = this.users[index].id;
+        this.users.splice(index, 1).sort(this.sort);
+      } else {
+        id = index;
+        this.users = this.users.filter((item) => {
+          return +item.id !== +id;
+        }).sort(this.sort);
+      }
+
+      await this.friendsService.addFriend(id);
       this.loadFilteredUsers();
       this.emit('DATA_IS_CHANGED');
     } catch (err) {
@@ -124,27 +183,26 @@ export class InviteService extends EventEmitter {
     }
   }
 
-  public async addToFriendsById(index: number): Promise<void> {
+  public async cancelMyInvite(index: number): Promise<void> {
     try {
-      await this.friendsService.addFriend(index);
-      this.users = this.users.filter((item) => {
-        return item.id !== index;
-      });
-      this.loadFilteredUsers();
+      let id;
+
+      if (this.users[index]) {
+        id = this.users[index].id;
+      } else {
+        id = index;
+      }
+
+      const response: any = await this.http.delete(`api/invites/me/${id}`).toPromise();
+      this.emit('USER_IS_DELETED', id);
       this.emit('DATA_IS_CHANGED');
+      this.socket.emit(SocketAction.CANCEL_INVITE, JSON.stringify({
+        id: id,
+        user: this.profile.user
+      }));
     } catch (err) {
       // console.error(res.error.status, res.error.message);
       throw new Error(err);
-    }
-  }
-
-  public async getMyInvites(): Promise<UserInterface[]> {
-    try {
-      const res: Response = await this.http.get<Response>('api/invites/me').toPromise();
-      return res.data;
-    } catch (res) {
-      // console.error(res.error.status, res.error.message);
-      throw new Error(res);
     }
   }
 
@@ -170,16 +228,31 @@ export class InviteService extends EventEmitter {
     }
   }
 
-  public async cancelMyInvite(index: number): Promise<void> {
-    try {
-      const r = `api/invites/me/${this.users[index].id}`;
-      const response: any = await this.http.delete(r).toPromise();
-      this.emit('USER_IS_DELETED');
+  private listenSocketEvents(): void {
+
+    this.socket.onEvent(SocketEvent.INVITED).subscribe((data) => {
+      const user: UserInterface = JSON.parse(data);
+      this.assignLoadedUsers(user);
+      this.loadFilteredUsers();
+      this.emit('ME_IS_ADDED', user.id);
       this.emit('DATA_IS_CHANGED');
-    } catch (err) {
-      // console.error(res.error.status, res.error.message);
-      throw new Error(err);
-    }
+    });
+
+    this.socket.onEvent(SocketEvent.CANCEL_INVITE).subscribe((data) => {
+      const user: UserInterface = JSON.parse(data);
+      this.users = this.users.filter((item) => {
+        return +item.id !== +user.id;
+      });
+      this.loadFilteredUsers();
+      this.emit('USER_IS_DELETED', user.id);
+      this.emit('DATA_IS_CHANGED');
+    });
+
+    this.socket.onEvent(SocketEvent.REJECT_INVITE).subscribe((data) => {
+      const user: UserInterface = JSON.parse(data);
+      this.emit('USER_IS_DELETED', user.id);
+    });
+
   }
 
 }
