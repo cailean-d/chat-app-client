@@ -1,5 +1,3 @@
-import { favoriteArray } from '../__arrays/favorite';
-
 export class User {
   public id: number;
   public image: string;

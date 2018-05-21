@@ -45,7 +45,7 @@
           <div [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'">
             <div class="message-data">
               <div class="row">
-                  <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}"/>
+                  <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}" routerLink="/app/search/user/{{msg.sender_id}}" class="av"/>
                   <span class="message-data-time" >{{msg.timestamp | mydate }}</span>
               </div>
             </div>
