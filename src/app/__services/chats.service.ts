@@ -187,6 +187,15 @@ export class ChatsService extends EventEmitter {
         timestamp: Date.now()
       });
 
+      const _id = this.getChatIndex(id);
+
+      if (this.chats[_id].messages.length === 0) {
+        this.socket.emit(SocketAction.ROOM_INVITE, {
+          chat_id: id,
+          user_id: this.getSecondUserOfRoom(id)
+        });
+      }
+
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res);
@@ -196,7 +205,6 @@ export class ChatsService extends EventEmitter {
   public async addMessage(id: number, msg: MessageInterface): Promise<void> {
     const _id = this.chats[id].id;
     await this.sendMessage(_id, msg.message);
-
     this.chats[id].messages.push(msg);
     this.updateChatMessage(_id, msg.message);
   }
@@ -220,6 +228,23 @@ export class ChatsService extends EventEmitter {
       }
       this.updateChatMessage(msg.chat_id, msg.message);
     });
+
+    this.socket.onEvent(SocketEvent.ROOM_INVITE).subscribe((data) => {
+      this.addRoom(data);
+    });
+  }
+
+  private getSecondUserOfRoom(id: number): number {
+    for (let i = 0; i < this.chats.length; i++) {
+      if (+this.chats[i].id === +id) {
+        for (let j = 0; j < this.chats[i].users.length; j++) {
+          const el: UserInterface = this.chats[i].users[j];
+          if (+el.id !== +this.profile.user.id) {
+            return el.id;
+          }
+        }
+      }
+    }
   }
 
 
