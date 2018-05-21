@@ -1,39 +1,47 @@
 <div class="chat">
 
-  <div class="chat-header">
-    <div class="left">
-        <div *ngIf="chatService.image; else userList" >
-          <img src="{{chatService.image}}" draggable="false" [title]="chatService.title"/>
-        </div>
-        <ng-template #userList>
-          <div class="user" *ngFor="let user of chatService.users; let i=index">
-            <div *ngIf="i<2">
-              <img src="{{user.image}}" draggable="false" [title]="user.nickname"/>
-            </div>
-          </div>
-        </ng-template>
-        <div class="chat-about">
-          <div class="chat-with">{{chatService.title}}</div>
-          <!-- <div class="chat-num-messages">already {{messages.length}} messages</div> -->
-        </div>
+  <div *ngIf="dataNotLoaded" >
+    <div class="load">
+      <i class="fas fa-sync fa-spin"></i>
     </div>
-    <div class="right">
-        <div class="video" title="{{ 'hint.video_call' | translate }}">
-            <i class="fas fa-video"></i>
-        </div>
-        <div class="phone" title="{{ 'hint.call' | translate }}">
-            <i class="fa fa-phone"></i>
-        </div>
-        <div class="add-user" title="{{ 'hint.add_user' | translate }}">
-            <i class="fa fa-user-plus"></i>
-        </div>
+  </div>
+
+  <div *ngIf="dataLoaded" >
+    <div class="chat-header">
+      <div class="left">
+          <!-- <div *ngIf="chatService.image; else userList" > -->
+            <img src="{{ chatsService.chats[chatIndex].picture }}" draggable="false" [title]="chatsService.chats[chatIndex].title"/>
+          <!-- </div> -->
+          <!-- <ng-template #userList>
+            <div class="user" *ngFor="let user of chatService.users; let i=index">
+              <div *ngIf="i<2">
+                <img src="{{user.image}}" draggable="false" [title]="user.nickname"/>
+              </div>
+            </div>
+          </ng-template> -->
+          <div class="chat-about">
+            <div class="chat-with">{{chatsService.chats[chatIndex].title}}</div>
+            <!-- <div class="chat-num-messages">already {{messages.length}} messages</div> -->
+          </div>
+      </div>
+      <div class="right">
+          <div class="video" title="{{ 'hint.video_call' | translate }}">
+              <i class="fas fa-video"></i>
+          </div>
+          <div class="phone" title="{{ 'hint.call' | translate }}">
+              <i class="fa fa-phone"></i>
+          </div>
+          <div class="add-user" title="{{ 'hint.add_user' | translate }}">
+              <i class="fa fa-user-plus"></i>
+          </div>
+      </div>
     </div>
   </div>
 
   <ul class="chat-history" #chat>
-    <div *ngIf="dataisLoaded" >
+    <div *ngIf="dataLoaded" >
       <div class="message-list">
-        <li *ngFor="let msg of chatService.messages" class="msg-block">
+        <li *ngFor="let msg of chatsService.chats[chatIndex].messages" class="msg-block">
           <div [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'">
             <div class="message-data">
               <div class="row">

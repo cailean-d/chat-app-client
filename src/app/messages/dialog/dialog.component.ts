@@ -2,7 +2,6 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
-import { ChatService } from '../../__services/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
@@ -10,41 +9,49 @@ import { NgForage } from 'ngforage';
 import { UserInterface } from '../../__interfaces/user';
 import { SocketService, SocketAction } from '../../__services/socket.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
+import { ChatsService } from '../../__services/chats.service';
+import { EventEmitter } from 'eventemitter3';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit, AfterViewInit {
+export class DialogComponent extends EventEmitter implements OnInit, AfterViewInit {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
 
   messageList: HTMLElement;
 
-  dataisLoaded: boolean;
+  dataNotLoaded = true;
+  dataLoaded: boolean;
   user: UserInterface;
+
+  chatIndex: number;
 
   constructor(
     private sanitizer: DomSanitizer,
-    public chatService: ChatService,
     private activeRoute: ActivatedRoute,
     private i18n: I18nService,
     private title: Title,
     protected storage: NgForage,
     private socket: SocketService,
-    private profile: OwnProfileService
-  ) { }
+    private profile: OwnProfileService,
+    public chatsService: ChatsService
+  ) {
+    super();
+    this.getChatData();
+  }
 
   ngOnInit() {
+    this.getUserdata();
+    this.updateTitleOnLangChange();
+    // this.updateTitleOnChatChange();
     this.setCustomScrollbar();
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
     this.setTitle();
-    this.updateTitleOnLangChange();
-    this.updateTitleOnChatChange();
-    this.getChatData();
   }
 
   ngAfterViewInit() {
@@ -53,10 +60,28 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   getChatData(): void {
     this.activeRoute.params.subscribe((params) => {
-      this.chatService.getChatData(params.id).then(() => {
-        this.getUserdata();
-        this.dataisLoaded = true;
-      });
+      if (this.chatsService.dataIsLoaded) {
+        this.chatIndex = this.chatsService.getChatIndex(params.id);
+          this.dataLoaded = true;
+          this.dataNotLoaded = false;
+          this.emit('index');
+       } else {
+        this.chatsService.on('DATA_IS_LOADED', () => {
+          this.chatIndex = this.chatsService.getChatIndex(params.id);
+          if (this.chatIndex === undefined) {
+            this.chatsService.addRoom(params.id).then(() => {
+              this.chatIndex = this.chatsService.getChatIndex(params.id);
+              this.dataLoaded = true;
+              this.dataNotLoaded = false;
+              this.emit('index');
+            });
+          } else {
+            this.dataLoaded = true;
+            this.dataNotLoaded = false;
+            this.emit('index');
+          }
+        });
+      }
     });
   }
 
@@ -103,7 +128,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
       const date = Date.now();
 
-      this.chatService.addMessage({
+      this.chatsService.addMessage(this.chatIndex, {
         sender_id: this.user.id,
         message: message.value,
         timestamp: date,
@@ -111,23 +136,10 @@ export class DialogComponent implements OnInit, AfterViewInit {
         sender_avatar: this.user.avatar
       });
 
-      this.sendMessageToSocket(message.value, date);
-
       message.value = null;
       this.playAudioOnMessageSent();
     }
 
-  }
-
-  sendMessageToSocket(message: string, date: number): void {
-    this.socket.emit(SocketAction.CHAT_MESSAGE, {
-      chat_id: this.chatService.id,
-      message: message,
-      sender_id: this.profile.user.id,
-      sender_nickname: this.profile.user.nickname,
-      sender_avatar: this.profile.user.avatar,
-      timestamp: date
-    });
   }
 
   sendMessageOnEnterPress(event: KeyboardEvent): void {
@@ -143,9 +155,10 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   setTitle(): void {
     this.i18n.translate.get('hint.chats').subscribe((res: string) => {
-      this.title.setTitle(`${res} - ${this.chatService.title}`);
+      this.on('index', () => {
+        this.title.setTitle(`${res} - ${this.chatsService.chats[this.chatIndex].title}`);
+      });
     });
-
   }
 
   updateTitleOnLangChange(): void {
@@ -155,10 +168,10 @@ export class DialogComponent implements OnInit, AfterViewInit {
 
   }
 
-  updateTitleOnChatChange(): void {
-    this.chatService.on('title_changed', () => {
-      this.setTitle();
-    });
-  }
+  // updateTitleOnChatChange(): void {
+  //   // this.chatService.on('title_changed', () => {
+  //   //   this.setTitle();
+  //   // });
+  // }
 
 }

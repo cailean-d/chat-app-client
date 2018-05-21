@@ -13,7 +13,6 @@ import { OnlineService } from '../__services/online.service';
 import { FavoriteService } from '../__services/favorite.service';
 import { ChatsService } from '../__services/chats.service';
 import { ProfileService } from '../__services/profile.service';
-import { ChatService } from '../__services/chat.service';
 import { SearchService } from '../__services/search.service';
 import { OwnProfileService } from '../__services/own-profile.service';
 import { SocketService } from '../__services/socket.service';
@@ -36,7 +35,6 @@ import { SocketService } from '../__services/socket.service';
     FavoriteService,
     ChatsService,
     ProfileService,
-    ChatService,
     SearchService,
     OwnProfileService,
     SocketService
