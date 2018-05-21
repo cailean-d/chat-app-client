@@ -13,6 +13,10 @@ export class ChatsService extends EventEmitter {
 
   private _search: string;
 
+  private messageLoadLimit = 20;
+  private loadedMessages = {};
+  private messagesIsLoading: boolean;
+
   public chats: ChatInterface[];
   public chatsFiltered: ChatInterface[];
 
@@ -206,6 +210,7 @@ export class ChatsService extends EventEmitter {
     const _id = this.chats[id].id;
     await this.sendMessage(_id, msg.message);
     this.chats[id].messages.push(msg);
+    this.loadedMessages[_id]++;
     this.updateChatMessage(_id, msg.message);
   }
 
@@ -223,6 +228,8 @@ export class ChatsService extends EventEmitter {
       for (const i in this.chats) {
         if (+this.chats[i].id === +msg.chat_id) {
           this.chats[i].messages.push(msg);
+          const _id = this.chats[i].id;
+          this.loadedMessages[_id]++;
           break;
         }
       }
@@ -243,6 +250,55 @@ export class ChatsService extends EventEmitter {
             return el.id;
           }
         }
+      }
+    }
+  }
+
+  public async loadPreviousMessages(id: number): Promise<void> {
+
+    const _id = this.chats[id].id;
+    let offset;
+
+    if (!this.messagesIsLoading) {
+      this.messagesIsLoading = true;
+
+      if (this.loadedMessages[_id]) {
+        offset = this.loadedMessages[_id] + 20;
+      } else {
+        offset = 20;
+      }
+
+      const Params = new HttpParams({
+        fromObject: {
+          offset: offset,
+          limit: this.messageLoadLimit.toString()
+        }
+      });
+
+      try {
+        const res: Response = await this.http.get<Response>(`api/messages/${_id}`,
+        {params: Params}).toPromise();
+
+        const messages: Array<MessageInterface> = res.data;
+
+        if (messages) {
+
+          for (const message of messages) {
+            this.chats[id].messages.unshift(message);
+          }
+
+          if (this.loadedMessages[_id]) {
+            this.loadedMessages[_id] += messages.length;
+          } else {
+            this.loadedMessages[_id] = messages.length;
+          }
+
+        }
+
+        this.messagesIsLoading = false;
+      } catch (error) {
+        console.error(error);
+        this.messagesIsLoading = false;
       }
     }
   }

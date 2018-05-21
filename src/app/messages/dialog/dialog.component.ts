@@ -51,6 +51,7 @@ export class DialogComponent extends EventEmitter implements OnInit, AfterViewIn
     this.setCustomScrollbar();
     this.showScrollBottomPanelOnScroll();
     this.scrollToBottomOnMessageSent();
+    this.loadPrevMessagesOnScroll();
     this.setTitle();
   }
 
@@ -104,8 +105,31 @@ export class DialogComponent extends EventEmitter implements OnInit, AfterViewIn
     this.messageList.addEventListener('scroll', (e =>  this.showSlideToBottom()));
   }
 
+  loadPrevMessagesOnScroll(): void {
+    this.messageList.addEventListener('scroll', () => {
+      if (this.messageList.scrollTop === 0) {
+        const el = document.querySelector('.msg-block');
+        this.chatsService.loadPreviousMessages(this.chatIndex).then(() => {
+          setTimeout(() => {
+            const el2 = document.querySelector('.msg-block');
+            if (el !== el2) {
+              el.scrollIntoView();
+            }
+          }, 0);
+        });
+      }
+    });
+  }
+
   scrollToBottomOnMessageSent(): void {
-    this.messageList.addEventListener('DOMNodeInserted', () => { this.scrollToBottom(); });
+    this.messageList.addEventListener('DOMNodeInserted', () => {
+      const height = this.messageList.scrollTop + this.messageList.clientHeight;
+      const scroll = <HTMLElement>this.scrollBottom.nativeElement;
+
+      if (height > this.messageList.scrollHeight - this.messageList.clientHeight) {
+        this.scrollToBottom();
+      }
+    });
   }
 
   showSlideToBottom(): void {
