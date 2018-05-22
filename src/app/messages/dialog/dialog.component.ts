@@ -1,5 +1,5 @@
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import { EventEmitter } from 'eventemitter3';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent extends EventEmitter implements OnInit, AfterViewInit {
+export class DialogComponent extends EventEmitter implements OnInit {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
@@ -53,10 +53,6 @@ export class DialogComponent extends EventEmitter implements OnInit, AfterViewIn
     this.scrollToBottomOnMessageSent();
     this.loadPrevMessagesOnScroll();
     this.setTitle();
-  }
-
-  ngAfterViewInit() {
-    this.scrollToBottom();
   }
 
   getChatData(): void {
@@ -102,22 +98,23 @@ export class DialogComponent extends EventEmitter implements OnInit, AfterViewIn
   }
 
   showScrollBottomPanelOnScroll(): void {
-    this.messageList.addEventListener('scroll', (e =>  this.showSlideToBottom()));
+    this.messageList.addEventListener('scroll', () => {
+      window.requestAnimationFrame((e =>  this.showSlideToBottom()));
+    });
   }
 
   loadPrevMessagesOnScroll(): void {
     this.messageList.addEventListener('scroll', () => {
-      if (this.messageList.scrollTop === 0) {
-        const el = document.querySelector('.msg-block');
-        this.chatsService.loadPreviousMessages(this.chatIndex).then(() => {
-          setTimeout(() => {
-            const el2 = document.querySelector('.msg-block');
-            if (el !== el2) {
-              el.scrollIntoView();
-            }
-          }, 0);
-        });
-      }
+      window.requestAnimationFrame(() => {
+        if (this.messageList.scrollTop === 0) {
+          const h = this.messageList.scrollHeight;
+          this.chatsService.loadPreviousMessages(this.chatIndex).then(() => {
+            window.requestAnimationFrame(() => {
+              this.messageList.scrollTop = this.messageList.scrollHeight - h;
+            });
+          });
+        }
+      });
     });
   }
 

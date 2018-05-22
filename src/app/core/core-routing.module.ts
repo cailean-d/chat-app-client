@@ -11,7 +11,7 @@ const routes: Routes = [{
       redirectTo: 'friends'
     },
     {
-      path: 'home',
+      path: 'profile',
       loadChildren: 'app/own-profile/own-profile.module#OwnProfileModule'
     },
     {

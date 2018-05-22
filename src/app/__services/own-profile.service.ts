@@ -23,4 +23,13 @@ export class OwnProfileService {
     }
   }
 
+  async update(): Promise<void> {
+    try {
+      const response: any = await this.http.put(`api/users`, this.user).toPromise();
+    } catch (res) {
+      console.error(res);
+      throw new Error(res);
+    }
+  }
+
 }

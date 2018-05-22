@@ -19,7 +19,7 @@
                 <i class="fa fa-star"></i>
               </div>
             </div>
-            <div class="button" title="{{ 'hint.del_favorite' | translate }}" *ngIf="favState === 1" (click)="addToFavorite()">
+            <div class="button" title="{{ 'hint.add_favorite' | translate }}" *ngIf="favState === 1" (click)="addToFavorite()">
               <div class="icon">
                 <i class="fa fa-star"></i>
               </div>
@@ -100,7 +100,7 @@
             <tbody>
             <tr>
               <td>{{ 'profile.address' | translate }}</td>
-              <td>{{ 'profile.unknown' | translate }}</td>
+              <td>{{ user.address || 'profile.unknown' | translate }}</td>
             </tr>
             <tr>
               <td>{{ 'profile.phone' | translate }}</td>

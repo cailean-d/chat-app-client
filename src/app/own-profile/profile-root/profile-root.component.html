@@ -1,3 +1,201 @@
-<p>
-  profile-root works!
-</p>
+<div class="container">
+  <div class="main">
+    <div class="user">
+      <div class="avatar">
+        <img src="{{profile.user.avatar}}" alt="avatar" draggable="false"/>
+      </div>
+      <div class="name" title="{{profile.user.nickname}}">
+        {{profile.user.nickname}}
+      </div>
+      <div class="buttons">
+          <div class="button" *ngIf="!isEdit" (click)="editProfile()" >
+            <div class="icon">
+              <i class="fas fa-user-edit"></i>
+            </div>
+            <div class="description">
+              Редактировать
+            </div>
+          </div>
+          <div class="button-block" *ngIf="isEdit">
+              <button class="button" (click)="save()" [disabled]="form.invalid">
+                <div class="icon">
+                  <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="description">
+                  Сохранить
+                </div>
+              </button>
+              <div class="button" (click)="cancelEdit()" >
+                <div class="icon">
+                  <i class="fas fa-ban"></i>
+                </div>
+                <div class="description">
+                  Отмена
+                </div>
+              </div>
+          </div>
+
+          <div class="button red" title="{{ 'hint.del_favorite' | translate }}">
+            <div class="icon">
+              <i class="fas fa-trash-alt"></i>
+            </div>
+            <div class="description">
+              Удалить
+            </div>
+          </div>
+          <!-- <div class="button" title="{{ 'hint.del_favorite' | translate }}" *ngIf="favState === 1" (click)="addToFavorite()">
+            <div class="icon">
+              <i class="fa fa-star"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="addToFriends()" *ngIf="state === 0" >
+            <div class="icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.reject_user' | translate }}" (click)="rejectInvite()" *ngIf="state === 0" >
+            <div class="icon red">
+              <i class="fa fa-user-times"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.cancel_friend' | translate }}" (click)="cancelInvite()" *ngIf="state === 1" >
+            <div class="icon red">
+              <i class="fa fa-user-times"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.del_friend' | translate }}" (click)="deleteFromFriends()" *ngIf="state === 2" >
+            <div class="icon red">
+              <i class="fa fa-user-times"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="inviteUser()" *ngIf="state === 3" >
+            <div class="icon">
+              <i class="fa fa-user-plus"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.complain_user' | translate }}">
+            <div class="icon red">
+              <i class="fa fa-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="button" title="{{ 'hint.block_user' | translate }}">
+            <div class="icon red">
+              <i class="fa fa-ban"></i>
+            </div>
+          </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+    <form [formGroup]="form">
+      <div class="block">
+        <table>
+        <thead>
+          <tr>
+            <th colspan="2">{{ 'title.basic_info' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ 'profile.id' | translate }}</td>
+            <td>{{ profile.user.id }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.gender' | translate }}</td>
+            <td *ngIf="!isEdit">{{ profile.user.gender || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <select formControlName="gender" [(ngModel)]="profile.user.gender">
+                <option value="male">Мужской</option>
+                <option value="female">Женский</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.birthday' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ profile.user.birthday || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="birthday" [(ngModel)]="profile.user.birthday"/>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.lang' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ profile.user.language[0] ||  'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="language" [(ngModel)]="profile.user.language[0]"/>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      <div class="block">
+        <table>
+          <thead>
+          <tr>
+            <th colspan="2">{{ 'title.contact_info' | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ 'profile.address' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="address" [(ngModel)]="profile.user.address"/>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.phone' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ profile.user.phone || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="phone" [(ngModel)]="profile.user.phone"/>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.email' | translate }}</td>
+            <td>{{ profile.user.email || 'profile.unknown' | translate }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.web_site' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ profile.user.website || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="website" [(ngModel)]="profile.user.website"/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="block">
+        <table>
+          <thead>
+          <tr>
+            <th colspan="2">{{ 'title.add_info' | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ 'profile.registration' | translate }}</td>
+            <td>{{ (profile.user.date | mydate) || ('profile.unknown' | translate) }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.country' | translate }}</td>
+            <td *ngIf="!isEdit" >{{ profile.user.country || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="country" [(ngModel)]="profile.user.country"/>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.city' | translate }}</td>
+            <td *ngIf="!isEdit">{{ profile.user.city || 'profile.unknown' | translate }}</td>
+            <td *ngIf="isEdit">
+              <input formControlName="city" [(ngModel)]="profile.user.city"/>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ 'profile.was_online' | translate }}</td>
+            <td>{{ 'profile.unknown' | translate }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>
