@@ -1,8 +1,9 @@
+import { ProfileService } from '../../__services/profile.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
 import { NgForage } from 'ngforage';
@@ -38,7 +39,9 @@ export class DialogComponent extends EventEmitter implements OnInit {
     protected storage: NgForage,
     private socket: SocketService,
     private profile: OwnProfileService,
-    public chatsService: ChatsService
+    public chatsService: ChatsService,
+    private router: Router,
+    private profileService: ProfileService
   ) {
     super();
     this.getChatData();
@@ -187,6 +190,16 @@ export class DialogComponent extends EventEmitter implements OnInit {
       this.setTitle();
     });
 
+  }
+
+  showProfile(id: number): void {
+    if (id === this.profile.user.id) {
+      this.profile.emit('LOAD_USER');
+      this.router.navigate(['app/profile']);
+    } else {
+      this.profileService.emit('LOAD_USER');
+      this.router.navigate([`/app/search/user/${id}`]);
+    }
   }
 
   // updateTitleOnChatChange(): void {

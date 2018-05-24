@@ -9,6 +9,8 @@ import { I18nService } from '../../__services/i18n.service';
 import { AuthService } from '../../__services/auth.service';
 import { UserInterface } from '../../__interfaces/user';
 import { SocketService } from '../../__services/socket.service';
+import { ProfileService } from '../../__services/profile.service';
+import { ChatsService } from '../../__services/chats.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,6 +22,10 @@ export class MenuComponent implements OnInit {
   subscription: any;
 
   links: NodeListOf<HTMLElement>;
+  avatar_link: HTMLElement;
+  search_link: HTMLElement;
+  message_link: HTMLElement;
+
   activeBlock: HTMLElement;
   showLanguage: boolean;
   invitesCount: number;
@@ -33,7 +39,9 @@ export class MenuComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private profile: OwnProfileService,
-    private socket: SocketService
+    private socket: SocketService,
+    private profileService: ProfileService,
+    private chatsService: ChatsService
   ) { }
 
   ngOnInit() {
@@ -42,6 +50,7 @@ export class MenuComponent implements OnInit {
     this.moveActiveBlockOnClick();
     this.updateInviteCount();
     this.getAvatar();
+    this.moveLink();
   }
 
   async logout(): Promise <void> {
@@ -65,6 +74,9 @@ export class MenuComponent implements OnInit {
 
   getLinks(): void {
     this.links = <NodeListOf<HTMLElement>> document.querySelectorAll('.__link');
+    this.avatar_link = <HTMLElement> document.querySelector('.avatar');
+    this.search_link = <HTMLElement> document.querySelector('.__search');
+    this.message_link = <HTMLElement> document.querySelector('.__message');
   }
 
   getActiveBlock(): void {
@@ -146,6 +158,18 @@ export class MenuComponent implements OnInit {
 
   getAvatar() {
     this.avatar = this.profile.user.avatar;
+  }
+
+  moveLink(): void {
+    this.profileService.on('LOAD_USER', () => {
+      this.moveActiveBlock(this.search_link);
+    });
+    this.profile.on('LOAD_USER', () => {
+      this.moveActiveBlock(this.avatar_link);
+    });
+    this.chatsService.on('OPEN_CHAT', () => {
+      this.moveActiveBlock(this.message_link);
+    });
   }
 
 }

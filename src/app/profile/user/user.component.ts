@@ -168,6 +168,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   public async getUserRoom(): Promise<void> {
     const id = await this.chatsService.getUserRoom(this.user.id);
+    this.chatsService.emit('OPEN_CHAT');
     this.router.navigate([`app/messages/${id}`]);
   }
 

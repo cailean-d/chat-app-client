@@ -13,7 +13,7 @@
       </div>
     </li>
 
-    <li class="link __link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
+    <li class="link __link __search" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
       <i class="fa fa-search"></i>
     </li>
     <li class="link __link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
@@ -30,7 +30,7 @@
     <li class="link __link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}" (click)="changeFavoriteTitle()">
       <i class="fa fa-star"></i>
     </li>
-    <li class="link __link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
+    <li class="link __link __message" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
       <i class="fas fa-comments"></i>
     </li>
     <li class="link __link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
