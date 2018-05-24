@@ -20,6 +20,8 @@
         "**/src/environments" : true,
         "**/src/typings.d.ts" : true,
         "**/src/main.ts" : true,
-        "**/src/test.ts" : true
+        "**/src/test.ts" : true,
+        "**/documentation": true,
+        "**/dist": true
     }
 }
