@@ -6,6 +6,7 @@ import { GenderPipe } from '../__pipes/gender.pipe';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StopBubblingDirective } from '../__directives/stop-bubbling.directive';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -27,8 +28,9 @@ const options = {
   ],
   declarations: [
     DatePipe,
-    GenderPipe
+    GenderPipe,
+    StopBubblingDirective
   ],
-  exports: [TranslateModule, DatePipe, GenderPipe]
+  exports: [TranslateModule, DatePipe, GenderPipe, StopBubblingDirective]
 })
 export class I18nModule { }

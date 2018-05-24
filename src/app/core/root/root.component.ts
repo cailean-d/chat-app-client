@@ -10,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
 export class RootComponent implements OnInit {
 
   dataIsLoaded: boolean;
+  qq: boolean;
 
-  constructor(private profile: OwnProfileService, private socket: SocketService) {
+  constructor(
+    private profile: OwnProfileService,
+    private socket: SocketService
+  ) {
     this.socket.connect();
   }
 
@@ -21,10 +25,10 @@ export class RootComponent implements OnInit {
 
   private async getProfile(): Promise<void> {
     if (this.profile.dataIsLoaded) {
-      this.dataIsLoaded = true;
+      setTimeout(() => this.dataIsLoaded = true, 0);
     } else {
       await this.profile.getData();
-      this.dataIsLoaded = true;
+      setTimeout(() => this.dataIsLoaded = true, 0);
     }
   }
 

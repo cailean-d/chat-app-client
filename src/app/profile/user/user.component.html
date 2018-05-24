@@ -77,7 +77,7 @@
             </tr>
             <tr>
               <td>{{ 'profile.gender' | translate }}</td>
-              <td>{{ user.gender || 'profile.unknown' | translate }}</td>
+              <td>{{ (user.gender | gender) || 'profile.unknown' | translate }}</td>
             </tr>
             <tr>
               <td>{{ 'profile.birthday' | translate }}</td>

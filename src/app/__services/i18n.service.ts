@@ -1,9 +1,10 @@
+import { EventEmitter } from 'eventemitter3';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgForage } from 'ngforage';
 
 @Injectable()
-export class I18nService {
+export class I18nService extends EventEmitter {
 
   browserLang: string;
   langs: string[];
@@ -12,6 +13,7 @@ export class I18nService {
     public translate: TranslateService,
     private storage: NgForage,
   ) {
+    super();
     this.init();
   }
 
@@ -21,6 +23,7 @@ export class I18nService {
     this.langs = this.translate.getLangs();
     this.translate.setDefaultLang(this.browserLang);
     await this.useLanguage();
+    this.emit('LANG_LOADED');
   }
 
   async switchLanguage(lang: string): Promise <void> {

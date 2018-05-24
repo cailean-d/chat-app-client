@@ -1,1 +1,6 @@
 <router-outlet></router-outlet>
+<ng-template  *ngIf="!dataIsLoaded" >
+  <div class="load">
+    <i class="fas fa-sync fa-spin"></i>
+  </div>
+</ng-template>
