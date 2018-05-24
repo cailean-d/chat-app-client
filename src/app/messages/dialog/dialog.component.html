@@ -31,7 +31,7 @@
           <div class="phone" title="{{ 'hint.call' | translate }}">
               <i class="fa fa-phone"></i>
           </div>
-          <div class="add-user" title="{{ 'hint.add_user' | translate }}">
+          <div *ngIf="chatsService.chats[chatIndex].users[0].id === profile.user.id"  class="add-user" title="{{ 'hint.add_user' | translate }}" (click)="showList()">
               <i class="fa fa-user-plus"></i>
           </div>
       </div>
@@ -85,4 +85,35 @@
     <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>В конец</div>
   </div>
 
+
+  <div *ngIf="dataLoaded && showAddList" class="add_user">
+    <div class="corner">
+      <i class="fa fa-times" title="Закрыть" (click)="closeList()"></i>
+    </div>
+    <div *ngIf="friendsService.usersFiltered.length > 0; else noFriends">
+      <li *ngFor="let friend of friendsService.usersFiltered; let i = index">
+        <div class="friend" *ngIf="!chatsService.isUserInChat(chatIndex, friend.id)" (click)="addUser(friend)">
+          <div class="image">
+            <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+            <div class="status" *ngIf="friend.online">
+              <span>
+                  <i class="fa fa-circle online"></i>
+              </span>
+            </div>
+          </div>
+          <div class="about">
+            <div class="name">{{friend.nickname}}</div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <ng-template #noFriends>
+        <li class="notification">
+          Список пуст
+        </li>
+    </ng-template>
+  </div>
+
+
 </div>
+

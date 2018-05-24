@@ -1,3 +1,4 @@
+import { FriendsService } from '../../__services/friends.service';
 import { ProfileService } from '../../__services/profile.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -27,6 +28,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   dataNotLoaded = true;
   dataLoaded: boolean;
+  showAddList = false;
   user: UserInterface;
 
   chatIndex: number;
@@ -38,10 +40,11 @@ export class DialogComponent extends EventEmitter implements OnInit {
     private title: Title,
     protected storage: NgForage,
     private socket: SocketService,
-    private profile: OwnProfileService,
+    public profile: OwnProfileService,
     public chatsService: ChatsService,
     private router: Router,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    public friendsService: FriendsService
   ) {
     super();
     this.getChatData();
@@ -200,6 +203,19 @@ export class DialogComponent extends EventEmitter implements OnInit {
       this.profileService.emit('LOAD_USER');
       this.router.navigate([`/app/search/user/${id}`]);
     }
+  }
+
+  addUser(user: UserInterface): void {
+    this.chatsService.addUserToRoom(this.chatIndex, user);
+    this.showAddList = false;
+  }
+
+  closeList(): void {
+    this.showAddList = false;
+  }
+
+  showList(): void {
+    this.showAddList = !this.showAddList;
   }
 
   // updateTitleOnChatChange(): void {

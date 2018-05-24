@@ -52,6 +52,14 @@ export class ChatsService extends EventEmitter {
     }
   }
 
+  public isUserInChat(id: number, user: number): boolean {
+    for (let i = 0; i < this.chats[id].users.length; i++) {
+      if (+this.chats[id].users[i].id === +user) {
+        return true;
+      }
+    }
+    return false;
+  }
   public loadFilteredChats(): void {
     this.chatsFiltered = this.chats.filter((item) => {
       return item.title.match(new RegExp(this.search, 'i'));
@@ -300,6 +308,25 @@ export class ChatsService extends EventEmitter {
         console.error(error);
         this.messagesIsLoading = false;
       }
+    }
+  }
+
+  public async addUserToRoom(id: number, user: UserInterface): Promise<void> {
+    try {
+      const _id = this.chats[id].id;
+      const res: Response = await this.http.post<Response>(`api/rooms/${_id}/${user.id}`, {title: 'New Room'}).toPromise();
+
+      this.chats[id].users.push(user);
+      this.loadFilteredChats();
+
+      this.socket.emit(SocketAction.ROOM_INVITE, {
+        chat_id: _id,
+        user_id: user.id
+      });
+
+    } catch (res) {
+      console.error(res);
+      throw new Error(res);
     }
   }
 
