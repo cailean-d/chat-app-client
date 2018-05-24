@@ -1,6 +1,6 @@
 <nav class="menu">
   <ul class="items">
-    <li class="avatar">
+    <li class="avatar __link">
       <div class="image" title="{{ 'hint.profile' | translate }}">
         <div class="img-outer">
           <img src="{{ avatar }}" alt="avatar" draggable="false" routerLink="/app/profile" />
@@ -13,10 +13,10 @@
       </div>
     </li>
 
-    <li class="link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
+    <li class="link __link" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
       <i class="fa fa-search"></i>
     </li>
-    <li class="link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
+    <li class="link __link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
       <i class="fa fa-users"></i>
       <div class="counter" *ngIf="invitesCount > 0">
         <span>
@@ -27,13 +27,13 @@
         <span class="p"></span>
       </div> -->
     </li>
-    <li class="link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}" (click)="changeFavoriteTitle()">
+    <li class="link __link" routerLink="/app/favorite" routerLinkActive="link-active" title="{{ 'hint.favorite' | translate }}" (click)="changeFavoriteTitle()">
       <i class="fa fa-star"></i>
     </li>
-    <li class="link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
+    <li class="link __link" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
       <i class="fas fa-comments"></i>
     </li>
-    <li class="link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
+    <li class="link __link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
       <i class="fa fa-cog"></i>
     </li>
     <div class="active-block"></div>

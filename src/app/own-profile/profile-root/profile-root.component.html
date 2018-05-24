@@ -102,7 +102,7 @@
           </tr>
           <tr>
             <td>{{ 'profile.gender' | translate }}</td>
-            <td *ngIf="!isEdit">{{ profile.user.gender || 'profile.unknown' | translate }}</td>
+            <td *ngIf="!isEdit">{{ (profile.user.gender | gender) || 'profile.unknown' | translate }}</td>
             <td *ngIf="isEdit">
               <select formControlName="gender" [(ngModel)]="profile.user.gender">
                 <option value="male">Мужской</option>

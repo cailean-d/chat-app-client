@@ -1,6 +1,7 @@
 import { DatePipe } from '../__pipes/date.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GenderPipe } from '../__pipes/gender.pipe';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -24,7 +25,10 @@ const options = {
     CommonModule,
     TranslateModule.forChild(options),
   ],
-  declarations: [DatePipe],
-  exports: [TranslateModule, DatePipe]
+  declarations: [
+    DatePipe,
+    GenderPipe
+  ],
+  exports: [TranslateModule, DatePipe, GenderPipe]
 })
 export class I18nModule { }

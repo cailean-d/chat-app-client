@@ -64,7 +64,7 @@ export class MenuComponent implements OnInit {
   }
 
   getLinks(): void {
-    this.links = <NodeListOf<HTMLElement>> document.querySelectorAll('.link');
+    this.links = <NodeListOf<HTMLElement>> document.querySelectorAll('.__link');
   }
 
   getActiveBlock(): void {
