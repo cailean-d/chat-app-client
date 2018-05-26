@@ -28,7 +28,7 @@ export class MessagePipe implements PipeTransform {
     let res: any;
     if (res = text.match(imageRegExp)) {
       return text.replace(imageRegExp, `<img src="${res[0]}" alt="" style="max-width: 400px;
-      width: 100%;" draggable="false">`);
+      width: 100%; display: block;border-radius: 4px; margin: 10px 0;" draggable="false">`);
     } else {
       return text;
     }

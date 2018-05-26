@@ -41,8 +41,8 @@
   <ul class="chat-history" #chat>
     <div *ngIf="dataLoaded" >
       <div class="message-list">
-        <li *ngFor="let msg of chatsService.chats[chatIndex].messages" class="msg-block">
-          <div [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'">
+        <li *ngFor="let msg of chatsService.chats[chatIndex].messages; let i = index" class="msg-block">
+          <!-- <div [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'">
             <div class="message-data">
               <div class="row">
                   <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}" (click)="showProfile(msg.sender_id)" class="av"/>
@@ -52,6 +52,31 @@
             <div class="msg">
               <div class="message" [innerHTML]="msg.message | message"></div>
             </div>
+          </div> -->
+          <div class="msg" [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'">
+            <div *ngIf="chatsService.chats[chatIndex].messages[i-1] && chatsService.chats[chatIndex].messages[i].sender_id === chatsService.chats[chatIndex].messages[i-1].sender_id; else bubble" >
+              <div class="msg-outer">
+                <div class="bubble" [innerHTML]="msg.message | message"></div>
+              </div>
+            </div>
+            <ng-template #bubble>
+              <div class="avatar">
+                <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}" (click)="showProfile(msg.sender_id)" class="av"/>
+              </div>
+              <div class="side">
+                <div class="message-data">
+                  <div class="nickname" (click)="showProfile(msg.sender_id)">
+                    {{ msg.sender_nickname }}
+                  </div>
+                  <div class="date">
+                    {{msg.timestamp | mydate }}
+                  </div>
+                </div>
+                <div class="msg-outer">
+                  <div class="message" [innerHTML]="msg.message | message"></div>
+                </div>
+              </div>
+            </ng-template>
           </div>
         </li>
       </div>
