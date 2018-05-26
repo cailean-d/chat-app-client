@@ -2,9 +2,21 @@
   <div class="main">
     <div class="user">
       <div class="avatar">
-        <img src="{{profile.user.avatar}}" alt="avatar" draggable="false"/>
+        <img [src]="profile.user.avatar" alt="avatar" draggable="false" #avatar/>
+        <div class="edit">
+          <div class="block">
+            <div>
+              <label for="avatar">
+                Изменить аватар
+              </label>
+            </div>
+            <div *ngIf="avatar_edit" (click)="saveAvatar()">Сохранить</div>
+            <div *ngIf="avatar_edit" (click)="cancelAvatar()">Отмена</div>
+          </div>
+          <input hidden type="file" id="avatar" (change)="loadAvatar($event)" accept="image/*">
+        </div>
       </div>
-      <div class="name" title="{{profile.user.nickname}}">
+      <div class="name" title="profile.user.nickname}}">
         {{profile.user.nickname}}
       </div>
       <div class="buttons">
@@ -43,46 +55,6 @@
               Удалить
             </div>
           </div>
-          <!-- <div class="button" title="{{ 'hint.del_favorite' | translate }}" *ngIf="favState === 1" (click)="addToFavorite()">
-            <div class="icon">
-              <i class="fa fa-star"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="addToFriends()" *ngIf="state === 0" >
-            <div class="icon">
-              <i class="fas fa-user-check"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.reject_user' | translate }}" (click)="rejectInvite()" *ngIf="state === 0" >
-            <div class="icon red">
-              <i class="fa fa-user-times"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.cancel_friend' | translate }}" (click)="cancelInvite()" *ngIf="state === 1" >
-            <div class="icon red">
-              <i class="fa fa-user-times"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.del_friend' | translate }}" (click)="deleteFromFriends()" *ngIf="state === 2" >
-            <div class="icon red">
-              <i class="fa fa-user-times"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.add_friend' | translate }}" (click)="inviteUser()" *ngIf="state === 3" >
-            <div class="icon">
-              <i class="fa fa-user-plus"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.complain_user' | translate }}">
-            <div class="icon red">
-              <i class="fa fa-exclamation-triangle"></i>
-            </div>
-          </div>
-          <div class="button" title="{{ 'hint.block_user' | translate }}">
-            <div class="icon red">
-              <i class="fa fa-ban"></i>
-            </div>
-          </div> -->
       </div>
     </div>
   </div>
@@ -104,10 +76,13 @@
             <td>{{ 'profile.gender' | translate }}</td>
             <td *ngIf="!isEdit">{{ (profile.user.gender | gender) || 'profile.unknown' | translate }}</td>
             <td *ngIf="isEdit">
+              <div class="styled_select" >
               <select formControlName="gender" [(ngModel)]="profile.user.gender">
                 <option value="male">Мужской</option>
                 <option value="female">Женский</option>
               </select>
+              </div>
+
             </td>
           </tr>
           <tr>

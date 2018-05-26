@@ -3,7 +3,7 @@
     <li class="avatar __link">
       <div class="image" title="{{ 'hint.profile' | translate }}">
         <div class="img-outer">
-          <img src="{{ avatar }}" alt="avatar" draggable="false" routerLink="/app/profile" />
+          <img [src]="profile.user.avatar" alt="avatar" draggable="false" routerLink="/app/profile" />
         </div>
         <!-- <div class="status">
           <span>

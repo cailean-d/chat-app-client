@@ -29,7 +29,6 @@ export class MenuComponent implements OnInit {
   activeBlock: HTMLElement;
   showLanguage: boolean;
   invitesCount: number;
-  avatar = '/assets/images/default-user.png';
 
   constructor(
     protected storage: NgForage,
@@ -38,7 +37,7 @@ export class MenuComponent implements OnInit {
     private title: Title,
     private authService: AuthService,
     private router: Router,
-    private profile: OwnProfileService,
+    public profile: OwnProfileService,
     private socket: SocketService,
     private profileService: ProfileService,
     private chatsService: ChatsService
@@ -49,7 +48,6 @@ export class MenuComponent implements OnInit {
     this.getActiveBlock();
     this.moveActiveBlockOnClick();
     this.updateInviteCount();
-    this.getAvatar();
     this.moveLink();
   }
 
@@ -154,10 +152,6 @@ export class MenuComponent implements OnInit {
 
   updateInviteCount(): void {
     this.inviteService.countCast.subscribe(count => this.invitesCount = count);
-  }
-
-  getAvatar() {
-    this.avatar = this.profile.user.avatar;
   }
 
   moveLink(): void {

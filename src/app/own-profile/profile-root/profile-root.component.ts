@@ -1,5 +1,5 @@
 import { OwnProfileService } from '../../__services/own-profile.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -10,10 +10,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ProfileRootComponent implements OnInit {
 
+  @ViewChild('avatar') avatar: ElementRef;
+
   isEdit: boolean;
 
   form: FormGroup;
   temp: any;
+  file: File;
+  temp_avatar: string;
+  avatar_edit: boolean;
 
   constructor(
     protected profile: OwnProfileService,
@@ -23,6 +28,7 @@ export class ProfileRootComponent implements OnInit {
 
   ngOnInit() {
     this.title.setTitle(this.profile.user.nickname);
+    this.temp_avatar = this.profile.user.avatar;
     this.initForm();
   }
 
@@ -84,6 +90,37 @@ export class ProfileRootComponent implements OnInit {
   save(): void {
     this.profile.update().then(() => {
       this.isEdit = false;
+    });
+  }
+
+  loadAvatar(event: Event): void {
+
+    const fintInput = event.target as HTMLInputElement;
+
+    if (fintInput.files[0]) {
+      this.file = fintInput.files[0];
+      this.loadPreview(this.file, this.avatar.nativeElement);
+    }
+  }
+
+  loadPreview(file: File, el: HTMLImageElement) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    this.avatar_edit = true;
+    reader.onload = (e: Event) => {
+        el.src = (e.target as any).result;
+    };
+  }
+
+  cancelAvatar(): void {
+    this.avatar.nativeElement.src = this.temp_avatar;
+    this.avatar_edit = false;
+  }
+
+  saveAvatar(): void {
+    this.profile.updateAvatar(this.file).then(() => {
+      this.temp_avatar = this.profile.user.avatar;
+      this.avatar_edit = false;
     });
   }
 

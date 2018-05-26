@@ -35,4 +35,16 @@ export class OwnProfileService extends EventEmitter {
     }
   }
 
+  async updateAvatar(file: File): Promise<void> {
+    try {
+      const data = new FormData();
+      data.append('avatar', file, file.name);
+      const response: any = await this.http.patch(`api/upload/avatar`, data).toPromise();
+      this.user.avatar = response.data;
+    } catch (res) {
+      console.error(res);
+      throw new Error(res);
+    }
+  }
+
 }

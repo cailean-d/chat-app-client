@@ -25,6 +25,41 @@
       width: 300px;
       overflow: hidden;
       margin: 0 auto;
+      position: relative;
+      border: 5px solid #d2d2d2;
+
+      &:hover .edit{
+        display: flex;
+      }
+
+
+      .edit{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        .block{
+          div{
+            cursor: pointer;
+            margin-bottom: 5px;
+
+            label{
+              cursor: pointer;
+            }
+
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
 
       img {
         vertical-align: middle;
@@ -123,7 +158,7 @@
 
   .user-info{
     flex-grow: 1;
-    padding: 20px 30px;
+    padding: 0px 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -163,7 +198,7 @@
         tbody{
           td{
             width: 50%;
-            height: 25px;
+            height: 29px;
             border-bottom: 1px solid transparent;
             &:nth-child(1){
               text-align: right;
@@ -180,4 +215,55 @@
       }
     }
   }
+}
+
+
+.styled_select {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  border: 1px solid #dadada;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 0 0 3px #f5f5f5;
+}
+
+.styled_select {
+  background-color: #ffffff;
+  background-image: linear-gradient(to bottom, #ffffff, #f1f1f1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f1f1f1');
+}
+.styled_select select {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 3px 10px;
+  white-space: nowrap;
+  width: 100%;
+  color: #666666;
+  font-style: normal;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  z-index: 2;
+  }
+
+.styled_select:hover {
+  border: 1px solid #6f6f6f;
+}
+
+.styled_select:after {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  height: 100%;
+  content: "";
+  border: solid transparent;
+  border-top-color: #868686;
+  border-width: 5px;
 }
