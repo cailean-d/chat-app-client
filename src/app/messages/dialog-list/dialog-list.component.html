@@ -7,8 +7,16 @@
           <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
       </div>
     </div>
+    <div class="add_chat">
+      <div class="desc">
+        <span>
+          Добавить чат
+        </span>
+      </div>
+    </div>
     <ul class="user-list" #chatList>
       <div *ngIf="dataIsLoaded; else loading">
+        <div class="divider"></div>
         <div *ngIf="chatService.chatsFiltered.length > 0; else notFound">
           <li *ngFor="let chat of chatService.chatsFiltered; let i = index">
             <div class="user" routerLink="{{chat.id}}" routerLinkActive="link-active">
