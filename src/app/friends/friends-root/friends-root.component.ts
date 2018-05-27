@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { I18nService } from '../../__services/i18n.service';
+import { FriendsService } from '../../__services/friends.service';
+import { InviteService } from '../../__services/invite.service';
+import { OnlineService } from '../../__services/online.service';
+
 
 @Component({
   selector: 'app-friends-root',
@@ -15,7 +19,12 @@ export class FriendsRootComponent implements OnInit {
 
   friendListScroll: HTMLElement;
 
-  constructor(private i18n: I18nService) { }
+  constructor(
+    private i18n: I18nService,
+    protected friendsService: FriendsService,
+    protected inviteService: InviteService,
+    protected onlineService: OnlineService
+  ) { }
 
   ngOnInit() {
     this.customScrollBar();

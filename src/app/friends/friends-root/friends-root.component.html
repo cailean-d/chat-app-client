@@ -11,12 +11,27 @@
       <div class="row">
         <div class="button" title="{{ 'title.all_friends' | translate }}" routerLink="all" routerLinkActive="button-active" >
             <i class="fa fa-user"></i>
+            <div class="counter" *ngIf="friendsService.users.length > 0">
+              <span>
+                  {{friendsService.users.length}}
+              </span>
+            </div>
         </div>
         <div class="button" title="{{ 'title.friend_online' | translate }}" routerLink="online" routerLinkActive="button-active">
             <i class="fas fa-user-clock"></i>
+            <div class="counter" *ngIf="onlineService.users.length > 0">
+              <span>
+                  {{onlineService.users.length }}
+              </span>
+            </div>
         </div>
         <div class="button" title="{{ 'title.invites' | translate }}" routerLink="invite" routerLinkActive="button-active">
             <i class="fa fa-user-plus"></i>
+            <div class="counter" *ngIf="inviteService.users.length > 0">
+              <span>
+                  {{inviteService.users.length}}
+              </span>
+            </div>
         </div>
       </div>
     </div>

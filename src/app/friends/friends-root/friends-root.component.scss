@@ -95,6 +95,29 @@
       font-size: 20px;
       margin-right: 20px;
       display: inline-block;
+      position: relative;
+
+      .counter{
+        position: absolute;
+        top: 52%;
+        left: 53%;
+        font-size: 12px;
+        color: #000000;
+        background: #8291e4;
+        border-radius: 50%;
+        height: 16px;
+        width: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span{
+          color: #fff;
+          position: absolute;
+          top: 2px;
+        }
+
+      }
 
       &:last-child{
         margin-right: 0;
