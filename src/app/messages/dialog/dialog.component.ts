@@ -30,6 +30,9 @@ export class DialogComponent extends EventEmitter implements OnInit {
   dataLoaded: boolean;
   showAddList = false;
   user: UserInterface;
+  addList: UserInterface[];
+  addtempList: UserInterface[];
+  roomTitle: string;
 
   chatIndex: number;
 
@@ -63,6 +66,15 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   getChatData(): void {
     this.activeRoute.params.subscribe((params) => {
+
+      this.addtempList = [];
+
+      this.showAddList = false;
+      this.on('index', () => {
+        this.getAddUserList();
+      });
+
+
       if (this.chatsService.dataIsLoaded) {
         this.chatIndex = this.chatsService.getChatIndex(params.id);
           this.dataLoaded = true;
@@ -90,6 +102,12 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   getUserdata() {
     this.user = this.profile.user;
+  }
+
+  getAddUserList(): void {
+    this.addList = this.friendsService.users.filter((item) => {
+      return !this.chatsService.isUserInChat(this.chatIndex, item.id);
+    });
   }
 
   setCustomScrollbar(): void {
@@ -205,17 +223,61 @@ export class DialogComponent extends EventEmitter implements OnInit {
     }
   }
 
-  addUser(user: UserInterface): void {
-    this.chatsService.addUserToRoom(this.chatIndex, user);
-    this.showAddList = false;
+  // addUser(user: UserInterface): void {
+  //   this.chatsService.addUserToRoom(this.chatIndex, user);
+  //   this.showAddList = false;
+  // }
+
+  addUser(e: Event, user: UserInterface): void {
+    let friend;
+    if ((e.target as HTMLElement).classList.contains('friend')) {
+      friend = e.target;
+    } else {
+      friend = this.findAncestor(e.target, 'friend') as HTMLElement;
+    }
+
+    if (friend.classList.contains('link-active')) {
+      friend.classList.remove('link-active');
+      const i = this.addtempList.indexOf(user);
+      this.addtempList.splice(i, 1);
+    } else {
+      friend.classList.add('link-active');
+      this.addtempList.push(user);
+    }
+
+  }
+
+  private findAncestor (el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls)) {}
+    return el;
   }
 
   closeList(): void {
     this.showAddList = false;
+    this.addtempList = [];
+    this.clearTitleInput();
   }
 
   showList(): void {
     this.showAddList = !this.showAddList;
+    this.addtempList = [];
+    this.clearTitleInput();
+  }
+
+  clearTitleInput(): void {
+    this.roomTitle = '';
+  }
+
+  addUsersToChat(): void {
+    for (let i = 0; i < this.addtempList.length; i++) {
+      const user = this.addtempList[i];
+      this.chatsService.addUserToRoom(this.chatIndex, user, this.roomTitle).then(() => {
+        this.getAddUserList();
+      });
+    }
+    this.showAddList = false;
+    this.addtempList = [];
+    this.clearTitleInput();
   }
 
   // updateTitleOnChatChange(): void {

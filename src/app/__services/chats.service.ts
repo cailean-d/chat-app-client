@@ -316,10 +316,11 @@ export class ChatsService extends EventEmitter {
     }
   }
 
-  public async addUserToRoom(id: number, user: UserInterface): Promise<void> {
+  public async addUserToRoom(id: number, user: UserInterface, title?: string): Promise<void> {
     try {
       const _id = this.chats[id].id;
-      const res: Response = await this.http.post<Response>(`api/rooms/${_id}/${user.id}`, {title: 'New Room'}).toPromise();
+      const res: Response = await this.http.post<Response>(`api/rooms/${_id}/${user.id}`,
+      {title: title}).toPromise();
 
       this.chats[id].users.push(user);
       this.loadFilteredChats();
@@ -328,6 +329,13 @@ export class ChatsService extends EventEmitter {
         chat_id: _id,
         user_id: user.id
       });
+
+      if (title) {
+        const chat = await this.getRoom(_id);
+
+        this.chats[id].title = chat.title;
+        this.chats[id].picture = chat.picture;
+      }
 
     } catch (res) {
       console.error(res);

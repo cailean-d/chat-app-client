@@ -21,7 +21,7 @@
           <li *ngFor="let chat of chatService.chatsFiltered; let i = index">
             <div class="user" routerLink="{{chat.id}}" routerLinkActive="link-active">
               <div class="image">
-                <img src="{{chat.picture}}" alt="avatar" draggable="false"/>
+                <img [src]="chat.picture" alt="avatar" draggable="false"/>
                 <!-- <div class="status"> -->
                   <!-- <span *ngIf="user.online === true; else left" >
                       <i class="fa fa-circle online"></i>

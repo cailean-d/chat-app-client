@@ -115,22 +115,41 @@
     <div class="corner">
       <i class="fa fa-times" title="Закрыть" (click)="closeList()"></i>
     </div>
-    <div *ngIf="friendsService.usersFiltered.length > 0; else noFriends">
-      <li *ngFor="let friend of friendsService.usersFiltered; let i = index">
-        <div class="friend" *ngIf="!chatsService.isUserInChat(chatIndex, friend.id)" (click)="addUser(friend)">
-          <div class="image">
-            <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
-            <div class="status" *ngIf="friend.online">
-              <span>
-                  <i class="fa fa-circle online"></i>
-              </span>
+    <div *ngIf="addList.length > 0; else noFriends" class="body">
+      <div>
+        <li *ngFor="let friend of addList; let i = index">
+          <div class="friend" (click)="addUser($event, friend)">
+            <div class="image">
+              <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+              <div class="status" *ngIf="friend.online">
+                <span>
+                    <i class="fa fa-circle online"></i>
+                </span>
+              </div>
+            </div>
+            <div class="about">
+              <div class="name">{{friend.nickname}}</div>
             </div>
           </div>
-          <div class="about">
-            <div class="name">{{friend.nickname}}</div>
+        </li>
+      </div>
+      <div class="create_chat">
+        <div class="search" *ngIf="chatsService.chats[chatIndex].users.length === 2 && chatsService.chats[chatIndex].users.length + addtempList.length > 2" >
+          <div class="search-field">
+              <input type="text" placeholder="Название беседы" [(ngModel)]='roomTitle'/>
+              <i class="fas fa-comment"></i>
+              <i class="fa fa-times" title="Отмена" (click)="clearTitleInput()" *ngIf="roomTitle" ></i>
           </div>
         </div>
-      </li>
+        <div class="button" (click)="addUsersToChat()">
+          <div class="icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="description">
+            Добавить пользователей
+          </div>
+        </div>
+      </div>
     </div>
     <ng-template #noFriends>
         <li class="notification">
