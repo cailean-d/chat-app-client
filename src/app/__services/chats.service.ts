@@ -60,6 +60,7 @@ export class ChatsService extends EventEmitter {
     }
     return false;
   }
+
   public loadFilteredChats(): void {
     this.chatsFiltered = this.chats.filter((item) => {
       return item.title.match(new RegExp(this.search, 'i'));
@@ -141,27 +142,6 @@ export class ChatsService extends EventEmitter {
     }
   }
 
-  private async getUsers(id: number): Promise<UserInterface[]> {
-    try {
-      const res: Response = await this.http.get<Response>(`api/rooms/${id}/users`).toPromise();
-      return res.data as UserInterface[];
-    } catch (res) {
-      // console.error(res.error.status, res.error.message);
-      throw new Error(res.error.message);
-    }
-  }
-
-  private async getMessages(id: number): Promise<MessageInterface[]> {
-    try {
-      const res: Response = await this.http.get<Response>(`api/messages/${id}`).toPromise();
-      return res.data as MessageInterface[];
-
-    } catch (res) {
-      // console.error(res.error.status, res.error.message);
-      throw new Error(res);
-    }
-  }
-
   private async getRoom(id: number): Promise<ChatInterface> {
     try {
       const res: Response = await this.http.get<Response>(`api/rooms/${id}`).toPromise();
@@ -184,19 +164,42 @@ export class ChatsService extends EventEmitter {
     return chat;
   }
 
-  private async sendMessage(id: number, msg: string): Promise<void> {
+  private async getUsers(id: number): Promise<UserInterface[]> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/rooms/${id}/users`).toPromise();
+      return res.data as UserInterface[];
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
+  }
+
+  private async getMessages(id: number): Promise<MessageInterface[]> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/messages/${id}`).toPromise();
+      return res.data as MessageInterface[];
+
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
+  private async sendMessage(id: number, msg: string): Promise<number> {
     try {
       const res: Response = await this.http.post<Response>(`api/messages/${id}`, {
         message: msg
       }).toPromise();
 
       this.socket.emit(SocketAction.CHAT_MESSAGE, {
+        id: res.data,
         chat_id: id,
         message: msg,
         sender_id: this.profile.user.id,
         sender_nickname: this.profile.user.nickname,
         sender_avatar: this.profile.user.avatar,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        status: 0
       });
 
       const _id = this.getChatIndex(id);
@@ -213,6 +216,8 @@ export class ChatsService extends EventEmitter {
         }
       }
 
+      return res.data;
+
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res);
@@ -221,7 +226,8 @@ export class ChatsService extends EventEmitter {
 
   public async addMessage(id: number, msg: MessageInterface): Promise<void> {
     const _id = this.chats[id].id;
-    await this.sendMessage(_id, msg.message);
+    const msg_id = await this.sendMessage(_id, msg.message);
+    msg.id = msg_id;
     this.chats[id].messages.push(msg);
     this.loadedMessages[_id]++;
     this.updateChatMessage(_id, msg.message);
@@ -251,6 +257,11 @@ export class ChatsService extends EventEmitter {
 
     this.socket.onEvent(SocketEvent.ROOM_INVITE).subscribe((data) => {
       this.addRoom(data);
+    });
+
+    this.socket.onEvent(SocketEvent.READ_MESSAGE).subscribe((data) => {
+      const _data = JSON.parse(data);
+      this.readMsgInChat(_data.chat_id, _data.msg_id);
     });
   }
 
@@ -385,6 +396,35 @@ export class ChatsService extends EventEmitter {
     } catch (res) {
       // console.error(res.error.status, res.error.message);
       throw new Error(res);
+    }
+  }
+
+  public async readMessage(room_index: number, msg_id: number): Promise<void> {
+    try {
+
+      const _id = this.chats[room_index].id;
+
+      await this.http.patch<Response>(`api/messages/${_id}/${msg_id}`, {}).toPromise();
+
+      this.socket.emit(SocketAction.READ_MESSAGE, {
+        chat_id: _id,
+        msg_id: msg_id
+      });
+
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
+  private readMsgInChat(room: number, msg: number): void {
+    const index = this.getChatIndex(room);
+
+    for (let i = 0; i < this.chats[index].messages.length; i++) {
+      const _msg: MessageInterface = this.chats[index].messages[i];
+      if (+_msg.id === +msg) {
+        _msg.status = 1;
+      }
     }
   }
 

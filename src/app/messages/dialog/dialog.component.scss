@@ -166,6 +166,14 @@ $message_color: #a6c0d8;
 
         .msg-outer{
           display: flex;
+
+          .status{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: $message_color;
+            margin-top: 11px;
+          }
         }
 
         .message, .bubble{
@@ -199,6 +207,9 @@ $message_color: #a6c0d8;
 
         .msg-outer{
           flex-direction: row-reverse;
+          .status{
+            margin-right: 7px;
+          }
         }
 
         .message{
@@ -215,6 +226,12 @@ $message_color: #a6c0d8;
 
         .avatar{
           margin-right: 15px;
+        }
+
+        .msg-outer{
+          .status{
+            margin-left: 7px;
+          }
         }
 
         .message{

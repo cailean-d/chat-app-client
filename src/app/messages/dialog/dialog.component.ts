@@ -13,6 +13,7 @@ import { SocketService, SocketAction } from '../../__services/socket.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
 import { ChatsService } from '../../__services/chats.service';
 import { EventEmitter } from 'eventemitter3';
+import { MessageInterface } from '../../__interfaces/message';
 
 @Component({
   selector: 'app-dialog',
@@ -178,7 +179,8 @@ export class DialogComponent extends EventEmitter implements OnInit {
         message: message.value,
         timestamp: date,
         sender_nickname: this.user.nickname,
-        sender_avatar: this.user.avatar
+        sender_avatar: this.user.avatar,
+        status: 0
       });
 
       message.value = null;
@@ -222,11 +224,6 @@ export class DialogComponent extends EventEmitter implements OnInit {
       this.router.navigate([`/app/search/user/${id}`]);
     }
   }
-
-  // addUser(user: UserInterface): void {
-  //   this.chatsService.addUserToRoom(this.chatIndex, user);
-  //   this.showAddList = false;
-  // }
 
   addUser(e: Event, user: UserInterface): void {
     let friend;
@@ -278,6 +275,14 @@ export class DialogComponent extends EventEmitter implements OnInit {
     this.showAddList = false;
     this.addtempList = [];
     this.clearTitleInput();
+  }
+
+  readMessage(msg: MessageInterface): void {
+    if (msg.sender_id !== this.profile.user.id && msg.status === 0) {
+      this.chatsService.readMessage(this.chatIndex, msg.id).then(() => {
+        msg.status = 1;
+      });
+    }
   }
 
   // updateTitleOnChatChange(): void {
