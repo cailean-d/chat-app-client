@@ -7,12 +7,14 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogEmptyComponent } from './dialog-empty/dialog-empty.component';
 import { I18nModule } from '../i18n/i18n.module';
 import { MessagePipe } from '../__pipes/message.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     MessagesRoutingModule,
-    I18nModule
+    I18nModule,
+    FormsModule
   ],
   declarations: [
     DialogListComponent,

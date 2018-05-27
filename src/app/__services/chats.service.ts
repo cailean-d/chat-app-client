@@ -202,10 +202,15 @@ export class ChatsService extends EventEmitter {
       const _id = this.getChatIndex(id);
 
       if (this.chats[_id].messages.length === 0) {
-        this.socket.emit(SocketAction.ROOM_INVITE, {
-          chat_id: id,
-          user_id: this.getSecondUserOfRoom(id)
-        });
+        for (let i = 0; i < this.chats[_id].users.length; i++) {
+          const user = this.chats[_id].users[i];
+          if (+user.id !== +this.profile.user.id) {
+            this.socket.emit(SocketAction.ROOM_INVITE, {
+              chat_id: id,
+              user_id: user.id
+            });
+          }
+        }
       }
 
     } catch (res) {
@@ -329,6 +334,52 @@ export class ChatsService extends EventEmitter {
       throw new Error(res);
     }
   }
+
+  public chatIsExists(arr: number[]): false | number {
+
+    for (let i = 0; i < this.chats.length; i++) {
+      const chat = this.chats[i];
+      if (this.hasSameUsers(chat, arr)) {
+        return chat.id;
+      }
+    }
+    return false;
+  }
+
+  private hasSameUsers(chat: ChatInterface, arr: number[]): boolean {
+
+    for (let i = 0; i < chat.users.length; i++) {
+      const user = chat.users[i];
+      if (+arr.indexOf(user.id) === -1) {
+        return false;
+      }
+    }
+
+    if (chat.users.length === arr.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public async createRoom(users: number[], title?: string): Promise<number> {
+    try {
+      const response: any = await this.http.post(`api/rooms`, {
+        title: title,
+        users: JSON.stringify(users)
+      }).toPromise();
+      const chatID: number = response.data;
+      const res: Response = await this.http.get<Response>(`api/rooms/${chatID}`).toPromise();
+      const chat: ChatInterface = res.data;
+      await this.assignLoadedChats(chat);
+      this.loadFilteredChats();
+      return chatID;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res);
+    }
+  }
+
 
 
 }

@@ -15,9 +15,9 @@
       <div class="about">
         <div class="name">{{friend.nickname}}</div>
         <div class="right" appStopBubbling>
-          <div class="item favorite" *ngIf="!friend.isFavorite"  title="{{ 'hint.add_favorite' | translate}}">
+          <!-- <div class="item favorite" *ngIf="!friend.isFavorite"  title="{{ 'hint.add_favorite' | translate}}">
               <i class="fa fa-star"></i>
-          </div>
+          </div> -->
           <div class="item add" title="{{ 'hint.add_friend' | translate}}">
               <i class="fa fa-plus" (click)="inviteService.addToFriends(i)"></i>
           </div>
