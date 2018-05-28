@@ -293,6 +293,13 @@ $message_color: #a6c0d8;
     display: none;
   }
 
+  .typing{
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    padding: 10px 20px;
+  }
+
   .outer{
     flex-grow: 1;
     overflow: hidden;

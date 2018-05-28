@@ -35,6 +35,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
   addList: UserInterface[];
   addtempList: UserInterface[];
   roomTitle: string;
+  isTyping = false;
 
   chatIndex: number;
 
@@ -297,6 +298,21 @@ export class DialogComponent extends EventEmitter implements OnInit {
       });
     }
   }
+
+  typing(): void {
+    if (!this.isTyping) {
+      this.chatsService.emitTyping(this.chatIndex);
+      this.isTyping = true;
+
+      setTimeout(() => {
+        this.isTyping = false;
+      }, 1300);
+
+    }
+
+  }
+
+
 
   // updateTitleOnChatChange(): void {
   //   // this.chatService.on('title_changed', () => {

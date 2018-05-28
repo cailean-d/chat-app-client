@@ -16,6 +16,7 @@ export class ChatsService extends EventEmitter {
 
   private messageLoadLimit = 20;
   private loadedMessages = {};
+  private lastMessages = {};
   private messagesIsLoading: boolean;
 
   private unreadChatsCount = new BehaviorSubject<number>(0);
@@ -25,6 +26,8 @@ export class ChatsService extends EventEmitter {
   public chatsFiltered: ChatInterface[];
 
   public dataIsLoaded: boolean;
+
+  private timers: any[] = [];
 
   get search(): string {
     return this._search;
@@ -293,6 +296,30 @@ export class ChatsService extends EventEmitter {
       const _data = JSON.parse(data);
       this.readMsgInChat(_data.chat_id, _data.msg_id);
     });
+
+    this.socket.onEvent(SocketEvent.TYPING).subscribe((data) => {
+      const _data = JSON.parse(data);
+      const id = this.getChatIndex(_data.chat_id);
+      if (this.chats[id].message.indexOf('печатает') === -1) {
+        this.lastMessages[id] = this.chats[id].message;
+      }
+
+      if (this.chats[id].users.length === 2) {
+        this.chats[id].message = 'печатает...';
+      } else {
+        this.chats[id].message = _data.nickname + ' печатает...';
+      }
+
+      for (let i = 0; i < this.timers.length; i++) {
+          clearTimeout(this.timers[i]);
+      }
+
+      this.timers.push(setTimeout(() => {
+        this.chats[id].message = this.lastMessages[id];
+      }, 2000));
+
+    });
+
   }
 
   private getSecondUserOfRoom(id: number): number {
@@ -465,6 +492,15 @@ export class ChatsService extends EventEmitter {
   public decreaseUnreadCounter(room: number): void {
     this.chats[room].unread--;
     this.loadFilteredChats();
+  }
+
+  public emitTyping(room_index: number): void {
+    const _id = this.chats[room_index].id;
+
+    this.socket.emit(SocketAction.TYPING, {
+      chat_id: _id,
+      nickname: this.profile.user.nickname
+    });
   }
 
 

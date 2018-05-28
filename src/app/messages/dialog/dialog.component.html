@@ -81,7 +81,7 @@
 
     <div class="outer">
       <div class="message-input">
-        <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1"></textarea>
+        <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1" (keydown)="typing()"></textarea>
         <div class="input-items">
           <!-- <div class="item keyboard" title="{{ 'hint.screen_keyboard' | translate }}">
               <i class="far fa-keyboard"></i>
@@ -102,6 +102,7 @@
         </button>
     </div>
     <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>В конец</div>
+    <!-- <div class="typing">typing...</div> -->
   </div>
 
 

@@ -17,7 +17,8 @@ export enum SocketEvent {
   ONLINE = 'online',
   OFFLINE = 'offline',
   ROOM_INVITE = 'room_invited',
-  READ_MESSAGE = 'message_read'
+  READ_MESSAGE = 'message_read',
+  TYPING = 'typing'
 }
 
 export enum SocketAction {
@@ -30,7 +31,8 @@ export enum SocketAction {
   DEL_FRIEND = 'del_friend',
   GET_ONLINE = 'get_online',
   ROOM_INVITE = 'invite_room',
-  READ_MESSAGE = 'read_message'
+  READ_MESSAGE = 'read_message',
+  TYPING = 'typing'
 }
 
 @Injectable()
