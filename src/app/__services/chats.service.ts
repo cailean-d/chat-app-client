@@ -436,8 +436,6 @@ export class ChatsService extends EventEmitter {
 
       await this.http.patch<Response>(`api/messages/${_id}/${msg_id}`, {}).toPromise();
 
-      this.decreaseUnreadCounter(room_index);
-
       this.socket.emit(SocketAction.READ_MESSAGE, {
         chat_id: _id,
         msg_id: msg_id
@@ -464,7 +462,7 @@ export class ChatsService extends EventEmitter {
     this.chats[room].unread++;
   }
 
-  private decreaseUnreadCounter(room: number): void {
+  public decreaseUnreadCounter(room: number): void {
     this.chats[room].unread--;
     this.loadFilteredChats();
   }

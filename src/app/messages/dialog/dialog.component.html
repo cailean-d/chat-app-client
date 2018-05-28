@@ -31,6 +31,9 @@
           <div class="phone" title="{{ 'hint.call' | translate }}">
               <i class="fa fa-phone"></i>
           </div>
+          <div class="users" title="Участники" (click)="showUsersList()">
+              <i class="fas fa-users"></i>
+          </div>
           <div *ngIf="chatsService.chats[chatIndex].users[0].id === profile.user.id"  class="add-user" title="{{ 'hint.add_user' | translate }}" (click)="showList()">
               <i class="fa fa-user-plus"></i>
           </div>
@@ -42,7 +45,7 @@
     <div *ngIf="dataLoaded" >
       <div class="message-list">
         <li *ngFor="let msg of chatsService.chats[chatIndex].messages; let i = index" class="msg-block">
-          <div class="msg" [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'" (mouseover)="readMessage(msg)">
+          <div class="msg" [ngClass]="(msg.sender_id == user.id)?'other-message':'my-message'" (mouseenter)="readMessage(msg)">
             <div *ngIf="chatsService.chats[chatIndex].messages[i-1] && chatsService.chats[chatIndex].messages[i].sender_id === chatsService.chats[chatIndex].messages[i-1].sender_id; else bubble" >
               <div class="msg-outer">
                 <div class="bubble" [innerHTML]="msg.message | message"></div>
@@ -102,7 +105,13 @@
   </div>
 
 
-  <div *ngIf="dataLoaded && showAddList" class="add_user">
+
+
+
+
+
+
+  <div *ngIf="dataLoaded" class="add_user" [class.show]="showAddList">
     <div class="corner">
       <i class="fa fa-times" title="Закрыть" (click)="closeList()"></i>
     </div>
@@ -147,6 +156,34 @@
           Список пуст
         </li>
     </ng-template>
+  </div>
+
+
+
+
+  <div *ngIf="dataLoaded" class="add_user" [class.show]="showUserList">
+    <div class="corner">
+      <i class="fa fa-times" title="Закрыть" (click)="closeUserList()"></i>
+    </div>
+    <div class="body">
+      <div>
+        <li *ngFor="let user of chatsService.chats[chatIndex].users; let i = index">
+          <div class="friend" (click)="showProfile(user.id)">
+            <div class="image">
+              <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
+              <div class="status" *ngIf="user.online">
+                <span>
+                    <i class="fa fa-circle online"></i>
+                </span>
+              </div>
+            </div>
+            <div class="about">
+              <div class="name">{{user.nickname}}</div>
+            </div>
+          </div>
+        </li>
+      </div>
+    </div>
   </div>
 
 

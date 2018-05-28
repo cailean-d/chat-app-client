@@ -30,6 +30,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
   dataNotLoaded = true;
   dataLoaded: boolean;
   showAddList = false;
+  showUserList = false;
   user: UserInterface;
   addList: UserInterface[];
   addtempList: UserInterface[];
@@ -71,6 +72,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
       this.addtempList = [];
 
       this.showAddList = false;
+      this.showUserList = false;
       this.on('index', () => {
         this.getAddUserList();
       });
@@ -255,10 +257,20 @@ export class DialogComponent extends EventEmitter implements OnInit {
     this.clearTitleInput();
   }
 
+  closeUserList(): void {
+    this.showUserList = false;
+  }
+
   showList(): void {
+    this.showUserList = false;
     this.showAddList = !this.showAddList;
     this.addtempList = [];
     this.clearTitleInput();
+  }
+
+  showUsersList(): void {
+    this.showAddList = false;
+    this.showUserList = !this.showUserList;
   }
 
   clearTitleInput(): void {
@@ -281,6 +293,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
     if (msg.sender_id !== this.profile.user.id && msg.status === 0) {
       this.chatsService.readMessage(this.chatIndex, msg.id).then(() => {
         msg.status = 1;
+        this.chatsService.decreaseUnreadCounter(this.chatIndex);
       });
     }
   }

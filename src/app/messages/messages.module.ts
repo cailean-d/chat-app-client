@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
     DialogListComponent,
     DialogComponent,
     DialogEmptyComponent,
-    MessagePipe
+    MessagePipe,
   ],
   providers: []
 })
