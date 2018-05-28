@@ -21,9 +21,9 @@ export class FriendsRootComponent implements OnInit {
 
   constructor(
     private i18n: I18nService,
-    protected friendsService: FriendsService,
-    protected inviteService: InviteService,
-    protected onlineService: OnlineService
+    public friendsService: FriendsService,
+    public inviteService: InviteService,
+    public onlineService: OnlineService
   ) { }
 
   ngOnInit() {

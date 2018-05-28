@@ -5,4 +5,5 @@ export interface ChatInterface {
   message: string;
   users?: number[] | any;
   messages?: any[];
+  unread: number;
 }

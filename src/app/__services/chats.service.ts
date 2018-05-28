@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Response } from '../__interfaces/response';
 import { UserInterface } from '../__interfaces/user';
 import { MessageInterface } from '../__interfaces/message';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ChatsService extends EventEmitter {
@@ -16,6 +17,9 @@ export class ChatsService extends EventEmitter {
   private messageLoadLimit = 20;
   private loadedMessages = {};
   private messagesIsLoading: boolean;
+
+  private unreadChatsCount = new BehaviorSubject<number>(0);
+  public countCast = this.unreadChatsCount.asObservable();
 
   public chats: ChatInterface[];
   public chatsFiltered: ChatInterface[];
@@ -44,6 +48,17 @@ export class ChatsService extends EventEmitter {
     this.listenSocketEvents();
   }
 
+  private setCount(): void {
+    let result = null;
+
+    for (let i = 0; i < this.chats.length; i++) {
+      const element = this.chats[i];
+      result += !!this.chats[i].unread;
+    }
+
+    this.unreadChatsCount.next(result);
+  }
+
   public getChatIndex(id: number): number {
     for (let i = 0; i < this.chats.length; i++) {
       if (+this.chats[i].id === +id) {
@@ -65,6 +80,7 @@ export class ChatsService extends EventEmitter {
     this.chatsFiltered = this.chats.filter((item) => {
       return item.title.match(new RegExp(this.search, 'i'));
     });
+    this.setCount();
   }
 
   public async loadChats(): Promise<void> {
@@ -152,8 +168,19 @@ export class ChatsService extends EventEmitter {
     }
   }
 
+  private async getUnreadMsgCount(room: number): Promise<number> {
+    try {
+      const res: Response = await this.http.get<Response>(`api/messages/${room}/count`).toPromise();
+      return res.data as number;
+    } catch (res) {
+      // console.error(res.error.status, res.error.message);
+      throw new Error(res.error.message);
+    }
+  }
+
   private async addDataToRoom(chat: ChatInterface): Promise<ChatInterface> {
     chat.users = await this.getUsers(chat.id);
+    chat.unread = await this.getUnreadMsgCount(chat.id);
     const msg = await this.getMessages(chat.id);
     if (msg) {
       chat.messages = msg.reverse();
@@ -252,6 +279,9 @@ export class ChatsService extends EventEmitter {
           break;
         }
       }
+
+      const index = this.getChatIndex(msg.chat_id);
+      this.increaseUnreadCounter(index);
       this.updateChatMessage(msg.chat_id, msg.message);
     });
 
@@ -406,6 +436,8 @@ export class ChatsService extends EventEmitter {
 
       await this.http.patch<Response>(`api/messages/${_id}/${msg_id}`, {}).toPromise();
 
+      this.decreaseUnreadCounter(room_index);
+
       this.socket.emit(SocketAction.READ_MESSAGE, {
         chat_id: _id,
         msg_id: msg_id
@@ -426,6 +458,15 @@ export class ChatsService extends EventEmitter {
         _msg.status = 1;
       }
     }
+  }
+
+  private increaseUnreadCounter(room: number): void {
+    this.chats[room].unread++;
+  }
+
+  private decreaseUnreadCounter(room: number): void {
+    this.chats[room].unread--;
+    this.loadFilteredChats();
   }
 
 

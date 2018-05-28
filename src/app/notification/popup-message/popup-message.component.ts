@@ -9,7 +9,7 @@ export class PopupMessageComponent implements OnInit {
 
   @ViewChild('popup') private popup: ElementRef;
 
-  protected message = '';
+  public message = '';
   private fadeTime = 3;
   private hideTime = 5;
 
@@ -35,7 +35,7 @@ export class PopupMessageComponent implements OnInit {
     });
   }
 
-  private closePopup(): void {
+  public closePopup(): void {
     const notif = this.popup.nativeElement as HTMLElement;
     notif.classList.remove('show');
     notif.classList.remove('hold');

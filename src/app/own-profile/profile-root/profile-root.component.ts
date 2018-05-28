@@ -21,7 +21,7 @@ export class ProfileRootComponent implements OnInit {
   avatar_edit: boolean;
 
   constructor(
-    protected profile: OwnProfileService,
+    public profile: OwnProfileService,
     private title: Title,
     private fb: FormBuilder,
   ) { }

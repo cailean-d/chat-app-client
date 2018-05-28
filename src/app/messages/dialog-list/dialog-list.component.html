@@ -43,6 +43,11 @@
                     {{chat.message | messageList}}
                   </span>
                 </div>
+                <div class="counter" *ngIf="chat.unread > 0">
+                  <span>
+                      {{chat.unread}}
+                  </span>
+                </div>
               </div>
             </div>
           </li>

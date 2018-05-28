@@ -32,6 +32,11 @@
     </li>
     <li class="link __link __message" routerLink="/app/messages" routerLinkActive="link-active" title="{{ 'hint.chats' | translate }}" (click)="changeChatsTitle()">
       <i class="fas fa-comments"></i>
+      <div class="counter" *ngIf="chatsCount > 0">
+        <span>
+            {{chatsCount}}
+        </span>
+      </div>
     </li>
     <li class="link __link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
       <i class="fa fa-cog"></i>

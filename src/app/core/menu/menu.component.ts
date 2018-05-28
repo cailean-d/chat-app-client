@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit {
   activeBlock: HTMLElement;
   showLanguage: boolean;
   invitesCount: number;
+  chatsCount: number;
 
   constructor(
     protected storage: NgForage,
@@ -48,6 +49,7 @@ export class MenuComponent implements OnInit {
     this.getActiveBlock();
     this.moveActiveBlockOnClick();
     this.updateInviteCount();
+    this.updateChatsCount();
     this.moveLink();
   }
 
@@ -152,6 +154,10 @@ export class MenuComponent implements OnInit {
 
   updateInviteCount(): void {
     this.inviteService.countCast.subscribe(count => this.invitesCount = count);
+  }
+
+  updateChatsCount(): void {
+    this.chatsService.countCast.subscribe(count => this.chatsCount = count);
   }
 
   moveLink(): void {
