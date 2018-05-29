@@ -44,8 +44,43 @@
     <div class="active-block"></div>
   </ul>
   <div class="misc">
-    <div class="notification" title="{{ 'hint.notification' | translate }}">
-        <i class="fa fa-bell"></i>
+    <div class="notification" [class.notif-show]="showNotif" (click)="toggleNotification()">
+        <i class="fa fa-bell" title="{{ 'hint.notification' | translate }}"></i>
+        <div class="counter" *ngIf="notifCount && notifCount > 0">
+          <span>
+              {{notifCount}}
+          </span>
+        </div>
+        <div class="notification-list">
+          <div>
+            <div *ngIf="notification.notifications.length > 0; else noNotif">
+              <li class="friend" *ngFor="let notif of notification.notifications; let i = index">
+                <!-- <div class="image">
+                  <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+                </div> -->
+                <div class="about">
+                  <div class="description">
+                    {{ notif.message }}
+                  </div>
+                  <div class="date">
+                    {{ notif.date | mydate }}
+                  </div>
+                  <div class="right" appStopBubbling>
+                    <div class="item refuse" title="Скрыть уведомление" (click)="notification.delete(i)">
+                        <i class="fa fa-times"></i>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </div>
+            <ng-template #noNotif>
+              <li class="notification">
+                Список пуст
+              </li>
+            </ng-template>
+          </div>
+        </div>
+
     </div>
     <div class="language" title="{{ 'hint.lang' | translate }}" [ngClass]="{'lang-show': showLanguage}" (click)="toggleLanguageVisibility()">
         <i class="fa fa-language"></i>

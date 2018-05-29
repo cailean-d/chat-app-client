@@ -31,10 +31,10 @@
           <div class="phone" title="{{ 'hint.call' | translate }}">
               <i class="fa fa-phone"></i>
           </div>
-          <div class="users" title="Участники" (click)="showUsersList()">
+          <div class="users" title="Участники" (click)="showUsersList()" [class.menu-active]="showUserList">
               <i class="fas fa-users"></i>
           </div>
-          <div *ngIf="chatsService.chats[chatIndex].users[0].id === profile.user.id"  class="add-user" title="{{ 'hint.add_user' | translate }}" (click)="showList()">
+          <div *ngIf="chatsService.chats[chatIndex].users[0].id === profile.user.id"  class="add-user" title="{{ 'hint.add_user' | translate }}" (click)="showList()" [class.menu-active]="showAddList">
               <i class="fa fa-user-plus"></i>
           </div>
       </div>

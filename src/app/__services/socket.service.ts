@@ -18,7 +18,8 @@ export enum SocketEvent {
   OFFLINE = 'offline',
   ROOM_INVITE = 'room_invited',
   READ_MESSAGE = 'message_read',
-  TYPING = 'typing'
+  TYPING = 'typing',
+  NOTIFICATION = 'notification'
 }
 
 export enum SocketAction {

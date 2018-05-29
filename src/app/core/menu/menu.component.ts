@@ -1,3 +1,4 @@
+import { FriendsService } from '../../__services/friends.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
@@ -11,6 +12,7 @@ import { UserInterface } from '../../__interfaces/user';
 import { SocketService } from '../../__services/socket.service';
 import { ProfileService } from '../../__services/profile.service';
 import { ChatsService } from '../../__services/chats.service';
+import { NotificationService } from '../../__services/notification.service';
 
 @Component({
   selector: 'app-menu',
@@ -19,8 +21,6 @@ import { ChatsService } from '../../__services/chats.service';
 })
 export class MenuComponent implements OnInit {
 
-  subscription: any;
-
   links: NodeListOf<HTMLElement>;
   avatar_link: HTMLElement;
   search_link: HTMLElement;
@@ -28,8 +28,10 @@ export class MenuComponent implements OnInit {
 
   activeBlock: HTMLElement;
   showLanguage: boolean;
+  showNotif: boolean;
   invitesCount: number;
   chatsCount: number;
+  notifCount: number;
 
   constructor(
     protected storage: NgForage,
@@ -41,7 +43,9 @@ export class MenuComponent implements OnInit {
     public profile: OwnProfileService,
     private socket: SocketService,
     private profileService: ProfileService,
-    private chatsService: ChatsService
+    private chatsService: ChatsService,
+    public friendsService: FriendsService,
+    public notification: NotificationService
   ) { }
 
   ngOnInit() {
@@ -50,6 +54,7 @@ export class MenuComponent implements OnInit {
     this.moveActiveBlockOnClick();
     this.updateInviteCount();
     this.updateChatsCount();
+    this.updateNotifCount();
     this.moveLink();
   }
 
@@ -109,7 +114,13 @@ export class MenuComponent implements OnInit {
   }
 
   toggleLanguageVisibility(): void {
+    this.showNotif = false;
     this.showLanguage = !this.showLanguage;
+  }
+
+  toggleNotification(): void {
+    this.showLanguage = false;
+    this.showNotif = !this.showNotif;
   }
 
   async changeLangToRus(): Promise<void> {
@@ -123,30 +134,40 @@ export class MenuComponent implements OnInit {
   }
 
   changeSearchTitle(): void {
+    this.showNotif = false;
+    this.showLanguage = false;
     this.i18n.translate.get('hint.search').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
   changeFriendsTitle(): void {
+    this.showNotif = false;
+    this.showLanguage = false;
     this.i18n.translate.get('hint.friends').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
   changeFavoriteTitle(): void {
+    this.showNotif = false;
+    this.showLanguage = false;
     this.i18n.translate.get('hint.favorite').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
   changeChatsTitle(): void {
+    this.showNotif = false;
+    this.showLanguage = false;
     this.i18n.translate.get('hint.chats').subscribe((res: string) => {
       this.title.setTitle(res);
     });
   }
 
   changeSettingsTitle(): void {
+    this.showNotif = false;
+    this.showLanguage = false;
     this.i18n.translate.get('hint.settings').subscribe((res: string) => {
       this.title.setTitle(res);
     });
@@ -158,6 +179,10 @@ export class MenuComponent implements OnInit {
 
   updateChatsCount(): void {
     this.chatsService.countCast.subscribe(count => this.chatsCount = count);
+  }
+
+  updateNotifCount(): void {
+    this.notification.countCast.subscribe(count => this.notifCount = count);
   }
 
   moveLink(): void {

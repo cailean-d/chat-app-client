@@ -1,6 +1,7 @@
 import { SocketService } from '../../__services/socket.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from '../../__services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,12 @@ export class RootComponent implements OnInit {
 
   constructor(
     private profile: OwnProfileService,
-    private socket: SocketService
+    private socket: SocketService,
+    private notification: NotificationService
   ) {
-    this.socket.connect();
+    this.socket.connect().then(() => {
+      this.notification.load();
+    });
   }
 
   ngOnInit() {
