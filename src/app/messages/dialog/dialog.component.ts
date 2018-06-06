@@ -26,6 +26,8 @@ export class DialogComponent extends EventEmitter implements OnInit {
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
   @ViewChild('audio') audio: ElementRef;
+  @ViewChild('videoRecord') videoRecord: ElementRef;
+  @ViewChild('videoView') videoView: ElementRef;
 
   messageList: HTMLElement;
 
@@ -45,7 +47,10 @@ export class DialogComponent extends EventEmitter implements OnInit {
   _showAudioRecord = false;
   audioIsRecording = false;
   audioIsRecorded = false;
-  audioSource = null;
+
+  _showVideoRecord = false;
+  videoIsRecording = false;
+  videoIsRecorded = false;
 
   __recorder = null;
   __file: Blob;
@@ -308,6 +313,15 @@ export class DialogComponent extends EventEmitter implements OnInit {
     this.__recorder = null;
   }
 
+  closeVideoRecord(): void {
+    this._showVideoRecord = false;
+    this.videoIsRecorded = false;
+    this.videoIsRecording = false;
+    this.__file = null;
+    this.__file_ext = null;
+    this.__recorder = null;
+  }
+
   showList(): void {
     this.showUserList = false;
     this.showAddList = !this.showAddList;
@@ -326,6 +340,11 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   showAudioRecord(): void {
     this._showAudioRecord = true;
+    this._showAttachMenu = false;
+  }
+
+  showVideoRecord(): void {
+    this._showVideoRecord = true;
     this._showAttachMenu = false;
   }
 
@@ -383,6 +402,46 @@ export class DialogComponent extends EventEmitter implements OnInit {
       const mediaUrl = window.URL.createObjectURL(file.blob);
       (this.audio.nativeElement as HTMLAudioElement).src = mediaUrl;
       this.__recorder = null;
+    });
+  }
+
+  recordVideoMessage(): void {
+    this.videoIsRecording = true;
+    this.videoIsRecorded = false;
+    this.__recorder = new MediaRecorderAPI(true, true);
+    this.__recorder.start().then(() => {
+      (this.videoRecord.nativeElement as HTMLVideoElement).srcObject = this.__recorder.stream;
+    });
+  }
+
+  stopRecordingVideo(): void {
+    this.videoIsRecording = false;
+    this.videoIsRecorded = true;
+    this.__recorder.stop().then(file => {
+      this.__file = file.blob;
+      this.__file_ext = file.extension;
+      const mediaUrl = window.URL.createObjectURL(file.blob);
+      (this.videoView.nativeElement as HTMLVideoElement).src = mediaUrl;
+      this.__recorder = null;
+    });
+  }
+
+  sendVideoMessage(): void {
+    this.chatsService.sendFile(this.__file, this.__file_ext).then(path => {
+      this.closeVideoRecord();
+
+      const date = Date.now();
+
+      this.chatsService.addMessage(this.chatIndex, {
+        sender_id: this.user.id,
+        message: '[video_message] ' + path,
+        timestamp: date,
+        sender_nickname: this.user.nickname,
+        sender_avatar: this.user.avatar,
+        status: 0
+      });
+
+      this.playAudioOnMessageSent();
     });
   }
 

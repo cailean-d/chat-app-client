@@ -99,7 +99,7 @@
         </div>
         <div class="recorded" *ngIf="audioIsRecorded" >
           <div class="audio">
-            <audio [src]="audioSource" controls #audio></audio>
+            <audio controls #audio></audio>
           </div>
           <div class="btn" (click)="recordAudioMessage()">
             <span>Повторить</span>
@@ -126,7 +126,7 @@
             <div class="attach-menu" [class.show-attach]="_showAttachMenu">
               <div class="menu-item">Файл</div>
               <div class="menu-item" (click)="showAudioRecord()">Голосовое сообщение</div>
-              <div class="menu-item">Видеосообщение</div>
+              <div class="menu-item" (click)="showVideoRecord()">Видеосообщение</div>
             </div>
         </div>
       </div>
@@ -221,6 +221,45 @@
         </li>
       </div>
     </div>
+  </div>
+
+  <div class="video-recording" *ngIf="_showVideoRecord" >
+    <div>
+        <div class="video-container">
+          <video width="640" #videoRecord *ngIf="!videoIsRecorded"></video>
+          <video width="640" #videoView *ngIf="videoIsRecorded" controls></video>
+        </div>
+        <div class="buttons">
+          <div *ngIf="!videoIsRecording && !videoIsRecorded" >
+            <div class="btn" (click)="recordVideoMessage()">
+              <span>Начать запись</span>
+            </div>
+            <div class="btn" (click)="closeVideoRecord()">
+              <span>Отмена</span>
+            </div>
+          </div>
+          <div *ngIf="videoIsRecording && !videoIsRecorded">
+            <div class="desc">
+              <span>Идет запись...</span>
+            </div>
+            <div class="btn" (click)="stopRecordingVideo()">
+              <span>Стоп</span>
+            </div>
+          </div>
+          <div *ngIf="videoIsRecorded" >
+            <div class="btn" (click)="sendVideoMessage()">
+              <span>Отправить</span>
+            </div>
+            <div class="btn" (click)="recordVideoMessage()">
+              <span>Повторить</span>
+            </div>
+            <div class="btn" (click)="closeVideoRecord()">
+              <span>Отмена</span>
+            </div>
+          </div>
+        </div>
+    </div>
+
   </div>
 
 

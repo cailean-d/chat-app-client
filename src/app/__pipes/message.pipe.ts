@@ -10,6 +10,7 @@ export class MessagePipe implements PipeTransform {
 
   transform(value: string, args?: any): any {
     value = this.parseAudioMessage(value);
+    value = this.parseVideoMessage(value);
     value = this.parseImage(value);
     value = this.parseLink(value);
     value = this.addBreaksToMessage(value);
@@ -62,6 +63,15 @@ export class MessagePipe implements PipeTransform {
     const match = /^\[audio_message\]\s(.*)/.exec(text);
     if (match) {
       return `<audio controls src="${match[1]}" style="margin-top:5px"></audio>`;
+    } else {
+      return text;
+    }
+  }
+
+  private parseVideoMessage(text: string): string {
+    const match = /^\[video_message\]\s(.*)/.exec(text);
+    if (match) {
+      return `<video width="300" controls src="${match[1]}" style="margin-top:5px"></video>`;
     } else {
       return text;
     }

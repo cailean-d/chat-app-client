@@ -9,6 +9,7 @@ export class MessageListPipe implements PipeTransform {
     value = this.parseImage(value);
     value = this.parseLink(value);
     value = this.parseAudioMessage(value);
+    value = this.parseVideoMessage(value);
     return value;
   }
 
@@ -45,6 +46,15 @@ export class MessageListPipe implements PipeTransform {
     const match = /^\[audio_message\]\s(.*)/.exec(text);
     if (match) {
       return `Голосовое сообщение`;
+    } else {
+      return text;
+    }
+  }
+
+  private parseVideoMessage(text: string): string {
+    const match = /^\[video_message\]\s(.*)/.exec(text);
+    if (match) {
+      return `Видеосообщение`;
     } else {
       return text;
     }

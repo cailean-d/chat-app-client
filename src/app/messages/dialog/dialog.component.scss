@@ -89,6 +89,63 @@ $message_color: #a6c0d8;
       }
     }
   }
+
+  .video-recording{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background:rgba(0, 0, 0, 0.63);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+
+    .video-container{
+      background: #000;
+    }
+
+    .buttons{
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+
+      > div{
+        display: flex;
+      }
+
+      .desc{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        color: #fff !important;
+      }
+
+      .btn{
+        padding: 10px 15px;
+        border-radius: 4px;
+        color: #808080;
+        // border: 1px solid #808080;
+        cursor: pointer;
+        background: #31333c;
+        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+
+        *{
+          cursor: pointer;
+        }
+
+        &:hover{
+          color: #fff;
+        }
+      }
+    }
+  }
 }
 
 
