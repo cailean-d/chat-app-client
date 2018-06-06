@@ -47,7 +47,7 @@ export class SocketService {
     if (!this.profile.dataIsLoaded) {
       await this.profile.getData();
     }
-    this.socket = ws.connect({ query: { id: this. profile.user.id} });
+    this.socket = ws.connect({ query: { id: this. profile.user.id}, secure: true });
   }
 
   public disconnect(): void {

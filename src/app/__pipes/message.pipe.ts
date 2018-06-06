@@ -9,6 +9,7 @@ export class MessagePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
 
   transform(value: string, args?: any): any {
+    value = this.parseAudioMessage(value);
     value = this.parseImage(value);
     value = this.parseLink(value);
     value = this.addBreaksToMessage(value);
@@ -55,6 +56,15 @@ export class MessagePipe implements PipeTransform {
         return str;
       }
     });
+  }
+
+  private parseAudioMessage(text: string): string {
+    const match = /^\[audio_message\]\s(.*)/.exec(text);
+    if (match) {
+      return `<audio controls src="${match[1]}" style="margin-top:5px"></audio>`;
+    } else {
+      return text;
+    }
   }
 
 }

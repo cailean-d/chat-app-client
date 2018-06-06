@@ -503,6 +503,18 @@ export class ChatsService extends EventEmitter {
     });
   }
 
+  public async sendFile(file: Blob, ext: string): Promise<string> {
+    try {
+      const data = new FormData();
+      data.append('file', file, 'file' + '.' + ext);
+      const response: any = await this.http.post(`api/upload`, data).toPromise();
+      return response.data;
+    } catch (res) {
+      console.error(res);
+      throw new Error(res);
+    }
+  }
+
 
 
 }

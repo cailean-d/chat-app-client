@@ -8,6 +8,7 @@ export class MessageListPipe implements PipeTransform {
   transform(value: string, args?: any): any {
     value = this.parseImage(value);
     value = this.parseLink(value);
+    value = this.parseAudioMessage(value);
     return value;
   }
 
@@ -35,6 +36,15 @@ export class MessageListPipe implements PipeTransform {
     let res: any;
     if (res = text.match(linkRegExp)) {
       return 'Ссылка';
+    } else {
+      return text;
+    }
+  }
+
+  private parseAudioMessage(text: string): string {
+    const match = /^\[audio_message\]\s(.*)/.exec(text);
+    if (match) {
+      return `Голосовое сообщение`;
     } else {
       return text;
     }

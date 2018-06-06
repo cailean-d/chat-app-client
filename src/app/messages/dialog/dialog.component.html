@@ -80,18 +80,54 @@
   <div class="chat-message">
 
     <div class="outer">
-      <div class="message-input">
-        <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1" (keydown)="typing()"></textarea>
-        <div class="input-items">
-          <!-- <div class="item keyboard" title="{{ 'hint.screen_keyboard' | translate }}">
-              <i class="far fa-keyboard"></i>
-          </div> -->
-          <div class="item smiles" title="{{ 'hint.smile' | translate }}">
-              <i class="far fa-smile"></i>
+      <div class="audio-record" *ngIf="_showAudioRecord">
+        <div class="preload" *ngIf="!audioIsRecording && !audioIsRecorded" >
+          <div class="btn" (click)="recordAudioMessage()">
+            <span>Начать запись</span>
           </div>
-          <div class="item add" title="{{ 'hint.attach_file' | translate }}">
-              <i class="fas fa-paperclip"></i>
+          <div class="btn" (click)="closeAudioRecord()">
+            <span>Отмена</span>
           </div>
+        </div>
+        <div class="recording" *ngIf="audioIsRecording && !audioIsRecorded">
+          <div class="desc">
+            <span>Идет запись...</span>
+          </div>
+          <div class="btn" (click)="stopRecordingAudio()">
+            <span>Стоп</span>
+          </div>
+        </div>
+        <div class="recorded" *ngIf="audioIsRecorded" >
+          <div class="audio">
+            <audio [src]="audioSource" controls #audio></audio>
+          </div>
+          <div class="btn" (click)="recordAudioMessage()">
+            <span>Повторить</span>
+          </div>
+          <div class="btn" (click)="closeAudioRecord()">
+            <span>Отмена</span>
+          </div>
+        </div>
+      </div>
+      <div class="middle">
+        <div class="message-input">
+          <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1" (keydown)="typing()"></textarea>
+        </div>
+      </div>
+      <div class="input-items">
+        <!-- <div class="item keyboard" title="{{ 'hint.screen_keyboard' | translate }}">
+            <i class="far fa-keyboard"></i>
+        </div> -->
+        <div class="item smiles" title="{{ 'hint.smile' | translate }}">
+            <i class="far fa-smile"></i>
+        </div>
+        <div class="item add" [class.menu-active]="_showAttachMenu">
+            <i class="fas fa-paperclip" title="{{ 'hint.attach_file' | translate }}" (click)="showAttachMenu()"></i>
+            <div class="attach-menu" [class.show-attach]="_showAttachMenu">
+              <div class="menu-item">Файл</div>
+              <div class="menu-item" (click)="showAudioRecord()">Голосовое сообщение</div>
+              <div class="menu-item">Видеосообщение</div>
+            </div>
         </div>
       </div>
     </div>

@@ -14,6 +14,7 @@ import { OwnProfileService } from '../../__services/own-profile.service';
 import { ChatsService } from '../../__services/chats.service';
 import { EventEmitter } from 'eventemitter3';
 import { MessageInterface } from '../../__interfaces/message';
+import * as MediaRecorderAPI from 'js-media-recorder';
 
 @Component({
   selector: 'app-dialog',
@@ -24,6 +25,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
+  @ViewChild('audio') audio: ElementRef;
 
   messageList: HTMLElement;
 
@@ -31,6 +33,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
   dataLoaded: boolean;
   showAddList = false;
   showUserList = false;
+  _showAttachMenu = false;
   user: UserInterface;
   addList: UserInterface[];
   addtempList: UserInterface[];
@@ -38,6 +41,15 @@ export class DialogComponent extends EventEmitter implements OnInit {
   isTyping = false;
 
   chatIndex: number;
+
+  _showAudioRecord = false;
+  audioIsRecording = false;
+  audioIsRecorded = false;
+  audioSource = null;
+
+  __recorder = null;
+  __file: Blob;
+  __file_ext: string;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -173,22 +185,43 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   sendMessage(message: HTMLTextAreaElement): void {
 
-    if (message.value.trim() !== '') {
+    if (this.audioIsRecorded) {
+      this.chatsService.sendFile(this.__file, this.__file_ext).then(path => {
+        this.closeAudioRecord();
 
-      const date = Date.now();
+        const date = Date.now();
 
-      this.chatsService.addMessage(this.chatIndex, {
-        sender_id: this.user.id,
-        message: message.value,
-        timestamp: date,
-        sender_nickname: this.user.nickname,
-        sender_avatar: this.user.avatar,
-        status: 0
+        this.chatsService.addMessage(this.chatIndex, {
+          sender_id: this.user.id,
+          message: '[audio_message] ' + path,
+          timestamp: date,
+          sender_nickname: this.user.nickname,
+          sender_avatar: this.user.avatar,
+          status: 0
+        });
+
+        this.playAudioOnMessageSent();
       });
+    } else {
+      if (message.value.trim() !== '') {
 
-      message.value = null;
-      this.playAudioOnMessageSent();
+        const date = Date.now();
+
+        this.chatsService.addMessage(this.chatIndex, {
+          sender_id: this.user.id,
+          message: message.value,
+          timestamp: date,
+          sender_nickname: this.user.nickname,
+          sender_avatar: this.user.avatar,
+          status: 0
+        });
+
+        message.value = null;
+        this.playAudioOnMessageSent();
+      }
     }
+
+
 
   }
 
@@ -262,6 +295,19 @@ export class DialogComponent extends EventEmitter implements OnInit {
     this.showUserList = false;
   }
 
+  closeAttachMenu(): void {
+    this._showAttachMenu = false;
+  }
+
+  closeAudioRecord(): void {
+    this._showAudioRecord = false;
+    this.audioIsRecorded = false;
+    this.audioIsRecording = false;
+    this.__file = null;
+    this.__file_ext = null;
+    this.__recorder = null;
+  }
+
   showList(): void {
     this.showUserList = false;
     this.showAddList = !this.showAddList;
@@ -272,6 +318,15 @@ export class DialogComponent extends EventEmitter implements OnInit {
   showUsersList(): void {
     this.showAddList = false;
     this.showUserList = !this.showUserList;
+  }
+
+  showAttachMenu(): void {
+    this._showAttachMenu = !this._showAttachMenu;
+  }
+
+  showAudioRecord(): void {
+    this._showAudioRecord = true;
+    this._showAttachMenu = false;
   }
 
   clearTitleInput(): void {
@@ -312,7 +367,24 @@ export class DialogComponent extends EventEmitter implements OnInit {
 
   }
 
+  recordAudioMessage(): void {
+    this.audioIsRecording = true;
+    this.audioIsRecorded = false;
+    this.__recorder = new MediaRecorderAPI(false, true);
+    this.__recorder.start();
+  }
 
+  stopRecordingAudio(): void {
+    this.audioIsRecording = false;
+    this.audioIsRecorded = true;
+    this.__recorder.stop().then(file => {
+      this.__file = file.blob;
+      this.__file_ext = file.extension;
+      const mediaUrl = window.URL.createObjectURL(file.blob);
+      (this.audio.nativeElement as HTMLAudioElement).src = mediaUrl;
+      this.__recorder = null;
+    });
+  }
 
   // updateTitleOnChatChange(): void {
   //   // this.chatService.on('title_changed', () => {
