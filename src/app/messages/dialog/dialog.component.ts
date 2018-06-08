@@ -1,7 +1,7 @@
 import { FriendsService } from '../../__services/friends.service';
 import { ProfileService } from '../../__services/profile.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +15,14 @@ import { ChatsService } from '../../__services/chats.service';
 import { EventEmitter } from 'eventemitter3';
 import { MessageInterface } from '../../__interfaces/message';
 import * as MediaRecorderAPI from 'js-media-recorder';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent extends EventEmitter implements OnInit {
+export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('scrollBottom') scrollBottom: ElementRef;
@@ -29,7 +30,14 @@ export class DialogComponent extends EventEmitter implements OnInit {
   @ViewChild('videoRecord') videoRecord: ElementRef;
   @ViewChild('videoView') videoView: ElementRef;
 
+
+  routeSubscription: ISubscription;
+  i18nSubscription: ISubscription;
+  i18nChangeSubscription: ISubscription;
+  _listeners = [];
+
   messageList: HTMLElement;
+
 
   dataNotLoaded = true;
   dataLoaded: boolean;
@@ -70,59 +78,64 @@ export class DialogComponent extends EventEmitter implements OnInit {
     public friendsService: FriendsService
   ) {
     super();
-    this.getChatData();
   }
 
   ngOnInit() {
-    this.getUserdata();
+    this.on('index', () => {
+      this.dataLoaded = true;
+      this.dataNotLoaded = false;
+      this.getAddUserList();
+      window.requestAnimationFrame(() => {
+        this.scrollToBottom();
+      });
+    });
+
+    this.scrollToBottomOnMessageSent();
     this.updateTitleOnLangChange();
     // this.updateTitleOnChatChange();
-    this.setCustomScrollbar();
-    this.showScrollBottomPanelOnScroll();
-    this.scrollToBottomOnMessageSent();
-    this.loadPrevMessagesOnScroll();
+    // this.setCustomScrollbar();
+    // this.showScrollBottomPanelOnScroll();
+    // this.loadPrevMessagesOnScroll();
+
+    this.getChatData();
     this.setTitle();
   }
 
+  ngOnDestroy() {
+    this.removeAllListeners();
+    this.routeSubscription.unsubscribe();
+    this.i18nSubscription.unsubscribe();
+    this.i18nChangeSubscription.unsubscribe();
+    this.chatsService.removeListener('DATA_IS_LOADED', this._listeners[0]);
+  }
+
   getChatData(): void {
-    this.activeRoute.params.subscribe((params) => {
+    this.routeSubscription = this.activeRoute.params.subscribe((params) => {
 
       this.addtempList = [];
 
+      this.dataLoaded = false;
+      this.dataNotLoaded = true;
       this.showAddList = false;
       this.showUserList = false;
-      this.on('index', () => {
-        this.getAddUserList();
-      });
-
 
       if (this.chatsService.dataIsLoaded) {
         this.chatIndex = this.chatsService.getChatIndex(params.id);
-          this.dataLoaded = true;
-          this.dataNotLoaded = false;
-          this.emit('index');
-       } else {
-        this.chatsService.on('DATA_IS_LOADED', () => {
+        this.emit('index');
+      } else {
+        this.chatsService.on('DATA_IS_LOADED', this._listeners[0] = () => {
           this.chatIndex = this.chatsService.getChatIndex(params.id);
           if (this.chatIndex === undefined) {
             this.chatsService.addRoom(params.id).then(() => {
               this.chatIndex = this.chatsService.getChatIndex(params.id);
-              this.dataLoaded = true;
-              this.dataNotLoaded = false;
               this.emit('index');
             });
           } else {
-            this.dataLoaded = true;
-            this.dataNotLoaded = false;
             this.emit('index');
           }
         });
       }
     });
-  }
-
-  getUserdata() {
-    this.user = this.profile.user;
   }
 
   getAddUserList(): void {
@@ -131,56 +144,69 @@ export class DialogComponent extends EventEmitter implements OnInit {
     });
   }
 
-  setCustomScrollbar(): void {
-    SimpleBar.removeObserver();
-    const scrollbar = new SimpleBar(this.chat.nativeElement, scrollbarOpt);
-    this.messageList = <HTMLElement> scrollbar.getScrollElement();
-  }
+  // setCustomScrollbar(): void {
+    // SimpleBar.removeObserver();
+    // const scrollbar = new SimpleBar(this.chat.nativeElement, scrollbarOpt);
+    // this.messageList = <HTMLElement> scrollbar.getScrollElement();
+  // }
 
   scrollToBottom(): void {
-    const height = this.messageList.scrollHeight + this.messageList.clientHeight;
-    this.messageList.scrollTop = height;
+    const height = this.chat.nativeElement.scrollHeight + this.chat.nativeElement.clientHeight;
+    this.chat.nativeElement.scrollTop = height;
   }
 
-  showScrollBottomPanelOnScroll(): void {
-    this.messageList.addEventListener('scroll', () => {
-      window.requestAnimationFrame((e =>  this.showSlideToBottom()));
-    });
-  }
-
-  loadPrevMessagesOnScroll(): void {
-    this.messageList.addEventListener('scroll', () => {
-      window.requestAnimationFrame(() => {
-        if (this.messageList.scrollTop === 0) {
-          const h = this.messageList.scrollHeight;
-          this.chatsService.loadPreviousMessages(this.chatIndex).then(() => {
-            window.requestAnimationFrame(() => {
-              this.messageList.scrollTop = this.messageList.scrollHeight - h;
-            });
+  loadPrevMessagesOnScroll(event: Event): void {
+    const el = event.target as HTMLElement;
+    window.requestAnimationFrame(() => {
+      if (el.scrollTop === 0) {
+        const h = el.scrollHeight;
+        this.chatsService.loadPreviousMessages(this.chatIndex).then(() => {
+          window.requestAnimationFrame(() => {
+            el.scrollTop = el.scrollHeight - h;
           });
-        }
-      });
-    });
-  }
-
-  scrollToBottomOnMessageSent(): void {
-    this.messageList.addEventListener('DOMNodeInserted', () => {
-      const height = this.messageList.scrollTop + this.messageList.clientHeight;
-      const scroll = <HTMLElement>this.scrollBottom.nativeElement;
-
-      if (height > this.messageList.scrollHeight - this.messageList.clientHeight) {
-        this.scrollToBottom();
+        });
       }
     });
   }
 
-  showSlideToBottom(): void {
+  scrollToBottomOnMessageSent(): void {
+    this.chatsService.on('message_added', () => {
+      const height = this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight;
+      if (height > this.chat.nativeElement.scrollHeight - this.chat.nativeElement.clientHeight) {
+        window.requestAnimationFrame(() => {
+          this.scrollToBottom();
+        });
+      }
+    });
+  }
 
-    const height = this.messageList.scrollTop + this.messageList.clientHeight;
+  messageClickEvents(event: Event): void {
+    const el = event.target as HTMLElement;
 
+    if (el.getAttribute('data-profile')) {
+      this.showProfile(+el.getAttribute('data-profile'));
+    }
+  }
+
+  messageMouseOverEvents(event: Event): void {
+    const el = event.target as HTMLElement;
+
+    if (el.getAttribute('data-message-id')) {
+      const mIndex = +el.getAttribute('data-message-index');
+      const mId = +el.getAttribute('data-message-id');
+      const sender = +el.getAttribute('data-message-sender');
+      const status = +el.getAttribute('data-message-status');
+      this.readMessage(mId, sender, status, mIndex, el);
+    }
+  }
+
+  showSlideToBottom(event: Event): void {
+
+    const el = event.target as HTMLElement;
+    const height = el.scrollTop + el.clientHeight;
     const scroll = <HTMLElement>this.scrollBottom.nativeElement;
 
-    if (height < this.messageList.scrollHeight - this.messageList.clientHeight) {
+    if (height < el.scrollHeight - el.clientHeight) {
       scroll.classList.add('scroll-bottom-show');
     } else {
       scroll.classList.remove('scroll-bottom-show');
@@ -197,11 +223,11 @@ export class DialogComponent extends EventEmitter implements OnInit {
         const date = Date.now();
 
         this.chatsService.addMessage(this.chatIndex, {
-          sender_id: this.user.id,
+          sender_id: this.profile.user.id,
           message: '[audio_message] ' + path,
           timestamp: date,
-          sender_nickname: this.user.nickname,
-          sender_avatar: this.user.avatar,
+          sender_nickname: this.profile.user.nickname,
+          sender_avatar: this.profile.user.avatar,
           status: 0
         });
 
@@ -213,11 +239,11 @@ export class DialogComponent extends EventEmitter implements OnInit {
         const date = Date.now();
 
         this.chatsService.addMessage(this.chatIndex, {
-          sender_id: this.user.id,
+          sender_id: this.profile.user.id,
           message: message.value,
           timestamp: date,
-          sender_nickname: this.user.nickname,
-          sender_avatar: this.user.avatar,
+          sender_nickname: this.profile.user.nickname,
+          sender_avatar: this.profile.user.avatar,
           status: 0
         });
 
@@ -242,7 +268,7 @@ export class DialogComponent extends EventEmitter implements OnInit {
   }
 
   setTitle(): void {
-    this.i18n.translate.get('hint.chats').subscribe((res: string) => {
+    this.i18nSubscription = this.i18n.translate.get('hint.chats').subscribe((res: string) => {
       this.on('index', () => {
         this.title.setTitle(`${res} - ${this.chatsService.chats[this.chatIndex].title}`);
       });
@@ -250,10 +276,9 @@ export class DialogComponent extends EventEmitter implements OnInit {
   }
 
   updateTitleOnLangChange(): void {
-    this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.i18nChangeSubscription = this.i18n.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setTitle();
     });
-
   }
 
   showProfile(id: number): void {
@@ -364,11 +389,10 @@ export class DialogComponent extends EventEmitter implements OnInit {
     this.clearTitleInput();
   }
 
-  readMessage(msg: MessageInterface): void {
-    if (msg.sender_id !== this.profile.user.id && msg.status === 0) {
-      this.chatsService.readMessage(this.chatIndex, msg.id).then(() => {
-        msg.status = 1;
-        this.chatsService.decreaseUnreadCounter(this.chatIndex);
+  readMessage(msgId: number, sender: number, status: number, mIndex: number, msg_el: HTMLElement): void {
+    if (sender !== this.profile.user.id && status === 0) {
+      this.chatsService.readMessage(this.chatIndex, msgId, mIndex).then(() => {
+        msg_el.setAttribute('data-message-status', '1');
       });
     }
   }
@@ -433,11 +457,11 @@ export class DialogComponent extends EventEmitter implements OnInit {
       const date = Date.now();
 
       this.chatsService.addMessage(this.chatIndex, {
-        sender_id: this.user.id,
+        sender_id: this.profile.user.id,
         message: '[video_message] ' + path,
         timestamp: date,
-        sender_nickname: this.user.nickname,
-        sender_avatar: this.user.avatar,
+        sender_nickname: this.profile.user.nickname,
+        sender_avatar: this.profile.user.avatar,
         status: 0
       });
 

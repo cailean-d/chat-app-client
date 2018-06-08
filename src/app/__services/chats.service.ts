@@ -261,6 +261,7 @@ export class ChatsService extends EventEmitter {
     this.chats[id].messages.push(msg);
     this.loadedMessages[_id]++;
     this.updateChatMessage(_id, msg.message);
+    this.emit('message_added');
   }
 
   public async addRoom(id: number): Promise<void> {
@@ -279,6 +280,7 @@ export class ChatsService extends EventEmitter {
           this.chats[i].messages.push(msg);
           const _id = this.chats[i].id;
           this.loadedMessages[_id]++;
+          this.emit('message_added');
           break;
         }
       }
@@ -456,7 +458,7 @@ export class ChatsService extends EventEmitter {
     }
   }
 
-  public async readMessage(room_index: number, msg_id: number): Promise<void> {
+  public async readMessage(room_index: number, msg_id: number, msg_index: number): Promise<void> {
     try {
 
       const _id = this.chats[room_index].id;
@@ -467,6 +469,9 @@ export class ChatsService extends EventEmitter {
         chat_id: _id,
         msg_id: msg_id
       });
+
+      this.chats[room_index].messages[msg_index].status = 1;
+      this.decreaseUnreadCounter(room_index);
 
     } catch (res) {
       // console.error(res.error.status, res.error.message);

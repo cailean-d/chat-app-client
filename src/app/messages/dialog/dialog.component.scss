@@ -179,6 +179,8 @@ $message_color: #a6c0d8;
 
 .chat-history{
   height: 75%;
+  margin-right: -15px;
+  overflow-y: scroll;
 
   .message-list{
     padding: 30px 30px 20px;
@@ -263,6 +265,10 @@ $message_color: #a6c0d8;
 
         .message-data{
           justify-content: flex-end;
+
+          .nickname{
+            display: none;
+          }
         }
 
         .msg-outer{
