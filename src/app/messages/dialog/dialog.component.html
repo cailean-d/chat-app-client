@@ -226,7 +226,7 @@
   <div class="video-recording" *ngIf="_showVideoRecord" >
     <div>
         <div class="video-container">
-          <video width="640" #videoRecord *ngIf="!videoIsRecorded"></video>
+          <video width="640" #videoRecord *ngIf="!videoIsRecorded" autoplay></video>
           <video width="640" #videoView *ngIf="videoIsRecorded" controls></video>
         </div>
         <div class="buttons">
