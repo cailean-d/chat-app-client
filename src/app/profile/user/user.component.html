@@ -1,6 +1,6 @@
 <div *ngIf="dataLoaded">
   <div class="container" *ngIf="user; else notfound" >
-    <div class="main">
+    <div class="main" [style.margin-right]="getMargin()">
       <div class="user">
         <div class="avatar">
           <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
@@ -61,89 +61,89 @@
             </div>
         </div>
       </div>
-    </div>
-    <div class="user-info">
-        <div class="block">
-          <table>
-          <thead>
-            <tr>
-              <th colspan="2">{{ 'title.basic_info' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ 'profile.id' | translate }}</td>
-              <td>{{user.id}}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.gender' | translate }}</td>
-              <td>{{ (user.gender | gender) || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.birthday' | translate }}</td>
-              <td>{{ user.birthday || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.lang' | translate }}</td>
-              <td>{{ user.language[0] ||  'profile.unknown' | translate }}</td>
-            </tr>
-          </tbody>
-          </table>
-        </div>
-        <div class="block">
-          <table>
+      <div class="user-info">
+          <div class="block">
+            <table>
             <thead>
-            <tr>
-              <th colspan="2">{{ 'title.contact_info' | translate }}</th>
-            </tr>
+              <tr>
+                <th colspan="2">{{ 'title.basic_info' | translate }}</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>{{ 'profile.address' | translate }}</td>
-              <td>{{ user.address || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.phone' | translate }}</td>
-              <td>{{ user.phone || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.email' | translate }}</td>
-              <td>{{ user.email || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.web_site' | translate }}</td>
-              <td>{{ user.website || 'profile.unknown' | translate }}</td>
-            </tr>
+              <tr>
+                <td>{{ 'profile.id' | translate }}</td>
+                <td>{{user.id}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.gender' | translate }}</td>
+                <td>{{ (user.gender | gender) || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.birthday' | translate }}</td>
+                <td>{{ user.birthday || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.lang' | translate }}</td>
+                <td>{{ user.language[0] ||  'profile.unknown' | translate }}</td>
+              </tr>
             </tbody>
-          </table>
-        </div>
-        <div class="block">
-          <table>
-            <thead>
-            <tr>
-              <th colspan="2">{{ 'title.add_info' | translate }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>{{ 'profile.registration' | translate }}</td>
-              <td>{{ (user.date | mydate) || ('profile.unknown' | translate) }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.country' | translate }}</td>
-              <td>{{ user.country || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.city' | translate }}</td>
-              <td>{{ user.city || 'profile.unknown' | translate }}</td>
-            </tr>
-            <tr>
-              <td>{{ 'profile.was_online' | translate }}</td>
-              <td>{{ 'profile.unknown' | translate }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+          <div class="block">
+            <table>
+              <thead>
+              <tr>
+                <th colspan="2">{{ 'title.contact_info' | translate }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{ 'profile.address' | translate }}</td>
+                <td>{{ user.address || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.phone' | translate }}</td>
+                <td>{{ user.phone || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.email' | translate }}</td>
+                <td>{{ user.email || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.web_site' | translate }}</td>
+                <td>{{ user.website || 'profile.unknown' | translate }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="block">
+            <table>
+              <thead>
+              <tr>
+                <th colspan="2">{{ 'title.add_info' | translate }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{ 'profile.registration' | translate }}</td>
+                <td>{{ (user.date | mydate) || ('profile.unknown' | translate) }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.country' | translate }}</td>
+                <td>{{ user.country || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.city' | translate }}</td>
+                <td>{{ user.city || 'profile.unknown' | translate }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'profile.was_online' | translate }}</td>
+                <td>{{ 'profile.unknown' | translate }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
     </div>
   </div>
   <ng-template #notfound>

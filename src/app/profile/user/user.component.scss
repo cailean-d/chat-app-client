@@ -3,21 +3,49 @@
 .container{
   font-family: 'Comfortaa', cursive;
   width: 100%;
-  height: 100%;
   text-align: center;
-  padding: 20px;
   background: #f2f7f7;
-  display: flex;
+  overflow: hidden;
 
   .main{
+    overflow-y: scroll;
+    padding: 20px;
     display: flex;
+    height: 100vh;
+
+    @media screen and (max-width: 1000px){
+      display: block;
+    }
+
+    @media screen and (max-width: 600px){
+      padding: 10px;
+    }
+
+    @media screen and (max-width: 500px){
+      padding-bottom: 50px;
+    }
   }
 
   .user{
     padding: 20px 30px;
-    width: 400px;
+    width: 450px;
     border-right: 2px solid #c0c0c0;
     position: relative;
+
+    @media screen and (max-width: 1000px){
+      border-right: none;
+      margin: 0 auto;
+      border-bottom: 2px solid #c0c0c0;
+    }
+
+    @media screen and (max-width: 600px){
+      padding: 10px 15px;
+      width: 100%;
+    }
+
+    @media screen and (max-width: 500px){
+      padding: 7px 10px;
+    }
 
     .avatar{
       border-radius: 50%;
@@ -25,6 +53,46 @@
       width: 300px;
       overflow: hidden;
       margin: 0 auto;
+      position: relative;
+      border: 5px solid #d2d2d2;
+
+      @media screen and (max-width: 600px){
+        height: 250px;
+        width: 250px;
+      }
+
+      &:hover .edit{
+        display: flex;
+      }
+
+
+      .edit{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        .block{
+          div{
+            cursor: pointer;
+            margin-bottom: 5px;
+
+            label{
+              cursor: pointer;
+            }
+
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
 
       img {
         vertical-align: middle;
@@ -43,7 +111,12 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       margin-right: 10px;
+
+      @media screen and (max-width: 500px){
+        white-space: normal;
+      }
     }
+
 
     .buttons{
       display: flex;
@@ -53,6 +126,10 @@
       left: 0;
       width: 100%;
       margin-bottom: 20px;
+
+      @media screen and (max-width: 1000px){
+        position: relative;
+      }
 
       .active{
         color: #f9e962 !important;
@@ -72,6 +149,15 @@
         border-radius: 4px;
         background: #656d78;
         font-size: 25px;
+
+
+        @media screen and (max-width: 1000px){
+          margin-top: 20px;
+        }
+
+        @media screen and (max-width: 600px){
+          margin-top: 10px;
+        }
 
         &:hover{
           border-color: #434a54;
@@ -98,21 +184,42 @@
 
   .user-info{
     flex-grow: 1;
-    padding: 20px 30px;
+    padding: 0px 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    @media screen and (max-width: 600px){
+      padding: 0 10px;
+    }
+
     .block{
-      padding: 30px 0;
+      padding: 20px 0;
       border-bottom: 1px solid #c0c0c0;
+
       &:last-child{
         border: none;
       }
 
       table{
         width: 100%;
+
+        input{
+          outline: none;
+          font-size: 15px;
+          color: #7b7b7b;
+          // padding: 15px 40px 15px 40px;
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid #DCCBCF;
+          background: transparent;
+        }
+
+        input, select{
+          font-family: 'Times New Roman', serif;
+        }
+
         thead{
           th{
             padding-bottom: 10px;
@@ -121,6 +228,8 @@
         tbody{
           td{
             width: 50%;
+            height: 29px;
+            border-bottom: 1px solid transparent;
             &:nth-child(1){
               text-align: right;
               padding-right: 5px;
@@ -138,32 +247,3 @@
   }
 }
 
-.wrapper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: #f2f7f7;
-
-  .icon{
-    color: #585858;
-    font-size: 250px;
-    text-align: center;
-    position: relative;
-    width: 300px;
-
-    .fa-question{
-      position: absolute;
-      top: 31px;
-      right: 24px;
-      font-size: 90px;
-    }
-  }
-
-  .description{
-    font-family: 'Comfortaa', cursive;
-    font-size: 20px;
-    color: #585858;
-    text-align: center;
-  }
-}

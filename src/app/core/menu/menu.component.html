@@ -1,9 +1,9 @@
 <nav class="menu">
   <ul class="items">
-    <li class="avatar __link">
+    <li class="link avatar __link" routerLink="/app/profile" routerLinkActive="link-active">
       <div class="image" title="{{ 'hint.profile' | translate }}">
         <div class="img-outer">
-          <img [src]="profile.user.avatar" alt="avatar" draggable="false" routerLink="/app/profile" />
+          <img [src]="profile.user.avatar" alt="avatar" draggable="false"/>
         </div>
         <!-- <div class="status">
           <span>
@@ -11,9 +11,12 @@
           </span>
         </div> -->
       </div>
+      <div class="icon-link">
+        <i class="fas fa-user"></i>
+      </div>
     </li>
 
-    <li class="link __link __search" routerLink="/app/search" routerLinkActive="link-active" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
+    <li class="link __link __search" routerLink="/app/search" title="{{ 'hint.search' | translate }}" (click)="changeSearchTitle()">
       <i class="fa fa-search"></i>
     </li>
     <li class="link __link" routerLink="/app/friends" routerLinkActive="link-active" title="{{ 'hint.friends' | translate }}" (click)="changeFriendsTitle()">
@@ -38,51 +41,75 @@
         </span>
       </div>
     </li>
-    <li class="link __link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
+    <li class="link _notif"  [class.notif-show]="showNotif" (click)="toggleFullScreenNotif()">
+      <i class="fa fa-bell"></i>
+      <div class="counter" *ngIf="notifCount && notifCount > 0">
+        <span>
+            {{notifCount}}
+        </span>
+      </div>
+    </li>
+    <li class="link settings __link" routerLink="/app/settings" routerLinkActive="link-active" title="{{ 'hint.settings' | translate }}" (click)="changeSettingsTitle()">
       <i class="fa fa-cog"></i>
+    </li>
+    <li class="link submenu" [class.submenu-show]="showSubmenu"  (click)="toggleSubmenu()">
+      <i class="fas fa-bars"></i>
+      <div class="submenu-list">
+        <div class="menu-item" routerLink="/app/settings" (click)="changeSettingsTitle()">
+          <i class="fa fa-cog"></i>
+          <span>{{ 'hint.settings' | translate}}</span>
+        </div>
+        <div class="menu-item">
+          <i class="fa fa-language"></i>
+          <span>{{ 'hint.lang' | translate}}</span>
+        </div>
+        <div class="menu-item" routerLink="/auth/login" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>{{ 'hint.exit' | translate}}</span>
+        </div>
+      </div>
     </li>
     <div class="active-block"></div>
   </ul>
   <div class="misc">
     <div class="notification" [class.notif-show]="showNotif" (click)="toggleNotification()">
-        <i class="fa fa-bell" title="{{ 'hint.notification' | translate }}"></i>
-        <div class="counter" *ngIf="notifCount && notifCount > 0">
-          <span>
-              {{notifCount}}
-          </span>
-        </div>
-        <div class="notification-list">
-          <div>
-            <div *ngIf="notification.notifications.length > 0; else noNotif">
-              <li class="friend" *ngFor="let notif of notification.notifications; let i = index">
-                <!-- <div class="image">
-                  <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
-                </div> -->
-                <div class="about">
-                  <div class="description">
-                    {{ notif.message }}
-                  </div>
-                  <div class="date">
-                    {{ notif.date | mydate }}
-                  </div>
-                  <div class="right" appStopBubbling>
-                    <div class="item refuse" title="Скрыть уведомление" (click)="notification.delete(i)">
-                        <i class="fa fa-times"></i>
-                    </div>
+      <i class="fa fa-bell" title="{{ 'hint.notification' | translate }}"></i>
+      <div class="counter" *ngIf="notifCount && notifCount > 0">
+        <span>
+            {{notifCount}}
+        </span>
+      </div>
+      <div class="notification-list">
+        <div>
+          <div *ngIf="notifCount && notification.notifications.length > 0; else noNotif">
+            <li class="friend" *ngFor="let notif of notification.notifications; let i = index">
+              <!-- <div class="image">
+                <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+              </div> -->
+              <div class="about">
+                <div class="description">
+                  {{ notif.message }}
+                </div>
+                <div class="date">
+                  {{ notif.date | mydate }}
+                </div>
+                <div class="right" appStopBubbling>
+                  <div class="item refuse" title="Скрыть уведомление" (click)="notification.delete(i)">
+                      <i class="fa fa-times"></i>
                   </div>
                 </div>
-              </li>
-            </div>
-            <ng-template #noNotif>
-              <li class="notification">
-                Список пуст
-              </li>
-            </ng-template>
+              </div>
+            </li>
           </div>
+          <ng-template #noNotif>
+            <li class="notification">
+              Список пуст
+            </li>
+          </ng-template>
         </div>
-
+      </div>
     </div>
-    <div class="language" title="{{ 'hint.lang' | translate }}" [ngClass]="{'lang-show': showLanguage}" (click)="toggleLanguageVisibility()">
+    <div class="language" title="{{ 'hint.lang' | translate }}" (click)="toggleLanguageVisibility()" [class.lang-show]="showLanguage">
         <i class="fa fa-language"></i>
         <div class="language-list">
           <div class="lang" (click)="changeLangToRus()">
@@ -98,3 +125,35 @@
     </div>
   </div>
 </nav>
+
+
+
+<div class="notification-list2" *ngIf="showFullNotif" >
+  <div>
+    <div *ngIf="notifCount && notification.notifications.length > 0; else noNotif">
+      <li class="friend" *ngFor="let notif of notification.notifications; let i = index">
+        <!-- <div class="image">
+          <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+        </div> -->
+        <div class="about">
+          <div class="description">
+            {{ notif.message }}
+          </div>
+          <div class="date">
+            {{ notif.date | mydate }}
+          </div>
+          <div class="right" appStopBubbling>
+            <div class="item refuse" title="Скрыть уведомление" (click)="notification.delete(i)">
+                <i class="fa fa-times"></i>
+            </div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <ng-template #noNotif>
+      <li class="notification">
+        Список пуст
+      </li>
+    </ng-template>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { I18nService } from '../../__services/i18n.service';
 import { UserInterface } from '../../__interfaces/user';
 import { InviteService } from '../../__services/invite.service';
 import { ChatsService } from '../../__services/chats.service';
+import * as MobileDetect from 'mobile-detect';
 
 enum UserState { IamInvited, InvitedByMe, Friend, NoFriend }
 enum FavoriteState { Favorite, NotFavorite }
@@ -24,6 +25,7 @@ export class UserComponent implements OnInit, OnDestroy {
   favState: FavoriteState;
 
   user: UserInterface;
+  md: any;
 
   constructor(
     private profile: ProfileService,
@@ -37,6 +39,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
      this.getUser();
+     this.md = new MobileDetect(navigator.userAgent);
   }
 
   ngOnInit(): void { }
@@ -170,6 +173,14 @@ export class UserComponent implements OnInit, OnDestroy {
     const id = await this.chatsService.getUserRoom(this.user.id);
     this.chatsService.emit('OPEN_CHAT');
     this.router.navigate([`app/messages/${id}`]);
+  }
+
+  getMargin(): string {
+    if (this.md.phone() || this.md.tablet()) {
+      return '';
+    } else {
+      return '-15px';
+    }
   }
 
 }

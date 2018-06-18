@@ -5,7 +5,7 @@ import { I18nService } from '../../__services/i18n.service';
 import { FriendsService } from '../../__services/friends.service';
 import { InviteService } from '../../__services/invite.service';
 import { OnlineService } from '../../__services/online.service';
-
+import { Router, NavigationEnd} from '@angular/router';
 
 @Component({
   selector: 'app-friends-root',
@@ -13,6 +13,10 @@ import { OnlineService } from '../../__services/online.service';
   styleUrls: ['./friends-root.component.scss']
 })
 export class FriendsRootComponent implements OnInit {
+
+  showMenu = true;
+  showMain = true;
+  private hideMenuWidth = 800;
 
   @ViewChild('friendList') friendList: ElementRef;
   @ViewChild('search') search: ElementRef;
@@ -23,11 +27,13 @@ export class FriendsRootComponent implements OnInit {
     private i18n: I18nService,
     public friendsService: FriendsService,
     public inviteService: InviteService,
-    public onlineService: OnlineService
+    public onlineService: OnlineService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.customScrollBar();
+    this.responsive();
   }
 
   customScrollBar(): void {
@@ -39,6 +45,64 @@ export class FriendsRootComponent implements OnInit {
   private clearSearchInput(): void {
     this.search.nativeElement.value = '';
     this.search.nativeElement.dispatchEvent(new Event('input'));
+  }
+
+  getMenuStyle(): string {
+    if (this.showMenu) {
+      return 'flex';
+    } else {
+      return 'none';
+    }
+  }
+
+  getMainStyle(): string {
+    if (this.showMain) {
+      return 'block';
+    } else {
+      return 'none';
+    }
+  }
+
+  responsive(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (/user\/\d+$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = false;
+          this.showMain = true;
+        } else if (window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = true;
+          this.showMain = false;
+        } else {
+          this.showMenu = true;
+          this.showMain = true;
+        }
+      }
+    });
+
+    if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = false;
+      this.showMain = true;
+    } else if (window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = true;
+      this.showMain = false;
+    } else {
+      this.showMenu = true;
+      this.showMain = true;
+    }
+
+    window.addEventListener('resize', () => {
+      if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = false;
+        this.showMain = true;
+      } else if (window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = true;
+        this.showMain = false;
+      } else {
+        this.showMenu = true;
+        this.showMain = true;
+      }
+    });
+
   }
 
 }

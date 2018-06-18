@@ -3,8 +3,17 @@
   height: 100vh;
   overflow-x: hidden;
 
+  @media screen and (max-width: 800px){
+    display: block;
+  }
+
   main{
     flex-grow: 1;
+
+    @media screen and (max-width: 500px){
+      padding-bottom: 50px;
+      height: 100vh;
+    }
   }
 }
 
@@ -16,6 +25,16 @@
   flex-direction: column;
   background: #444753;
   position: relative;
+
+
+  @media screen and (max-width: 800px){
+    width: 100vw;
+    z-index: 5;
+  }
+
+  @media screen and (max-width: 500px){
+    padding-bottom: 42px;
+  }
 
   .search {
     padding: 15px;
@@ -96,7 +115,7 @@
     flex-grow: 1;
 
     .user{
-      padding: 10px 10px;
+      padding: 10px 15px;
       display: flex;
 
       .online {
@@ -143,6 +162,14 @@
         justify-content: center;
         position: relative;
 
+        @media screen and (max-width: 800px){
+          width: 80%;
+        }
+
+        @media screen and (max-width: 500px){
+          width: 75%;
+        }
+
         .last-message{
           color: #cecece !important;
         }
@@ -179,6 +206,14 @@
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-right: 10px;
+
+          @media screen and (max-width: 800px){
+            width: 500px;
+          }
+
+          @media screen and (max-width: 500px){
+            width: 200px;
+          }
 
           span{
             vertical-align: middle;
@@ -336,6 +371,10 @@
 
 .create_chat{
   background: #242733;
+
+  @media screen and (max-width: 500px){
+    padding-bottom: 50px;
+  }
 }
 
 .button{

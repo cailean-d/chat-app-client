@@ -5,6 +5,7 @@ import { SearchService } from '../../__services/search.service';
 import * as SimpleBar from 'simplebar';
 import { scrollbarOpt } from '../../__classes/customScrollOptions';
 import { I18nService } from '../../__services/i18n.service';
+import { Router, NavigationEnd} from '@angular/router';
 
 @Component({
   selector: 'app-search-root',
@@ -13,6 +14,9 @@ import { I18nService } from '../../__services/i18n.service';
 })
 export class SearchRootComponent implements OnInit {
 
+  showMenu = true;
+  showMain = true;
+
   @ViewChild('search') search: ElementRef;
   @ViewChild('userList') userList: ElementRef;
 
@@ -20,11 +24,13 @@ export class SearchRootComponent implements OnInit {
 
   private _searchValue: string;
   private userListScroll: HTMLElement;
+  private hideMenuWidth = 800;
 
   constructor(
     public searchService: SearchService,
     private title: Title,
-    private i18n: I18nService
+    private i18n: I18nService,
+    private router: Router,
   ) { }
 
   get searchValue(): string {
@@ -38,18 +44,16 @@ export class SearchRootComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changeSearchValueOnInput();
     this.setCustomScrollbar();
     this.loadUsersOnScrollDown();
     this.setTitle();
     this.updateTitleOnLangChange();
     this.checkDataLoading();
+    this.responsive();
   }
 
-  private changeSearchValueOnInput(): void {
-    this.search.nativeElement.addEventListener('input', () => {
-      this.searchValue = this.search.nativeElement.value;
-    });
+  private changeSearchValueOnInput(event: Event): void {
+    this.searchValue = (event.target as HTMLInputElement).value;
   }
 
   private setCustomScrollbar(): void {
@@ -94,6 +98,64 @@ export class SearchRootComponent implements OnInit {
         this.dataIsLoaded = true;
       });
     }
+  }
+
+  getMenuStyle(): string {
+    if (this.showMenu) {
+      return 'flex';
+    } else {
+      return 'none';
+    }
+  }
+
+  getMainStyle(): string {
+    if (this.showMain) {
+      return 'block';
+    } else {
+      return 'none';
+    }
+  }
+
+  responsive(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (/user\/\d+$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = false;
+          this.showMain = true;
+        } else if (window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = true;
+          this.showMain = false;
+        } else {
+          this.showMenu = true;
+          this.showMain = true;
+        }
+      }
+    });
+
+    if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = false;
+      this.showMain = true;
+    } else if (window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = true;
+      this.showMain = false;
+    } else {
+      this.showMenu = true;
+      this.showMain = true;
+    }
+
+    window.addEventListener('resize', () => {
+      if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = false;
+        this.showMain = true;
+      } else if (window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = true;
+        this.showMain = false;
+      } else {
+        this.showMenu = true;
+        this.showMain = true;
+      }
+    });
+
   }
 
 }

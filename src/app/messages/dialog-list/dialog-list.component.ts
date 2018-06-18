@@ -6,7 +6,7 @@ import * as SimpleBar from 'simplebar';
 import { I18nService } from '../../__services/i18n.service';
 import { FriendsService } from '../../__services/friends.service';
 import { UserInterface } from '../../__interfaces/user';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-list',
@@ -14,6 +14,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./dialog-list.component.scss']
 })
 export class DialogListComponent implements OnInit {
+
+  showMenu = true;
+  showMain = true;
+  private hideMenuWidth = 800;
 
   @ViewChild('search') search: ElementRef;
   @ViewChild('chatList') chatList: ElementRef;
@@ -47,6 +51,7 @@ export class DialogListComponent implements OnInit {
     this.changeSearchValueOnInput();
     this.setCustomScrollbar();
     this.checkDataLoading();
+    this.responsive();
   }
 
   changeSearchValueOnInput(): void {
@@ -140,6 +145,64 @@ export class DialogListComponent implements OnInit {
         this.roomTitle = '';
       });
     }
+  }
+
+  getMenuStyle(): string {
+    if (this.showMenu) {
+      return 'flex';
+    } else {
+      return 'none';
+    }
+  }
+
+  getMainStyle(): string {
+    if (this.showMain) {
+      return 'block';
+    } else {
+      return 'none';
+    }
+  }
+
+  responsive(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (/messages\/\d+$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = false;
+          this.showMain = true;
+        } else if (window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = true;
+          this.showMain = false;
+        } else {
+          this.showMenu = true;
+          this.showMain = true;
+        }
+      }
+    });
+
+    if (/messages\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = false;
+      this.showMain = true;
+    } else if (window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = true;
+      this.showMain = false;
+    } else {
+      this.showMenu = true;
+      this.showMain = true;
+    }
+
+    window.addEventListener('resize', () => {
+      if (/messages\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = false;
+        this.showMain = true;
+      } else if (window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = true;
+        this.showMain = false;
+      } else {
+        this.showMenu = true;
+        this.showMain = true;
+      }
+    });
+
   }
 
 

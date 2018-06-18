@@ -3,14 +3,27 @@
 .container{
   font-family: 'Comfortaa', cursive;
   width: 100%;
-  height: 100%;
   text-align: center;
-  padding: 20px;
   background: #f2f7f7;
-  display: flex;
+  overflow: hidden;
 
   .main{
+    overflow-y: scroll;
+    padding: 20px;
     display: flex;
+    height: 100vh;
+
+    @media screen and (max-width: 1000px){
+      display: block;
+    }
+
+    @media screen and (max-width: 600px){
+      padding: 10px;
+    }
+
+    @media screen and (max-width: 500px){
+      padding-bottom: 50px;
+    }
   }
 
   .user{
@@ -18,6 +31,21 @@
     width: 450px;
     border-right: 2px solid #c0c0c0;
     position: relative;
+
+    @media screen and (max-width: 1000px){
+      border-right: none;
+      margin: 0 auto;
+      border-bottom: 2px solid #c0c0c0;
+    }
+
+    @media screen and (max-width: 600px){
+      padding: 10px 15px;
+      width: 100%;
+    }
+
+    @media screen and (max-width: 500px){
+      padding: 7px 10px;
+    }
 
     .avatar{
       border-radius: 50%;
@@ -27,6 +55,11 @@
       margin: 0 auto;
       position: relative;
       border: 5px solid #d2d2d2;
+
+      @media screen and (max-width: 600px){
+        height: 250px;
+        width: 250px;
+      }
 
       &:hover .edit{
         display: flex;
@@ -78,6 +111,10 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       margin-right: 10px;
+
+      @media screen and (max-width: 500px){
+        white-space: normal;
+      }
     }
 
     .buttons{
@@ -124,6 +161,14 @@
         background: #656d78;
         font-size: 25px;
 
+        @media screen and (max-width: 1000px){
+          margin-top: 20px;
+        }
+
+        @media screen and (max-width: 600px){
+          margin-top: 10px;
+        }
+
         &:hover:not([disabled]){
           border-color: #434a54;
           background-color: #434a54;
@@ -164,6 +209,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 600px){
+      padding: 0 10px;
+    }
 
     .block{
       padding: 20px 0;

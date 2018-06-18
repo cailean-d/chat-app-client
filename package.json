@@ -32,6 +32,7 @@
     "font-awesome": "^4.7.0",
     "js-media-recorder": "^0.1.0",
     "localforage": "^1.6.0",
+    "mobile-detect": "^1.4.2",
     "ngforage": "^1.0.0-rc.0",
     "rxjs": "^5.5.6",
     "simplebar": "^2.6.0",

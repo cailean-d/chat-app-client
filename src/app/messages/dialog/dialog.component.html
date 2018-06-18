@@ -9,6 +9,9 @@
   <div *ngIf="dataLoaded" >
     <div class="chat-header">
       <div class="left">
+        <div class="chat-back" routerLink="/app/messages">
+            <i class="fas fa-arrow-left"></i>
+        </div>
           <!-- <div *ngIf="chatService.image; else userList" > -->
             <img src="{{ chatsService.chats[chatIndex].picture }}" draggable="false" [title]="chatsService.chats[chatIndex].title"/>
           <!-- </div> -->
@@ -130,9 +133,9 @@
         <!-- <div class="item keyboard" title="{{ 'hint.screen_keyboard' | translate }}">
             <i class="far fa-keyboard"></i>
         </div> -->
-        <div class="item smiles" title="{{ 'hint.smile' | translate }}">
+        <!-- <div class="item smiles" title="{{ 'hint.smile' | translate }}">
             <i class="far fa-smile"></i>
-        </div>
+        </div> -->
         <div class="item add" [class.menu-active]="_showAttachMenu">
             <i class="fas fa-paperclip" title="{{ 'hint.attach_file' | translate }}" (click)="showAttachMenu()"></i>
             <div class="attach-menu" [class.show-attach]="_showAttachMenu">

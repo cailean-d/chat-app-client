@@ -28,7 +28,9 @@ export class MenuComponent implements OnInit {
 
   activeBlock: HTMLElement;
   showLanguage: boolean;
+  showSubmenu: boolean;
   showNotif: boolean;
+  showFullNotif: boolean;
   invitesCount: number;
   chatsCount: number;
   notifCount: number;
@@ -45,7 +47,7 @@ export class MenuComponent implements OnInit {
     private profileService: ProfileService,
     private chatsService: ChatsService,
     public friendsService: FriendsService,
-    public notification: NotificationService
+    public notification: NotificationService,
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,7 @@ export class MenuComponent implements OnInit {
       await this.storage.removeItem('user');
       this.profile.dataIsLoaded = false;
       this.socket.disconnect();
+      this.showSubmenu = false;
     } catch (error) {
       console.log(error.toString());
     }
@@ -118,9 +121,17 @@ export class MenuComponent implements OnInit {
     this.showLanguage = !this.showLanguage;
   }
 
+  toggleSubmenu(): void {
+    this.showSubmenu = !this.showSubmenu;
+  }
+
   toggleNotification(): void {
     this.showLanguage = false;
     this.showNotif = !this.showNotif;
+  }
+
+  toggleFullScreenNotif(): void {
+    this.showFullNotif = !this.showFullNotif;
   }
 
   async changeLangToRus(): Promise<void> {

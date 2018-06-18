@@ -1,8 +1,9 @@
 <div class="container">
-  <div class="side-field">
+  <div class="side-field" [style.display]="getMenuStyle()">
     <div class="search">
       <div class="search-field">
-          <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
+          <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search
+          (input)="changeSearchValueOnInput($event)"/>
           <i class="fa fa-search"></i>
           <i class="fa fa-times" title="Отмена" (click)="clearSearchInput()" *ngIf="search.value !== ''" ></i>
       </div>
@@ -42,7 +43,7 @@
       </ng-template>
     </ul>
   </div>
-  <main>
+  <main [style.display]="getMainStyle()">
     <router-outlet></router-outlet>
   </main>
 </div>

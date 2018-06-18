@@ -5,6 +5,7 @@ import { FavoriteService } from '../../__services/favorite.service';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { I18nService } from '../../__services/i18n.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-favorite-root',
@@ -15,6 +16,10 @@ export class FavoriteRootComponent implements OnInit {
 
   dataIsLoaded: boolean;
 
+  showMenu = true;
+  showMain = true;
+  private hideMenuWidth = 800;
+
   @ViewChild('search') search: ElementRef;
   @ViewChild('userList') userList: ElementRef;
 
@@ -23,7 +28,8 @@ export class FavoriteRootComponent implements OnInit {
   constructor(
     protected favoriteService: FavoriteService,
     private i18n: I18nService,
-    private title: Title
+    private title: Title,
+    private router: Router
   ) {}
 
   get searchValue(): string {
@@ -41,6 +47,7 @@ export class FavoriteRootComponent implements OnInit {
     this.setTitle();
     this.updateTitleOnLangChange();
     this.checkDataLoading();
+    this.responsive();
   }
 
   changeSearchValueOnInput(): void {
@@ -80,6 +87,64 @@ export class FavoriteRootComponent implements OnInit {
         this.dataIsLoaded = true;
       });
     }
+  }
+
+  getMenuStyle(): string {
+    if (this.showMenu) {
+      return 'flex';
+    } else {
+      return 'none';
+    }
+  }
+
+  getMainStyle(): string {
+    if (this.showMain) {
+      return 'block';
+    } else {
+      return 'none';
+    }
+  }
+
+  responsive(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (/user\/\d+$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = false;
+          this.showMain = true;
+        } else if (window.innerWidth <= this.hideMenuWidth) {
+          this.showMenu = true;
+          this.showMain = false;
+        } else {
+          this.showMenu = true;
+          this.showMain = true;
+        }
+      }
+    });
+
+    if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = false;
+      this.showMain = true;
+    } else if (window.innerWidth <= this.hideMenuWidth) {
+      this.showMenu = true;
+      this.showMain = false;
+    } else {
+      this.showMenu = true;
+      this.showMain = true;
+    }
+
+    window.addEventListener('resize', () => {
+      if (/user\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = false;
+        this.showMain = true;
+      } else if (window.innerWidth <= this.hideMenuWidth) {
+        this.showMenu = true;
+        this.showMain = false;
+      } else {
+        this.showMenu = true;
+        this.showMain = true;
+      }
+    });
+
   }
 
 }

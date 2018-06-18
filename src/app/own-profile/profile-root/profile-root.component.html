@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="main">
+  <div class="main" [style.margin-right]="getMargin()">
     <div class="user">
       <div class="avatar">
         <img [src]="profile.user.avatar" alt="avatar" draggable="false" #avatar/>
@@ -57,120 +57,120 @@
           </div> -->
       </div>
     </div>
-  </div>
-  <div class="user-info">
-    <form [formGroup]="form">
-      <div class="block">
-        <table>
-        <thead>
-          <tr>
-            <th colspan="2">{{ 'title.basic_info' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ 'profile.id' | translate }}</td>
-            <td>{{ profile.user.id }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.gender' | translate }}</td>
-            <td *ngIf="!isEdit">{{ (profile.user.gender | gender) || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <div class="styled_select" >
-              <select formControlName="gender" [(ngModel)]="profile.user.gender">
-                <option value="male">Мужской</option>
-                <option value="female">Женский</option>
-              </select>
-              </div>
+    <div class="user-info">
+      <form [formGroup]="form">
+        <div class="block">
+          <table>
+          <thead>
+            <tr>
+              <th colspan="2">{{ 'title.basic_info' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ 'profile.id' | translate }}</td>
+              <td>{{ profile.user.id }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.gender' | translate }}</td>
+              <td *ngIf="!isEdit">{{ (profile.user.gender | gender) || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <div class="styled_select" >
+                <select formControlName="gender" [(ngModel)]="profile.user.gender">
+                  <option value="male">Мужской</option>
+                  <option value="female">Женский</option>
+                </select>
+                </div>
 
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.birthday' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ profile.user.birthday || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="birthday" [(ngModel)]="profile.user.birthday"/>
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.lang' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ profile.user.language[0] ||  'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="language" [(ngModel)]="profile.user.language[0]"/>
-            </td>
-          </tr>
-        </tbody>
-        </table>
-      </div>
-      <div class="block">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2">{{ 'title.contact_info' | translate }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>{{ 'profile.address' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="address" [(ngModel)]="profile.user.address"/>
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.phone' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ profile.user.phone || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="phone" [(ngModel)]="profile.user.phone"/>
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.email' | translate }}</td>
-            <td>{{ profile.user.email || 'profile.unknown' | translate }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.web_site' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ profile.user.website || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="website" [(ngModel)]="profile.user.website"/>
-            </td>
-          </tr>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.birthday' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ profile.user.birthday || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="birthday" [(ngModel)]="profile.user.birthday"/>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.lang' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ profile.user.language[0] ||  'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="language" [(ngModel)]="profile.user.language[0]"/>
+              </td>
+            </tr>
           </tbody>
-        </table>
-      </div>
-      <div class="block">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2">{{ 'title.add_info' | translate }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>{{ 'profile.registration' | translate }}</td>
-            <td>{{ (profile.user.date | mydate) || ('profile.unknown' | translate) }}</td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.country' | translate }}</td>
-            <td *ngIf="!isEdit" >{{ profile.user.country || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="country" [(ngModel)]="profile.user.country"/>
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.city' | translate }}</td>
-            <td *ngIf="!isEdit">{{ profile.user.city || 'profile.unknown' | translate }}</td>
-            <td *ngIf="isEdit">
-              <input formControlName="city" [(ngModel)]="profile.user.city"/>
-            </td>
-          </tr>
-          <tr>
-            <td>{{ 'profile.was_online' | translate }}</td>
-            <td>{{ 'profile.unknown' | translate }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </form>
+          </table>
+        </div>
+        <div class="block">
+          <table>
+            <thead>
+            <tr>
+              <th colspan="2">{{ 'title.contact_info' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{ 'profile.address' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="address" [(ngModel)]="profile.user.address"/>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.phone' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ profile.user.phone || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="phone" [(ngModel)]="profile.user.phone"/>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.email' | translate }}</td>
+              <td>{{ profile.user.email || 'profile.unknown' | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.web_site' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ profile.user.website || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="website" [(ngModel)]="profile.user.website"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="block">
+          <table>
+            <thead>
+            <tr>
+              <th colspan="2">{{ 'title.add_info' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{ 'profile.registration' | translate }}</td>
+              <td>{{ (profile.user.date | mydate) || ('profile.unknown' | translate) }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.country' | translate }}</td>
+              <td *ngIf="!isEdit" >{{ profile.user.country || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="country" [(ngModel)]="profile.user.country"/>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.city' | translate }}</td>
+              <td *ngIf="!isEdit">{{ profile.user.city || 'profile.unknown' | translate }}</td>
+              <td *ngIf="isEdit">
+                <input formControlName="city" [(ngModel)]="profile.user.city"/>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ 'profile.was_online' | translate }}</td>
+              <td>{{ 'profile.unknown' | translate }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

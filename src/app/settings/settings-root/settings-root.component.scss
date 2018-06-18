@@ -7,6 +7,16 @@
   flex-direction: column;
   background: #444753;
 
+
+  @media screen and (max-width: 800px){
+    width: 100vw;
+    z-index: 5;
+  }
+
+  @media screen and (max-width: 500px){
+    padding-bottom: 50px;
+  }
+
   .list{
     margin: 0 0 10px 0;
     flex-grow: 1;

@@ -2,6 +2,7 @@ import { OwnProfileService } from '../../__services/own-profile.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as MobileDetect from 'mobile-detect';
 
 @Component({
   selector: 'app-profile-root',
@@ -19,12 +20,15 @@ export class ProfileRootComponent implements OnInit {
   file: File;
   temp_avatar: string;
   avatar_edit: boolean;
+  md: any;
 
   constructor(
     public profile: OwnProfileService,
     private title: Title,
     private fb: FormBuilder,
-  ) { }
+  ) {
+    this.md = new MobileDetect(navigator.userAgent);
+  }
 
   ngOnInit() {
     this.title.setTitle(this.profile.user.nickname);
@@ -122,6 +126,14 @@ export class ProfileRootComponent implements OnInit {
       this.temp_avatar = this.profile.user.avatar;
       this.avatar_edit = false;
     });
+  }
+
+  getMargin(): string {
+    if (this.md.phone() || this.md.tablet()) {
+      return '';
+    } else {
+      return '-15px';
+    }
   }
 
 }

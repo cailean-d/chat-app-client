@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="side-field">
+  <div class="side-field" [style.display]="getMenuStyle()">
     <div class="search">
       <div class="search-field">
         <input type="text" placeholder="{{ 'form.input.search' | translate }}" #search/>
@@ -40,7 +40,7 @@
       <router-outlet></router-outlet>
     </ul>
   </div>
-  <main>
+  <main [style.display]="getMainStyle()">
     <router-outlet name="main"></router-outlet>
   </main>
 </div>
