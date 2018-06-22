@@ -62,7 +62,7 @@ export class MessagePipe implements PipeTransform {
   private parseAudioMessage(text: string): string {
     const match = /^\[audio_message\]\s(.*)/.exec(text);
     if (match) {
-      return `<audio controls src="${match[1]}" style="margin-top:5px"></audio>`;
+      return `<audio controls src="${match[1]}" style="margin-top:5px; width: 100px;"></audio>`;
     } else {
       return text;
     }
