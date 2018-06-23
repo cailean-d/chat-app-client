@@ -39,7 +39,7 @@ export enum SocketAction {
 @Injectable()
 export class SocketService {
 
-  private socket: SocketIOClient.Socket;
+  public socket: SocketIOClient.Socket;
 
   constructor(private profile: OwnProfileService) {}
 

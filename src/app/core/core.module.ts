@@ -17,6 +17,8 @@ import { SearchService } from '../__services/search.service';
 import { OwnProfileService } from '../__services/own-profile.service';
 import { SocketService } from '../__services/socket.service';
 import { NotificationService } from '../__services/notification.service';
+import { PeerService } from '../__services/peer.service';
+
 
 @NgModule({
   imports: [
@@ -39,7 +41,8 @@ import { NotificationService } from '../__services/notification.service';
     SearchService,
     OwnProfileService,
     SocketService,
-    NotificationService
+    NotificationService,
+    PeerService
   ]
 })
 export class CoreModule { }
