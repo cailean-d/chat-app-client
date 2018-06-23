@@ -2,6 +2,7 @@ import { DatePipe } from '../__pipes/date.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageListPipe } from '../__pipes/message-list.pipe';
+import { OnlinePipe } from '../__pipes/online.pipe';
 import { GenderPipe } from '../__pipes/gender.pipe';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -30,6 +31,7 @@ const options = {
   declarations: [
     DatePipe,
     GenderPipe,
+    OnlinePipe,
     StopBubblingDirective,
     MessageListPipe
   ],
@@ -37,6 +39,7 @@ const options = {
     TranslateModule,
     DatePipe,
     GenderPipe,
+    OnlinePipe,
     StopBubblingDirective,
     MessageListPipe
   ]

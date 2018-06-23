@@ -165,7 +165,7 @@
             </tr>
             <tr>
               <td>{{ 'profile.was_online' | translate }}</td>
-              <td>{{ profile.user.online || 'profile.unknown' | translate }}</td>
+              <td>{{ (profile.user.online | online) || ('profile.unknown' | translate) }}</td>
             </tr>
             </tbody>
           </table>
