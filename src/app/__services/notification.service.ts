@@ -58,13 +58,17 @@ export class NotificationService {
   private listenSocketEvents(): void {
     this.socket.onEvent(SocketEvent.NOTIFICATION).subscribe((data) => {
       const _data: NotificationInterface = JSON.parse(data);
-      this.notifications.push({
-        id: _data.id,
-        message: _data.message,
-        date: _data.date
-      });
-      this.setCount(this.notifications.length);
+      this.addNotification(_data);
     });
+  }
+
+  public addNotification(notif: NotificationInterface): void {
+    this.notifications.push({
+      id: notif.id,
+      message: notif.message,
+      date: notif.date
+    });
+    this.setCount(this.notifications.length);
   }
 
 }

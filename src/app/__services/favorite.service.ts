@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { UserInterface } from '../__interfaces/user';
 import { Response } from '../__interfaces/response';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { NotificationService } from './notification.service';
 
 @Injectable()
 export class FavoriteService extends EventEmitter {
@@ -15,7 +16,11 @@ export class FavoriteService extends EventEmitter {
 
   public dataIsLoaded: boolean;
 
-  constructor(private http: HttpClient, private socket: SocketService) {
+  constructor(
+    private http: HttpClient,
+    private socket: SocketService,
+    private notification: NotificationService
+  ) {
     super();
     this.users = [];
     this.usersFiltered = [];
@@ -141,6 +146,28 @@ export class FavoriteService extends EventEmitter {
     this.loadFilteredUsers();
   }
 
+  private updateUser(id: number, data: UserInterface) {
+    for (let i = 0; i < this.users.length; i++) {
+      if (+this.users[i].id === +id) {
+        this.users[i] = data;
+        if (this.users[i].online === 'ONLINE') {
+          this.users[i].online = true;
+        }
+      }
+    }
+    this.loadFilteredUsers();
+  }
+
+  private getUser(id: number): UserInterface {
+    for (const item of this.users) {
+      if (+item.id === +id) {
+        return item;
+      }
+    }
+
+    return null;
+  }
+
   private listenSocketEvents() {
 
     this.socket.onEvent(SocketEvent.GET_ONLINE).subscribe((data) => {
@@ -150,10 +177,35 @@ export class FavoriteService extends EventEmitter {
 
     this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
       this.setOnline(data, false);
+
+      const u = this.getUser(data);
+
+      if (u && u.online !== 'ONLINE') {
+        this.notification.addNotification({
+          id: 111,
+          message: `Пользователь ${u.nickname} покинул сеть`,
+          date: new Date()
+        });
+      }
     });
 
     this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
       this.setOnline(data, true);
+
+      const u = this.getUser(data);
+
+      if (u && u.online !== 'ONLINE') {
+        this.notification.addNotification({
+          id: 111,
+          message: `Пользователь ${u.nickname} вошел в сеть`,
+          date: new Date()
+        });
+      }
+    });
+
+    this.socket.onEvent(SocketEvent.USER_UPDATE).subscribe((data) => {
+      const d = JSON.parse(data);
+      this.updateUser(d.id, d);
     });
 
   }

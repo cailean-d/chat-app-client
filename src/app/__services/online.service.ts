@@ -34,6 +34,7 @@ export class OnlineService {
 
   private updateDataOnFriendsChange(): void {
     this.friendsService.on('DATA_IS_CHANGED', () => {
+      // console.log('changed list', this.friendsService.users);
       this.loadData();
     });
   }

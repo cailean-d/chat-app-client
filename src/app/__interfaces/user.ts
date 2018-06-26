@@ -16,5 +16,5 @@ export interface UserInterface {
 
   name: string;
   image: string;
-  online: boolean | string;
+  online: boolean | string | number;
 }

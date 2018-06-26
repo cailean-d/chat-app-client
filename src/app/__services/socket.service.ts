@@ -19,7 +19,8 @@ export enum SocketEvent {
   ROOM_INVITE = 'room_invited',
   READ_MESSAGE = 'message_read',
   TYPING = 'typing',
-  NOTIFICATION = 'notification'
+  NOTIFICATION = 'notification',
+  USER_UPDATE = 'update_user'
 }
 
 export enum SocketAction {
@@ -33,7 +34,8 @@ export enum SocketAction {
   GET_ONLINE = 'get_online',
   ROOM_INVITE = 'invite_room',
   READ_MESSAGE = 'read_message',
-  TYPING = 'typing'
+  TYPING = 'typing',
+  USER_UPDATE = 'update_user'
 }
 
 @Injectable()
@@ -41,7 +43,11 @@ export class SocketService {
 
   public socket: SocketIOClient.Socket;
 
-  constructor(private profile: OwnProfileService) {}
+  constructor(private profile: OwnProfileService) {
+    this.profile.on('user_update', () => {
+      this.emit(SocketAction.USER_UPDATE, this.profile.user);
+    });
+  }
 
   public async connect(): Promise<void> {
     if (!this.profile.dataIsLoaded) {

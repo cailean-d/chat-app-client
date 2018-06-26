@@ -9,7 +9,7 @@ export class OnlinePipe implements PipeTransform {
     if (value === 'ONLINE') {
       return 'В сети';
     } else {
-      const date = new Date(value);
+      const date = new Date(+value);
       const now = new Date();
 
       const h = (date.getHours() < 10 ? '0' : '') + date.getHours();

@@ -1,3 +1,4 @@
+import { SocketService, SocketEvent } from '../../__services/socket.service';
 import { FriendsService } from '../../__services/friends.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../__services/profile.service';
@@ -36,13 +37,34 @@ export class UserComponent implements OnInit, OnDestroy {
     private i18n: I18nService,
     private title: Title,
     private chatsService: ChatsService,
-    private router: Router
+    private router: Router,
+    private socket: SocketService
   ) {
      this.getUser();
      this.md = new MobileDetect(navigator.userAgent);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
+      if (this.user && +this.user.id === +data) {
+        this.user.online = 'ONLINE';
+      }
+    });
+
+    this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
+      if (this.user && +this.user.id === +data) {
+        this.user.online = Date.now();
+      }
+    });
+
+    this.socket.onEvent(SocketEvent.USER_UPDATE).subscribe((data) => {
+      const d = JSON.parse(data);
+      if (+this.user.id === +d.id) {
+        this.user = d;
+      }
+    });
+
+  }
 
   ngOnDestroy(): void {
     this.favoriteService.removeAllListeners();

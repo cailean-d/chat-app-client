@@ -112,6 +112,17 @@ export class SearchService extends EventEmitter {
     }
   }
 
+  private updateUser(id: number, data: UserInterface) {
+    for (let i = 0; i < this.usersFiltered.length; i++) {
+      if (+this.usersFiltered[i].id === +id) {
+        this.usersFiltered[i] = data;
+        if (this.usersFiltered[i].online === 'ONLINE') {
+          this.usersFiltered[i].online = true;
+        }
+      }
+    }
+  }
+
   private listenSocketEvents() {
 
     this.socket.onEvent(SocketEvent.GET_ONLINE).subscribe((data) => {
@@ -125,6 +136,11 @@ export class SearchService extends EventEmitter {
 
     this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
       this.setOnline(data, true);
+    });
+
+    this.socket.onEvent(SocketEvent.USER_UPDATE).subscribe((data) => {
+      const d = JSON.parse(data);
+      this.updateUser(d.id, d);
     });
 
   }

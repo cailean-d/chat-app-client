@@ -11,7 +11,9 @@ export class OwnProfileService extends EventEmitter {
 
   user: UserInterface;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
     super();
   }
 
@@ -29,6 +31,7 @@ export class OwnProfileService extends EventEmitter {
   async update(): Promise<void> {
     try {
       const response: any = await this.http.patch(`api/users`, this.user).toPromise();
+      this.emit('user_update');
     } catch (res) {
       console.error(res);
       throw new Error(res);
@@ -41,6 +44,7 @@ export class OwnProfileService extends EventEmitter {
       data.append('avatar', file, file.name);
       const response: any = await this.http.patch(`api/upload/avatar`, data).toPromise();
       this.user.avatar = response.data;
+      this.emit('user_update');
     } catch (res) {
       console.error(res);
       throw new Error(res);

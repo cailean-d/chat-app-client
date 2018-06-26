@@ -109,6 +109,7 @@ export class FriendsService extends EventEmitter {
       const response: any = await this.http.delete(`api/friends/${id}`).toPromise();
       this.users.splice(index, 1).sort(this.sort);
       this.loadFilteredUsers();
+      console.log(this.users);
       this.emit('USER_IS_DELETED', id);
       this.emit('DATA_IS_CHANGED');
       this.socket.emit(SocketAction.DEL_FRIEND, JSON.stringify({
@@ -125,6 +126,7 @@ export class FriendsService extends EventEmitter {
     try {
       const response: any = await this.http.post(`api/friends/${index}`, {}).toPromise();
       const user = response.data;
+      console.log(user);
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
       this.emit('USER_IS_ADDED', index);
@@ -156,6 +158,7 @@ export class FriendsService extends EventEmitter {
       const user: UserInterface = JSON.parse(data);
       this.assignLoadedUsers(user);
       this.loadFilteredUsers();
+      console.log(this);
       this.emit('USER_IS_ADDED', user.id);
       this.emit('DATA_IS_CHANGED');
     });
@@ -183,12 +186,30 @@ export class FriendsService extends EventEmitter {
       this.setOnline(data, true);
     });
 
+    this.socket.onEvent(SocketEvent.USER_UPDATE).subscribe((data) => {
+      const d = JSON.parse(data);
+      this.updateUser(d.id, d);
+    });
+
   }
 
   private setOnline(id: number, status: boolean): void {
     for (const item of this.users) {
       if (+item.id === +id) {
         item.online = status;
+      }
+    }
+    this.loadFilteredUsers();
+    this.emit('DATA_IS_CHANGED');
+  }
+
+  private updateUser(id: number, data: UserInterface) {
+    for (let i = 0; i < this.users.length; i++) {
+      if (+this.users[i].id === +id) {
+        this.users[i] = data;
+        if (this.users[i].online === 'ONLINE') {
+          this.users[i].online = true;
+        }
       }
     }
     this.loadFilteredUsers();
