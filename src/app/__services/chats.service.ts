@@ -324,7 +324,7 @@ export class ChatsService extends EventEmitter {
 
   }
 
-  private getSecondUserOfRoom(id: number): number {
+  public getSecondUserOfRoom(id: number): number {
     for (let i = 0; i < this.chats.length; i++) {
       if (+this.chats[i].id === +id) {
         for (let j = 0; j < this.chats[i].users.length; j++) {
