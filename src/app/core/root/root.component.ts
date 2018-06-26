@@ -1,8 +1,9 @@
 import { PeerService } from '../../__services/peer.service';
 import { SocketService } from '../../__services/socket.service';
 import { OwnProfileService } from '../../__services/own-profile.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../__services/notification.service';
+import { VideoCallComponent } from '../../peer/video-call/video-call.component';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,8 @@ import { NotificationService } from '../../__services/notification.service';
   styleUrls: ['./root.component.scss']
 })
 export class RootComponent implements OnInit {
+
+  @ViewChild(VideoCallComponent) videoCall: VideoCallComponent;
 
   dataIsLoaded: boolean;
   qq: boolean;

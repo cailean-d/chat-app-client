@@ -18,13 +18,15 @@ import { OwnProfileService } from '../__services/own-profile.service';
 import { SocketService } from '../__services/socket.service';
 import { NotificationService } from '../__services/notification.service';
 import { PeerService } from '../__services/peer.service';
+import { PeerModule } from '../peer/peer.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     CoreRoutingModule,
-    I18nModule
+    I18nModule,
+    PeerModule
   ],
   declarations: [
     MenuComponent,

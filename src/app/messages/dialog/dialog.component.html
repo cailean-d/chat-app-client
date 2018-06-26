@@ -29,7 +29,7 @@
       </div>
       <div class="right">
           <div *ngIf="chatsService.chats[chatIndex].users.length === 2" >
-            <div class="video" title="{{ 'hint.video_call' | translate }}" (click)="showVideoCallPanel()" [class.menu-active]="showVideoCall">
+            <div class="video" title="{{ 'hint.video_call' | translate }}" (click)="showVideoCallPanel()">
                 <i class="fas fa-video"></i>
             </div>
           </div>
@@ -282,64 +282,4 @@
   </div>
 
 
-</div>
-
-
-
-<div class="video-call" *ngIf="showVideoCall" >
-  <div *ngIf="videoCall">
-    <div class="nickname">
-      <div *ngIf="chatsService.chats[chatIndex].users[0].id !== profile.user.id" >
-        {{ chatsService.chats[chatIndex].users[0].nickname }}
-      </div>
-      <div *ngIf="chatsService.chats[chatIndex].users[1].id !== profile.user.id" >
-        {{ chatsService.chats[chatIndex].users[1].nickname }}
-      </div>
-    </div>
-    <div class="title">
-      Вызов...
-    </div>
-    <div class="image">
-      <img src="assets/images/phone.png" draggable="false" alt="calling">
-    </div>
-    <div class="buttons-container">
-      <div class="buttons">
-        <div class="cancel_call" title="Положить трубку" (click)="calcelCalling()">
-            <i class="fas fa-phone-slash"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="videoReceive">
-    <div class="nickname">
-      {{ remoteNickname }}
-    </div>
-    <div class="title">
-      Входящий вызов...
-    </div>
-    <div class="image">
-      <img src="assets/images/phone.png" draggable="false" alt="calling">
-    </div>
-    <div class="buttons-container">
-      <div class="buttons">
-        <div class="accept_call btn" title="Ответить" (click)="acceptCall()">
-            <i class="fas fa-phone"></i>
-        </div>
-      </div>
-      <div class="buttons">
-        <div class="cancel_call btn" title="Положить трубку" (click)="rejectCall()">
-            <i class="fas fa-phone-slash"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="remoteCall" *ngIf="videoIsRunning">
-    <video autoplay id="remoteVideo"></video>
-    <video autoplay id="ownVideo"></video>
-    <div class="buttons center">
-      <div class="cancel_call" title="Положить трубку" (click)="calcelCalling()">
-          <i class="fas fa-phone-slash"></i>
-      </div>
-    </div>
-  </div>
 </div>

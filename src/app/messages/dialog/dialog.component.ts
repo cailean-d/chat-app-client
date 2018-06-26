@@ -18,6 +18,7 @@ import * as MediaRecorderAPI from 'js-media-recorder';
 import { ISubscription } from 'rxjs/Subscription';
 import { PeerService, PeerEvent } from '../../__services/peer.service';
 
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -44,17 +45,6 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
   showAddList = false;
   showUserList = false;
   _showAttachMenu = false;
-
-  showVideoCall = false;
-  videoCall = false;
-  videoReceive = false;
-  videoIsRunning = false;
-  remoteNickname = null;
-  remoteID = null;
-  remotePeer = [];
-  remoteVideoSource = null;
-  callingSound = null;
-  cancelCallTimer = null;
 
   user: UserInterface;
   addList: UserInterface[];
@@ -112,73 +102,6 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
     this.getChatData();
     this.setTitle();
-
-
-    this.peer.on('LOADED', () => {
-
-      if (!this.peer.peer.WEBRTC_SUPPORT) {
-        alert('NO SUPPORT WEBRTC');
-      }
-
-      this.peer.peer.on(PeerEvent.CALL, (data, peer) => {
-        console.log('call...', data);
-        this.profileService.getUser(data).then((d) => {
-          this.remoteID = d.id;
-          this.remoteNickname = d.nickname;
-          this.remotePeer.push(peer);
-          // console.log('call...', data);
-          this.showVideoCall = true;
-          this.videoReceive = true;
-        });
-        if (this.callingSound) {
-          this.callingSound.pause();
-          this.callingSound = null;
-        }
-        clearTimeout(this.cancelCallTimer);
-
-      });
-
-      this.peer.peer.on(PeerEvent.CLOSE, (data) => {
-        this.showVideoCall = false;
-        this.videoCall = false;
-        this.videoReceive = false;
-        this.videoIsRunning = false;
-        console.log('close...', data);
-        if (this.callingSound) {
-          this.callingSound.pause();
-          this.callingSound = null;
-        }
-        clearTimeout(this.cancelCallTimer);
-      });
-
-      this.peer.peer.on(PeerEvent.REJECT, (data) => {
-        this.showVideoCall = false;
-        this.videoCall = false;
-        this.peer.peer.destroyMedia();
-        this.peer.peer.peer.destroy();
-        console.log('reject...', data);
-        if (this.callingSound) {
-          this.callingSound.pause();
-          this.callingSound = null;
-        }
-        clearTimeout(this.cancelCallTimer);
-      });
-
-      this.peer.peer.on(PeerEvent.STREAM, (data) => {
-        this.videoIsRunning = true;
-        this.videoReceive = false;
-        this.videoCall = false;
-        setTimeout(() => {
-          (document.getElementById('remoteVideo') as HTMLVideoElement).srcObject = data;
-        }, 300);
-        console.log('stream...', data);
-        if (this.callingSound) {
-          this.callingSound.pause();
-          this.callingSound = null;
-        }
-        clearTimeout(this.cancelCallTimer);
-      });
-    });
   }
 
   ngOnDestroy() {
@@ -440,18 +363,8 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
   }
 
   showVideoCallPanel(): void {
-    this.showVideoCall = !this.showVideoCall;
-    this.videoCall = true;
-    const q = this.chatsService.getSecondUserOfRoom(this.chatsService.chats[this.chatIndex].id);
-    this.peer.peer.call(true, this.profile.user.id, q);
-    this.callingSound = new Audio('./assets/sounds/calling.mp3');
-    this.callingSound.play();
-    this.callingSound.loop = true;
-    this.cancelCallTimer = setTimeout(() => {
-      this.callingSound.pause();
-      this.callingSound = null;
-      this.calcelCalling();
-    }, 30000);
+    const id = this.chatsService.getSecondUserOfRoom(this.chatsService.chats[this.chatIndex].id);
+    this.peer.emit('call', id);
   }
 
   showAttachMenu(): void {
@@ -563,49 +476,5 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
       this.playAudioOnMessageSent();
     });
   }
-
-  calcelCalling(): void {
-    this.showVideoCall = false;
-    this.videoCall = false;
-    this.videoReceive = false;
-    this.videoIsRunning = false;
-    const q = this.chatsService.getSecondUserOfRoom(this.chatsService.chats[this.chatIndex].id);
-    this.peer.peer.close(this.profile.user.id, q);
-    if (this.callingSound) {
-      this.callingSound.pause();
-      this.callingSound = null;
-    }
-    clearTimeout(this.cancelCallTimer);
-  }
-
-  acceptCall(): void {
-    console.log(this.remotePeer);
-    for (const i of this.remotePeer) {
-      this.peer.peer.answer(true, this.profile.user.id, this.remoteID, i);
-    }
-    this.remotePeer = [];
-    if (this.callingSound) {
-      this.callingSound.pause();
-      this.callingSound = null;
-    }
-    clearTimeout(this.cancelCallTimer);
-  }
-
-  rejectCall(): void {
-    this.videoReceive = false;
-    this.showVideoCall = false;
-    this.peer.peer.reject(this.profile.user.id, this.remoteID);
-    if (this.callingSound) {
-      this.callingSound.pause();
-      this.callingSound = null;
-    }
-    clearTimeout(this.cancelCallTimer);
-  }
-
-  // updateTitleOnChatChange(): void {
-  //   // this.chatService.on('title_changed', () => {
-  //   //   this.setTitle();
-  //   // });
-  // }
 
 }
