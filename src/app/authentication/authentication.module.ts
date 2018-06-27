@@ -8,6 +8,7 @@ import { AuthService } from '../__services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationModule } from '../notification/notification.module';
 import { I18nModule } from '../i18n/i18n.module';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { I18nModule } from '../i18n/i18n.module';
   ],
   declarations: [
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ConfirmComponent
   ],
   providers: [
     AuthService

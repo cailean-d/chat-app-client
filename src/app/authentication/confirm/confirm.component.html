@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <div class="form-panel" *ngIf="isDataLoaded">
+    <h2 class="title">{{ 'title.confirm' | translate }}</h2>
+    <div *ngIf="valid" >
+      Ваш аккаунт успешно подтвержден. Перейдите по ссылке, чтобы <a class="restore-panel__link" routerLink="/authe/login">авторизироваться</a>
+    </div>
+    <div *ngIf="!valid" >
+      Произшла ошибка. Перейти на страницу <a class="restore-panel__link" routerLink="/authe/login">авторизации</a>
+    </div>
+  </div>
+</div>
