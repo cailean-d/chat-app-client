@@ -1,9 +1,13 @@
-<div class="side-field" [style.display]="getMenuStyle()">
-  <ul class="list">
-    <li>Общие</li>
-    <li>Безопасность</li>
-    <li>Приватность</li>
-    <li>Оповещения</li>
-    <li>Черный список</li>
-  </ul>
+<div class="container">
+  <div class="side-field" [style.display]="getMenuStyle()">
+    <ul class="list">
+      <li routerLink="/app/settings/general">Общие</li>
+      <li routerLink="/app/settings/notifications">Оповещения</li>
+      <li routerLink="/app/settings/notifications_sound">Звук оповещений</li>
+    </ul>
+  </div>
+  <main>
+      <router-outlet></router-outlet>
+  </main>
 </div>
+
