@@ -53,6 +53,7 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
   isTyping = false;
 
   chatIndex: number;
+  chatID: number;
 
   _showAudioRecord = false;
   audioIsRecording = false;
@@ -61,6 +62,11 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
   _showVideoRecord = false;
   videoIsRecording = false;
   videoIsRecorded = false;
+
+
+  _fileSendShow = false;
+  _fileSize: any;
+  _fileName: string;
 
   __recorder = null;
   __file: Blob;
@@ -102,6 +108,9 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
     this.getChatData();
     this.setTitle();
+    this.chatsService.on('sort', () => {
+      this.chatIndex = this.chatsService.getChatIndex(this.chatID);
+    });
   }
 
   ngOnDestroy() {
@@ -124,10 +133,12 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
       if (this.chatsService.dataIsLoaded) {
         this.chatIndex = this.chatsService.getChatIndex(params.id);
+        this.chatID = params.id;
         this.emit('index');
       } else {
         this.chatsService.on('DATA_IS_LOADED', this._listeners[0] = () => {
           this.chatIndex = this.chatsService.getChatIndex(params.id);
+          this.chatID = params.id;
           if (this.chatIndex === undefined) {
             this.chatsService.addRoom(params.id).then(() => {
               this.chatIndex = this.chatsService.getChatIndex(params.id);
@@ -236,6 +247,25 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
         this.playAudioOnMessageSent();
       });
+    } else if (this._fileSendShow) {
+
+      this.chatsService.sendFile(this.__file, this.__file_ext).then(path => {
+
+        const date = Date.now();
+
+        this.chatsService.addMessage(this.chatIndex, {
+          sender_id: this.profile.user.id,
+          message: '[file] ' + this._fileName + ' ' + path,
+          timestamp: date,
+          sender_nickname: this.profile.user.nickname,
+          sender_avatar: this.profile.user.avatar,
+          status: 0
+        });
+
+        this.cancelSendFile();
+        this.playAudioOnMessageSent();
+      });
+
     } else {
       if (message.value.trim() !== '') {
 
@@ -254,8 +284,6 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
         this.playAudioOnMessageSent();
       }
     }
-
-
 
   }
 
@@ -475,6 +503,39 @@ export class DialogComponent extends EventEmitter implements OnInit, OnDestroy {
 
       this.playAudioOnMessageSent();
     });
+  }
+
+  loadFile(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    const f: File = fileInput.files[0];
+    if (f) {
+      this._fileSendShow = true;
+      this.__file = f;
+      this.__file_ext = f.name.substr(f.name.lastIndexOf('.') + 1);
+      this._fileName = f.name;
+      this._fileSize = this.bytesToSize(f.size);
+    }
+  }
+
+  hideAttachMenu(): void {
+    this._showAttachMenu = false;
+  }
+
+  cancelSendFile(): void {
+    this._fileSendShow = false;
+    this._fileName = null;
+    this._fileSize = null;
+    this.__file = null;
+    this.__file_ext = null;
+  }
+
+  bytesToSize(bytes): string {
+    const sizes = ['bytes', 'kb', 'mb', 'gb', 'tb'];
+    if (bytes === 0) {
+      return '0 byte';
+    }
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)) + '', 10);
+    return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
   }
 
 }

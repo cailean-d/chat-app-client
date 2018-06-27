@@ -126,6 +126,16 @@
           </div>
         </div>
       </div>
+      <div class="file-sending" *ngIf="_fileSendShow">
+        <div class="recording">
+          <div class="desc">
+            <span>{{ _fileName }} ({{ _fileSize }})</span>
+          </div>
+          <div class="btn" (click)="cancelSendFile()">
+            <span>Отмена</span>
+          </div>
+        </div>
+      </div>
       <div class="middle">
         <div class="message-input">
           <textarea name="message-to-send" id="message-to-send" placeholder ="{{ 'chat.type_message' | translate }}" #messageArea (keydown)="sendMessageOnEnterPress($event)" rows="1" (keydown)="typing()"></textarea>
@@ -141,7 +151,11 @@
         <div class="item add" [class.menu-active]="_showAttachMenu">
             <i class="fas fa-paperclip" title="{{ 'hint.attach_file' | translate }}" (click)="showAttachMenu()"></i>
             <div class="attach-menu" [class.show-attach]="_showAttachMenu">
-              <div class="menu-item">Файл</div>
+              <div class="menu-item" (click)="hideAttachMenu()">
+                <label for="file">
+                  Файл
+                </label>
+              </div>
               <div class="menu-item" (click)="showAudioRecord()">Голосовое сообщение</div>
               <div class="menu-item" (click)="showVideoRecord()">Видеосообщение</div>
             </div>
@@ -283,3 +297,6 @@
 
 
 </div>
+
+
+<input hidden type="file" id="file"  (change)="loadFile($event)" >

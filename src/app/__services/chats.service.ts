@@ -16,7 +16,7 @@ export class ChatsService extends EventEmitter {
 
   private messageLoadLimit = 20;
   private loadedMessages = {};
-  private lastMessages = {};
+  // private lastMessages = {};
   private messagesIsLoading: boolean;
 
   private unreadChatsCount = new BehaviorSubject<number>(0);
@@ -80,6 +80,10 @@ export class ChatsService extends EventEmitter {
   }
 
   public loadFilteredChats(): void {
+
+    this.chats.sort(this.sortChats);
+    this.emit('sort');
+
     this.chatsFiltered = this.chats.filter((item) => {
       return item.title.match(new RegExp(this.search, 'i'));
     });
@@ -116,8 +120,6 @@ export class ChatsService extends EventEmitter {
       }
     }
 
-    this.chats.sort(this.sortChats);
-
   }
 
   private clearFilter(): void {
@@ -125,19 +127,29 @@ export class ChatsService extends EventEmitter {
   }
 
   private sortChats(a: ChatInterface, b: ChatInterface): number {
-    if (a.title < b.title) {
-      return -1;
+
+    if (a.messageDate !== '') {
+
+      const d1 = new Date(a.messageDate);
+      const d2 = new Date(b.messageDate);
+
+      if (d1.getTime() < d2.getTime()) {
+        return 1;
+      }
+
+      if (d1.getTime() > d2.getTime()) {
+        return -1;
+      }
     }
-    if (a.title > b.title) {
-      return 1;
-    }
+
     return 0;
   }
 
-  public updateChatMessage(id: number, message: string): void {
+  public updateChatMessage(id: number, message: string, timestamp: number): void {
     for (const i in this.chats) {
       if (+this.chats[i].id === +id) {
         this.chats[i].message = message;
+        this.chats[i].messageDate = new Date(timestamp);
         break;
       }
     }
@@ -185,6 +197,15 @@ export class ChatsService extends EventEmitter {
     chat.users = await this.getUsers(chat.id);
     chat.unread = await this.getUnreadMsgCount(chat.id);
     const msg = await this.getMessages(chat.id);
+
+    if (chat.users.length === 2) {
+      for (let j = 0; j < chat.users.length; j++) {
+        const el: UserInterface = chat.users[j];
+        if (+el.id !== +this.profile.user.id && el.online === 'ONLINE') {
+          chat.online = true;
+        }
+      }
+    }
     if (msg) {
       chat.messages = msg.reverse();
     } else {
@@ -260,7 +281,7 @@ export class ChatsService extends EventEmitter {
     msg.id = msg_id;
     this.chats[id].messages.push(msg);
     this.loadedMessages[_id]++;
-    this.updateChatMessage(_id, msg.message);
+    this.updateChatMessage(_id, msg.message, msg.timestamp);
     this.emit('message_added');
   }
 
@@ -287,7 +308,7 @@ export class ChatsService extends EventEmitter {
 
       const index = this.getChatIndex(msg.chat_id);
       this.increaseUnreadCounter(index);
-      this.updateChatMessage(msg.chat_id, msg.message);
+      this.updateChatMessage(msg.chat_id, msg.message, msg.timestamp);
     });
 
     this.socket.onEvent(SocketEvent.ROOM_INVITE).subscribe((data) => {
@@ -302,9 +323,9 @@ export class ChatsService extends EventEmitter {
     this.socket.onEvent(SocketEvent.TYPING).subscribe((data) => {
       const _data = JSON.parse(data);
       const id = this.getChatIndex(_data.chat_id);
-      if (this.chats[id].message.indexOf('печатает') === -1) {
-        this.lastMessages[id] = this.chats[id].message;
-      }
+      // if (this.chats[id].message.indexOf('печатает') === -1) {
+      //   this.lastMessages[id] = this.chats[id].message;
+      // }
 
       if (this.chats[id].users.length === 2) {
         this.chats[id].message = 'печатает...';
@@ -317,9 +338,22 @@ export class ChatsService extends EventEmitter {
       }
 
       this.timers.push(setTimeout(() => {
-        this.chats[id].message = this.lastMessages[id];
+        this.chats[id].message = this.chats[id].messages[this.chats[id].messages.length - 1].message;
       }, 2000));
 
+    });
+
+    this.socket.onEvent(SocketEvent.OFFLINE).subscribe((data) => {
+      this.setOnline(data, false);
+    });
+
+    this.socket.onEvent(SocketEvent.ONLINE).subscribe((data) => {
+      this.setOnline(data, true);
+    });
+
+    this.socket.onEvent(SocketEvent.USER_UPDATE).subscribe((data) => {
+      const d = JSON.parse(data);
+      this.updateChat(d.id, d);
     });
 
   }
@@ -331,6 +365,32 @@ export class ChatsService extends EventEmitter {
           const el: UserInterface = this.chats[i].users[j];
           if (+el.id !== +this.profile.user.id) {
             return el.id;
+          }
+        }
+      }
+    }
+  }
+
+  private setOnline(id: number, status: boolean): void {
+    for (let i = 0; i < this.chats.length; i++) {
+      if (this.chats[i].users.length === 2) {
+        for (let j = 0; j < this.chats[i].users.length; j++) {
+          const el: UserInterface = this.chats[i].users[j];
+          if (+el.id !== +this.profile.user.id && +el.id === + id) {
+            this.chats[i].online = status;
+          }
+        }
+      }
+    }
+  }
+
+  private updateChat(id: number, user: UserInterface): void {
+    for (let i = 0; i < this.chats.length; i++) {
+      if (this.chats[i].users.length === 2) {
+        for (let j = 0; j < this.chats[i].users.length; j++) {
+          const el: UserInterface = this.chats[i].users[j];
+          if (+el.id !== +this.profile.user.id && +el.id === + id) {
+            this.chats[i].picture = user.avatar;
           }
         }
       }
@@ -519,7 +579,5 @@ export class ChatsService extends EventEmitter {
       throw new Error(res);
     }
   }
-
-
 
 }

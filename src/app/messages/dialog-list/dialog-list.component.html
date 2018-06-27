@@ -22,15 +22,11 @@
             <div class="user" routerLink="{{chat.id}}" routerLinkActive="link-active">
               <div class="image">
                 <img [src]="chat.picture" alt="avatar" draggable="false"/>
-                <!-- <div class="status"> -->
-                  <!-- <span *ngIf="user.online === true; else left" >
+                <div class="status">
+                  <span *ngIf="chat.online === true" >
                       <i class="fa fa-circle online"></i>
-                      {{user.online}}
-                  </span> -->
-                  <!-- <ng-template #left>
-                      <i class="fa fa-circle offline"></i>
-                  </ng-template> -->
-                <!-- </div> -->
+                  </span>
+                </div>
               </div>
               <div class="about">
                 <div class="name">

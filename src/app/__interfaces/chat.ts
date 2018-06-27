@@ -6,4 +6,6 @@ export interface ChatInterface {
   users?: number[] | any;
   messages?: any[];
   unread: number;
+  online: boolean;
+  messageDate: any;
 }

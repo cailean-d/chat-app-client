@@ -369,6 +369,10 @@ $message_color: #a6c0d8;
     display: block !important;
   }
 
+  label {
+    display: block;
+  }
+
   .scroll-bottom{
     background: rgba(0, 0, 0, 0.3);
     color: #ffffff;
@@ -393,7 +397,7 @@ $message_color: #a6c0d8;
     flex-grow: 1;
     position: relative;
 
-    .audio-record{
+    .audio-record, .file-sending{
       position: absolute;
       background: #e8edf1;
       top: 0;
