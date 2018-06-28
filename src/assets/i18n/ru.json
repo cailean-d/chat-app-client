@@ -110,7 +110,17 @@
   "no_friends_online": "Друзей онлайн нет",
   "friends_online_not_found": "Друзей онлайн не найдено",
   "call": "Вызов...",
-  "incoming_call": "Входящий вызов"
-
+  "incoming_call": "Входящий вызов",
+  "start_record": "Начать запись",
+  "stop": "Стоп",
+  "record_is_running": "Идет запись...",
+  "repeat": "Повторить",
+  "file": "Файл",
+  "audio_message": "Голосовое сообщение",
+  "video_message": "Видео сообщение",
+  "to_bottom": "В конец",
+  "create_chat": "Создать бедесу",
+  "chat_not_found": "Беседа не найдена",
+  "go_to_chat": "Перейти к беседе"
 
 }

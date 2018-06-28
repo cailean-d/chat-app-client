@@ -10,7 +10,7 @@
     <div class="add_chat" (click)="showList()">
       <div class="desc">
         <span>
-          Создать беседу
+            {{ 'create_chat' | translate }}
         </span>
       </div>
     </div>
@@ -50,11 +50,11 @@
         </div>
         <ng-template #notFound>
           <li class="notification" *ngIf="!searchValue; else noMatch">
-            Список пуст
+              {{ 'empty_list' | translate }}
           </li>
           <ng-template #noMatch>
             <li class="notification">
-              Беседа не найдена
+                {{ 'chat_not_found' | translate }}
             </li>
           </ng-template>
         </ng-template>
@@ -100,7 +100,7 @@
               <i class="fas fa-plus-circle" *ngIf="!chatIsExist" ></i>
             </div>
             <div class="description" *ngIf="!chatIsExist" >
-              Создать беседу
+                {{ 'create_chat' | translate }}
             </div>
           </div>
           <div class="button" (click)="openChat()" *ngIf="chatIsExist">
@@ -108,14 +108,14 @@
               <i class="fas fa-arrow-circle-right" *ngIf="chatIsExist" ></i>
             </div>
             <div class="description" *ngIf="chatIsExist" >
-              Перейти к беседе
+                {{ 'go_to_chat' | translate }}
             </div>
           </div>
         </div>
       </div>
       <ng-template #noFriends>
           <li class="notification">
-            Список пуст
+              {{ 'empty_list' | translate }}
           </li>
       </ng-template>
     </div>

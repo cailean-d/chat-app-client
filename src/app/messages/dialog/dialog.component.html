@@ -100,18 +100,18 @@
       <div class="audio-record" *ngIf="_showAudioRecord">
         <div class="preload" *ngIf="!audioIsRecording && !audioIsRecorded" >
           <div class="btn" (click)="recordAudioMessage()">
-            <span>Начать запись</span>
+            <span>{{ 'start_record' | translate }}</span>
           </div>
           <div class="btn" (click)="closeAudioRecord()">
-            <span>Отмена</span>
+            <span>{{ 'cancel' | translate }}</span>
           </div>
         </div>
         <div class="recording" *ngIf="audioIsRecording && !audioIsRecorded">
           <div class="desc">
-            <span>Идет запись...</span>
+            <span>{{ 'record_is_runngs' | translate }}</span>
           </div>
           <div class="btn" (click)="stopRecordingAudio()">
-            <span>Стоп</span>
+            <span>{{ 'stop' | translate }}</span>
           </div>
         </div>
         <div class="recorded" *ngIf="audioIsRecorded" >
@@ -119,10 +119,10 @@
             <audio controls #audio></audio>
           </div>
           <div class="btn" (click)="recordAudioMessage()">
-            <span>Повторить</span>
+            <span>{{ 'repeat' | translate }}</span>
           </div>
           <div class="btn" (click)="closeAudioRecord()">
-            <span>Отмена</span>
+            <span>{{ 'cancel' | translate }}</span>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
             <span>{{ _fileName }} ({{ _fileSize }})</span>
           </div>
           <div class="btn" (click)="cancelSendFile()">
-            <span>Отмена</span>
+            <span>{{ 'cancel' | translate }}</span>
           </div>
         </div>
       </div>
@@ -153,11 +153,11 @@
             <div class="attach-menu" [class.show-attach]="_showAttachMenu">
               <div class="menu-item" (click)="hideAttachMenu()">
                 <label for="file">
-                  Файл
+                    {{ 'file' | translate }}
                 </label>
               </div>
-              <div class="menu-item" (click)="showAudioRecord()">Голосовое сообщение</div>
-              <div class="menu-item" (click)="showVideoRecord()">Видеосообщение</div>
+              <div class="menu-item" (click)="showAudioRecord()">{{ 'audio_message' | translate }}</div>
+              <div class="menu-item" (click)="showVideoRecord()">{{ 'video_message' | translate }}</div>
             </div>
         </div>
       </div>
@@ -168,7 +168,7 @@
             <i class="fas fa-paper-plane"></i>
         </button>
     </div>
-    <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>В конец</div>
+    <div class="scroll-bottom" (click)="scrollToBottom()" #scrollBottom>{{ 'to_bottom' | translate }}</div>
     <!-- <div class="typing">typing...</div> -->
   </div>
 
