@@ -108,7 +108,7 @@
         </div>
         <div class="recording" *ngIf="audioIsRecording && !audioIsRecorded">
           <div class="desc">
-            <span>{{ 'record_is_runngs' | translate }}</span>
+            <span>{{ 'record_is_running' | translate }}</span>
           </div>
           <div class="btn" (click)="stopRecordingAudio()">
             <span>{{ 'stop' | translate }}</span>
@@ -221,7 +221,7 @@
     </div>
     <ng-template #noFriends>
         <li class="notification">
-          Список пуст
+            {{ 'empty_list' | translate }}
         </li>
     </ng-template>
   </div>
@@ -263,29 +263,29 @@
         <div class="buttons">
           <div *ngIf="!videoIsRecording && !videoIsRecorded" >
             <div class="btn" (click)="recordVideoMessage()">
-              <span>Начать запись</span>
+              <span>{{ 'start_record' | translate }}</span>
             </div>
             <div class="btn" (click)="closeVideoRecord()">
-              <span>Отмена</span>
+              <span>{{ 'cancel' | translate }}</span>
             </div>
           </div>
           <div *ngIf="videoIsRecording && !videoIsRecorded">
             <div class="desc">
-              <span>Идет запись...</span>
+              <span>{{ 'record_is_running' | translate }}</span>
             </div>
             <div class="btn" (click)="stopRecordingVideo()">
-              <span>Стоп</span>
+              <span>{{ 'stop' | translate }}</span>
             </div>
           </div>
           <div *ngIf="videoIsRecorded" >
             <div class="btn" (click)="sendVideoMessage()">
-              <span>Отправить</span>
+              <span>{{ 'send' | translate }}</span>
             </div>
             <div class="btn" (click)="recordVideoMessage()">
-              <span>Повторить</span>
+              <span>{{ 'repeat' | translate }}</span>
             </div>
             <div class="btn" (click)="closeVideoRecord()">
-              <span>Отмена</span>
+              <span>{{ 'cancel' | translate }}</span>
             </div>
           </div>
         </div>

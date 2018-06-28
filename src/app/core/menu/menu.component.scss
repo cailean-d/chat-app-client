@@ -117,7 +117,7 @@
         position: absolute;
         background: #212227;
         bottom: 100%;
-        left: -125px;
+        right: -25px;
         z-index: 99;
         border-radius: 3px;
         padding: 10px 0;
@@ -125,14 +125,30 @@
         display: none;
         font-size: 14px;
 
+        @media screen and (max-width: 400px){
+          right: -20px;
+        }
+
+        @media screen and (max-width: 330px){
+          right: -13px;
+        }
 
         &:before{
           content: '';
           position: absolute;
           top: 99%;
-          left: 122px;
+          right: 20px;
           border: 15px solid transparent;
           border-top: 15px solid #212227;
+
+          @media screen and (max-width: 400px){
+            right: 16px;
+          }
+
+          @media screen and (max-width: 330px){
+            right: 9px;
+          }
+
         }
 
         .menu-item {

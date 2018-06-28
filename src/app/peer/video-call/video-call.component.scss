@@ -38,6 +38,10 @@
     margin: 40px auto 20px auto;
     display: inline-block;
 
+    @media screen and (max-width: 500px){
+      margin-top: 10px;
+    }
+
     .btn {
       &:last-child{
         margin-left: 10px;

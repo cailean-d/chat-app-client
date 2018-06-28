@@ -58,7 +58,7 @@ export class SettingsRootComponent implements OnInit {
   responsive(): void {
     this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        if (/messages\/\d+$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
+        if (/settings\/(.*)$/.test(val.url) && window.innerWidth <= this.hideMenuWidth) {
           this.showMenu = false;
           this.showMain = true;
         } else if (window.innerWidth <= this.hideMenuWidth) {
@@ -71,7 +71,7 @@ export class SettingsRootComponent implements OnInit {
       }
     });
 
-    if (/messages\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+    if (/settings\/(.*)$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
       this.showMenu = false;
       this.showMain = true;
     } else if (window.innerWidth <= this.hideMenuWidth) {
@@ -83,7 +83,8 @@ export class SettingsRootComponent implements OnInit {
     }
 
     window.addEventListener('resize', () => {
-      if (/messages\/\d+$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
+
+      if (/settings\/(.*)$/.test(this.router.url) && window.innerWidth <= this.hideMenuWidth) {
         this.showMenu = false;
         this.showMain = true;
       } else if (window.innerWidth <= this.hideMenuWidth) {

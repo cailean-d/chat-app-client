@@ -111,7 +111,7 @@
   "friends_online_not_found": "Друзей онлайн не найдено",
   "call": "Calling...",
   "incoming_call": "Incoming call...",
-  "start record": "Start record",
+  "start_record": "Start record",
   "stop": "Stop",
   "record_is_running": "Record is running...",
   "repeat": "Repeat",
@@ -121,6 +121,10 @@
   "to_bottom": "To bottom",
   "create_chat": "Create chat",
   "chat_not_found": "Chat not found",
-  "go_to_chat": "Go to chat"
+  "go_to_chat": "Go to chat",
+  "send": "Отправить",
+  "general": "General",
+  "notification": "Notification",
+  "notification_sound": "Notification sound"
 }
 

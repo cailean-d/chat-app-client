@@ -77,8 +77,8 @@
               <td *ngIf="isEdit">
                 <div class="styled_select" >
                 <select formControlName="gender" [(ngModel)]="profile.user.gender">
-                  <option value="male">Мужской</option>
-                  <option value="female">Женский</option>
+                  <option value="male">{{ 'male' | translate }}</option>
+                  <option value="female">{{ 'female' | translate }}</option>
                 </select>
                 </div>
 

@@ -121,6 +121,10 @@
   "to_bottom": "В конец",
   "create_chat": "Создать бедесу",
   "chat_not_found": "Беседа не найдена",
-  "go_to_chat": "Перейти к беседе"
+  "go_to_chat": "Перейти к беседе",
+  "send": "Send",
+  "general": "Общие",
+  "notification": "Оповещения",
+  "notification_sound": "Звук оповещений"
 
 }

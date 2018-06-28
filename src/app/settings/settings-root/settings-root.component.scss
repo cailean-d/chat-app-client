@@ -42,7 +42,7 @@
       padding: 15px 25px;
       cursor: pointer;
 
-      &:hover{
+      &:hover:not(.link-active){
         background: rgba(255, 255, 255, 0.1);
         color: #ffffff;
       }
@@ -51,3 +51,8 @@
 }
 
 
+
+.link-active{
+  background: rgba(41,41,41,1);
+  background: linear-gradient(to right, rgba(125,126,125,0) 0%,rgba(41,41,41,1) 100%);
+}
