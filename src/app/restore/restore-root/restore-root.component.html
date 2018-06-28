@@ -12,7 +12,7 @@
         <div class="form-field__valid" *ngIf="isControlInvalid('email')">
           <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
           <div class="valid_message">
-            Email заполнен некорректно (account@domain.com)
+              {{ 'email_fill' | translate }}
           </div>
         </div>
       </div>

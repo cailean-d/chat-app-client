@@ -7,11 +7,11 @@
           <div class="block">
             <div>
               <label for="avatar">
-                Изменить аватар
+                {{ 'change_avatar' | translate }}
               </label>
             </div>
-            <div *ngIf="avatar_edit" (click)="saveAvatar()">Сохранить</div>
-            <div *ngIf="avatar_edit" (click)="cancelAvatar()">Отмена</div>
+            <div *ngIf="avatar_edit" (click)="saveAvatar()">{{ 'save' | translate }}</div>
+            <div *ngIf="avatar_edit" (click)="cancelAvatar()">{{ 'cancel' | translate }}</div>
           </div>
           <input hidden type="file" id="avatar" (change)="loadAvatar($event)" accept="image/*">
         </div>
@@ -25,7 +25,7 @@
               <i class="fas fa-user-edit"></i>
             </div>
             <div class="description">
-              Редактировать
+                {{ 'edit' | translate }}
             </div>
           </div>
           <div class="button-block" *ngIf="isEdit">
@@ -34,7 +34,7 @@
                   <i class="fas fa-user-edit"></i>
                 </div>
                 <div class="description">
-                  Сохранить
+                    {{ 'save' | translate }}
                 </div>
               </button>
               <div class="button" (click)="cancelEdit()" >
@@ -42,7 +42,7 @@
                   <i class="fas fa-ban"></i>
                 </div>
                 <div class="description">
-                  Отмена
+                    {{ 'cancel' | translate }}
                 </div>
               </div>
           </div>

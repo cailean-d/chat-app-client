@@ -94,5 +94,23 @@
   },
   "chat": {
     "type_message": "Напишите сообщение"
-  }
+  },
+  "save": "Сохранить",
+  "cancel": "Отмена",
+  "edit": "Редактировать",
+  "male": "Мужской",
+  "female": "Женский",
+  "change_avatar": "Изменить аватар",
+  "email_fill": "Email заполнен некорректно (account@domain.com)",
+  "password": "Пароль должен содержать от 6 до 30 символовs",
+  "empty_list": "Список пуст",
+  "users_not_found": "Пользователи не найдены",
+  "friends_not_found": "Друзей не найдено",
+  "no_invites": "Нет новых заявок",
+  "no_friends_online": "Друзей онлайн нет",
+  "friends_online_not_found": "Друзей онлайн не найдено",
+  "call": "Вызов...",
+  "incoming_call": "Входящий вызов"
+
+
 }

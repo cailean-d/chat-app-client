@@ -136,7 +136,7 @@
       }
 
       .button{
-        width: 50px;
+        width: 100px;
         display: flex;
         margin-right: 5px;
         cursor: pointer;
@@ -149,6 +149,10 @@
         border-radius: 4px;
         background: #656d78;
         font-size: 25px;
+
+        .icon {
+          margin: 0 auto;
+        }
 
 
         @media screen and (max-width: 1000px){

@@ -30,11 +30,11 @@
   </div>
   <ng-template #noMatch>
     <li class="notification" *ngIf="searchInput.value !== ''; else noSearch">
-      Заявок не найдено
+        {{ 'hint.reject_user' | translate}}
     </li>
     <ng-template #noSearch>
       <li class="notification">
-        Нет новых заявок
+        {{ 'no_invites' | translate}}
       </li>
     </ng-template>
   </ng-template>

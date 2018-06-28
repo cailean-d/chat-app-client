@@ -36,11 +36,11 @@
         </div>
         <ng-template #notFound>
             <li class="notification" *ngIf="!searchValue; else noMatch">
-              Список пуст
+                {{ 'empty_list' | translate }}
             </li>
             <ng-template #noMatch>
               <li class="notification">
-                Пользователи не найдены
+                  {{ 'users_not_found' | translate }}
               </li>
             </ng-template>
         </ng-template>

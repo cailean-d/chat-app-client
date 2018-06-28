@@ -27,11 +27,11 @@
   </div>
   <ng-template #noFriends>
       <li class="notification" *ngIf="searchInput.value == ''; else noMatch">
-        Список пуст
+          {{ 'empty_list' | translate}}
       </li>
       <ng-template #noMatch>
         <li class="notification">
-          Друзей не найдено
+            {{ 'friends_not_found' | translate}}
         </li>
       </ng-template>
   </ng-template>

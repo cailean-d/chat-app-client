@@ -94,6 +94,22 @@
   },
   "chat": {
     "type_message": "Type a message"
-  }
+  },
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "male": "Male",
+  "female": "Female",
+  "change_avatar": "Change avatar",
+  "email_fill": "Email incorrect (account@domain.com)",
+  "password_fill": "Password incorrect. It must contains more than 6 characters",
+  "empty_list": "List is empty",
+  "users_not_found": "Users not found",
+  "friends_not_found": "Friends not found",
+  "no_invites": "No invites",
+  "no_friends_online": "No friends online",
+  "friends_online_not_found": "Друзей онлайн не найдено",
+  "call": "Calling...",
+  "incoming_call": "Incoming call..."
 }
 
