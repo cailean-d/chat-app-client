@@ -5,6 +5,7 @@ import { Response } from '../__interfaces/response';
 import { NgForage } from 'ngforage';
 import { EventEmitter } from 'eventemitter3';
 import { SocketService, SocketAction, SocketEvent } from './socket.service';
+import { OwnProfileService } from './own-profile.service';
 
 @Injectable()
 export class SearchService extends EventEmitter {
@@ -23,7 +24,8 @@ export class SearchService extends EventEmitter {
   constructor(
     private http: HttpClient,
     private storage: NgForage,
-    private socket: SocketService
+    private socket: SocketService,
+    private profile: OwnProfileService
   ) {
     super();
     this.usersFiltered = [];
@@ -61,11 +63,13 @@ export class SearchService extends EventEmitter {
         const res: Response = await this.http.get<Response>('api/users', {params: Params}).toPromise();
         let users: Array<UserInterface> = res.data;
 
+        users = await this.delOwnProfile(users);
+
+
         if (this.search !== this.oldSearch) {
           this.usersFiltered = [];
         }
 
-        users = await this.delOwnProfile(users);
 
         if (users.length > 0) {
           await this.assignLoadedUsers(users);
@@ -97,9 +101,9 @@ export class SearchService extends EventEmitter {
   }
 
   private async delOwnProfile(obj: Array<UserInterface>): Promise<Array<UserInterface>> {
-    const user = await this.storage.getItem('user') as UserInterface;
+    const self = this;
     obj = obj.filter(function(o) {
-      return o.id !== user.id;
+      return o.id !== self.profile.user.id;
     });
     return obj;
   }
