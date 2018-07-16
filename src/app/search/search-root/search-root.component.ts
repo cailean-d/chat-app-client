@@ -52,7 +52,7 @@ export class SearchRootComponent implements OnInit {
     this.responsive();
   }
 
-  private changeSearchValueOnInput(event: Event): void {
+  public changeSearchValueOnInput(event: Event): void {
     this.searchValue = (event.target as HTMLInputElement).value;
   }
 
