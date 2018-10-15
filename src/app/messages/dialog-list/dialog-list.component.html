@@ -21,7 +21,7 @@
           <li *ngFor="let chat of chatService.chatsFiltered; let i = index">
             <div class="user" routerLink="{{chat.id}}" routerLinkActive="link-active">
               <div class="image">
-                <img [src]="chat.picture" alt="avatar" draggable="false"/>
+                <img [src]="chat.picture" alt="avatar" draggable="false" appDefaultAvatar/>
                 <div class="status">
                   <span *ngIf="chat.online === true" >
                       <i class="fa fa-circle online"></i>
@@ -74,7 +74,7 @@
           <li *ngFor="let friend of friendsService.usersFiltered; let i = index">
             <div class="friend" (click)="addUser($event, friend)">
               <div class="image">
-                <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+                <img src="{{friend.avatar}}" alt="avatar" draggable="false" appDefaultAvatar/>
                 <div class="status" *ngIf="friend.online">
                   <span>
                       <i class="fa fa-circle online"></i>

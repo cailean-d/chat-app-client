@@ -9,6 +9,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StopBubblingDirective } from '../__directives/stop-bubbling.directive';
+import { DefaultAvatarDirective } from '../__directives/default-avatar.directive';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,6 +34,7 @@ const options = {
     GenderPipe,
     OnlinePipe,
     StopBubblingDirective,
+    DefaultAvatarDirective,
     MessageListPipe
   ],
   exports: [
@@ -41,6 +43,7 @@ const options = {
     GenderPipe,
     OnlinePipe,
     StopBubblingDirective,
+    DefaultAvatarDirective,
     MessageListPipe
   ]
 })

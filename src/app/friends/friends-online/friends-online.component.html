@@ -1,7 +1,7 @@
 <div *ngIf="onlineService.usersFiltered.length > 0; else noFriends">
   <li class="friend" *ngFor="let friend of onlineService.usersFiltered; let i = index" routerLink="/app/friends/online/user/{{friend.id}}" routerLinkActive="link-active">
     <div class="image">
-      <img src="{{friend.avatar}}" alt="avatar" draggable="false"/>
+      <img src="{{friend.avatar}}" alt="avatar" draggable="false" appDefaultAvatar/>
       <div class="status" *ngIf="friend.online" >
         <span>
             <i class="fa fa-circle online"></i>

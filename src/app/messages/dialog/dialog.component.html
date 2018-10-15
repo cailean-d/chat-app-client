@@ -13,7 +13,7 @@
             <i class="fas fa-arrow-left"></i>
         </div>
           <!-- <div *ngIf="chatService.image; else userList" > -->
-            <img src="{{ chatsService.chats[chatIndex].picture }}" draggable="false" [title]="chatsService.chats[chatIndex].title"/>
+            <img src="{{ chatsService.chats[chatIndex].picture }}" draggable="false" [title]="chatsService.chats[chatIndex].title" appDefaultAvatar/>
           <!-- </div> -->
           <!-- <ng-template #userList>
             <div class="user" *ngFor="let user of chatService.users; let i=index">
@@ -71,7 +71,7 @@
             </div> -->
             <!-- <ng-template #bubble> -->
               <div class="avatar">
-                <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}" class="av" [attr.data-profile]="msg.sender_id"/>
+                <img src="{{msg.sender_avatar}}" alt="avatar" draggable="false" title="{{msg.sender_nickname}}" class="av" [attr.data-profile]="msg.sender_id" appDefaultAvatar/>
               </div>
               <div class="side">
                 <div class="message-data">

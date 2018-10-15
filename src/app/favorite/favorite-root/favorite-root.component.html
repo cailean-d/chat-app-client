@@ -13,7 +13,7 @@
           <li *ngFor="let user of favoriteService.usersFiltered; let i = index">
             <div class="user" routerLink="user/{{user.id}}" routerLinkActive="link-active">
               <div class="image">
-                <img src="{{user.avatar}}" alt="avatar" draggable="false"/>
+                <img src="{{user.avatar}}" alt="avatar" draggable="false" appDefaultAvatar/>
                 <div class="status" *ngIf="user.online === true">
                   <span>
                       <i class="fa fa-circle online"></i>
