@@ -108,7 +108,7 @@
   "friends_not_found": "Friends not found",
   "no_invites": "No invites",
   "no_friends_online": "No friends online",
-  "friends_online_not_found": "Друзей онлайн не найдено",
+  "friends_online_not_found": "Online friends not found",
   "call": "Calling...",
   "incoming_call": "Incoming call...",
   "start_record": "Start record",
@@ -122,7 +122,7 @@
   "create_chat": "Create chat",
   "chat_not_found": "Chat not found",
   "go_to_chat": "Go to chat",
-  "send": "Отправить",
+  "send": "Send",
   "general": "General",
   "notification": "Notification",
   "notification_sound": "Notification sound"
